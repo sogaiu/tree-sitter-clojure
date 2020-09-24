@@ -273,6 +273,11 @@ module.exports = grammar({
              $.unquote_form,
              $.deref_form),
 
+    /*
+      (def symbol
+           doc-string?
+           init?)
+    */
     def_form: $ =>
       seq("(",
           repeat($._non_form),
