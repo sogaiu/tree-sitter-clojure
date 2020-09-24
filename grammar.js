@@ -237,71 +237,14 @@ module.exports = grammar({
      $.defn_form,
     ],
     [
-     $.defn_form,
      $.vector,
     ],
     [
-     $.defn_form,
-     $.map,
-     $.vector,
-    ],
-    [
+     $._bare_symbol,
      $.defn_form,
     ],
     [
-     $.vector,
-    ],
-    [
-     $.map,
-     $.vector,
-    ],
-    // a weird one
-    [
-    ],
-    // defn_form - multi-arity
-    [
      $.defn_form,
-     $.map,
-    ],
-    [
-     $._form,
-    ],
-    [
-     $.anon_func,
-     $.defn_form,
-     $.deref_form,
-     $.list,
-     $.map,
-     $.namespaced_map,
-     $.quote_form,
-     $.read_cond,
-     $.set,
-     $.symbol,
-     $.syntax_quote_form,
-     $.tagged_literal,
-     $.unquote_form,
-     $.unquote_splicing_form,
-     $.var_quote_form,
-     $.vector,
-    ],
-    [
-     $.anon_func,
-     $.defn_form,
-     $.deref_form,
-     $.discard_expr,
-     $.list,
-     $.map,
-     $.namespaced_map,
-     $.quote_form,
-     $.read_cond,
-     $.set,
-     $.symbol,
-     $.syntax_quote_form,
-     $.tagged_literal,
-     $.unquote_form,
-     $.unquote_splicing_form,
-     $.var_quote_form,
-     $.vector,
     ],
   ],
 
@@ -333,6 +276,8 @@ module.exports = grammar({
           repeat($._non_form),
           field('value', $._form)),
 
+    // XXX: adding in def_form and defn_form cause clojure.core to parse in
+    //      40-50 ms (up from 28-35 ms or so)
     _form: $ =>
       choice($.def_form,
              $.defn_form,
@@ -377,11 +322,7 @@ module.exports = grammar({
           "def",
           repeat1($._non_form),
           field("name", $.symbol),
-          optional(seq(optional(seq(repeat1($._non_form),
-                                    field("doc_string", $.string))),
-                       repeat1($._non_form),
-                       field("init", $._form))),
-          repeat($._non_form),
+          repeat($._input),
           ")"),
 
     /*
@@ -391,10 +332,6 @@ module.exports = grammar({
             [params*]
             prepost-map?
             body)        <- XXX: body is actually optional
-
-      // adding multi-arity defns increased the number of files with errors from
-      // 1 up to 3793 out of 108,188 files...clojure.core does not parse correctly
-      // anymore :(
 
       (defn name
             doc-string?
@@ -417,50 +354,25 @@ module.exports = grammar({
                 attr-map?)
     */
     defn_form: $ =>
-      prec(5, // XXX: otherwise multi-arity defns get recognized as lists sometimes...
-           seq("(",
-               repeat($._non_form),
-               choice("defn", "defn-", "defmacro"),
-               repeat1($._non_form),
-               // name
-               field("name", $.symbol),
-               repeat1($._non_form),
-               // doc-string?
-               optional(seq(field("doc_string", $.string),
-                            repeat1($._non_form))),
-               // attr-map?
-               optional(seq(field("attr_map", $.map),
-                            repeat1($._non_form))),
-               choice(field('single_arity', // XXX: doesn't appear
-                            seq(// params
-                                field("params", $.vector),
-                                repeat1($._non_form),
-                                // prepost-map?
-                                optional(seq(field("prepost_map", $.map),
-                                             repeat1($._non_form))),
-                                // body
-                                repeat(seq(field("body", $._form),
-                                           repeat($._non_form))))),
-                      field('multi_arity', // XXX: doesn't appear
-                            seq(repeat1(seq(repeat($._non_form), // XXX: errors otherwise
-                                            "(",
-                                            repeat($._non_form),
-                                            // params
-                                            field("params", $.vector),
-                                            repeat1($._non_form),
-                                            // prepost-map?
-                                            optional(seq(field("prepost_map", $.map),
-                                                         repeat1($._non_form))),
-                                            // body
-                                            repeat(seq(field("body", $._form),
-                                                       repeat($._non_form))),
-                                            ")",
-                                            repeat($._non_form))),
-                                // attr-map?
-                                optional(seq(field("attr_map", $.map),
-                                             repeat1($._non_form)))))),
-               repeat($._non_form),
-               ")")),
+      seq("(",
+          repeat($._non_form),
+          choice("defn", "defn-", "defmacro"),
+          repeat1($._non_form),
+          // name
+          field("name", $.symbol),
+          repeat($._input),
+          choice(seq(// params
+                     field("params", $.vector),
+                     repeat($._input)),
+                 // XXX: this doesn't seem to match
+                 seq(repeat1(seq("(",
+                                 repeat($._non_form),
+                                 // params
+                                 field("params", $.vector),
+                                 repeat($._input),
+                                 ")")))),
+          repeat($._input),
+          ")"),
 
     list: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
