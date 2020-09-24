@@ -204,7 +204,16 @@ module.exports = grammar({
     ],
     [
      $.symbol,
-    ]
+    ],
+    // def_form
+    [
+     $._form,
+     $.def_form,
+    ],
+    [
+     $.def_form,
+     $._bare_symbol,
+    ],
   ],
 
   rules: {
@@ -234,7 +243,8 @@ module.exports = grammar({
           field('value', $._form)),
 
     _form: $ =>
-      choice($.list,
+      choice($.def_form,
+             $.list,
              $.map,
              $.vector,
              // literals
@@ -262,6 +272,19 @@ module.exports = grammar({
              $.unquote_splicing_form,
              $.unquote_form,
              $.deref_form),
+
+    def_form: $ =>
+      seq("(",
+          repeat($._non_form),
+          "def",
+          repeat1($._non_form),
+          $.symbol,
+          optional(seq(repeat1($._non_form),
+                       optional(seq($.string,
+                                    repeat1($._non_form))),
+                       $._form,
+                       repeat($._non_form))),
+          ")"),
 
     list: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
@@ -333,7 +356,8 @@ module.exports = grammar({
              'true'),
 
     _bare_symbol: $=>
-      SYMBOL,
+      choice(SYMBOL,
+             "def"),
 
     symbol: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
