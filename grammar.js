@@ -323,6 +323,8 @@ module.exports = grammar({
     _whitespace: $ =>
       token(repeat1(WHITESPACE)),
 
+    // XXX: no way to match EOF apparently, so including a trailing newline
+    //      in the comment definition doesn't seem practical?
     comment: $ =>
       token(/(;|(#!)).*/),
 
