@@ -214,6 +214,34 @@ module.exports = grammar({
      $.def_form,
      $._bare_symbol,
     ],
+    // defn_form
+    [
+     $._form,
+     $.defn_form,
+    ],
+    [
+     $.defn_form,
+     $._bare_symbol,
+    ],
+    [
+     $.defn_form,
+     $.vector,
+    ],
+    [
+     $.defn_form,
+     $.map,
+     $.vector,
+    ],
+    [
+     $.defn_form,
+    ],
+    [
+     $.vector,
+    ],
+    [
+     $.map,
+     $.vector,
+    ],
   ],
 
   rules: {
@@ -244,6 +272,8 @@ module.exports = grammar({
 
     _form: $ =>
       choice($.def_form,
+             $.defn_form,
+             //
              $.list,
              $.map,
              $.vector,
@@ -289,6 +319,35 @@ module.exports = grammar({
                                     repeat1($._non_form))),
                        $._form,
                        repeat($._non_form))),
+          ")"),
+
+    /*
+      (defn name
+            doc-string?
+            attr-map?
+            [params*]
+            prepost-map?
+            body)
+    */
+    defn_form: $ =>
+      // XXX: only single arity first
+      seq("(",
+          repeat($._non_form),
+          choice("defn", "defn-"),
+          repeat1($._non_form),
+          $.symbol,
+          optional(seq(repeat1($._non_form),
+                       optional(seq($.string,
+                                    repeat1($._non_form))))),
+          optional(seq(repeat1($._non_form),
+                       optional(seq($.map,
+                                    repeat1($._non_form))))),
+          $.vector,
+          optional(seq(repeat1($._non_form),
+                       optional(seq($.map,
+                                    repeat1($._non_form))))),
+          $._form,
+          repeat($._non_form),
           ")"),
 
     list: $ =>
@@ -362,7 +421,9 @@ module.exports = grammar({
 
     _bare_symbol: $=>
       choice(SYMBOL,
-             "def"),
+             "def",
+             "defn",
+             "defn-"),
 
     symbol: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
