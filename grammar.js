@@ -211,20 +211,33 @@ module.exports = grammar({
      $.def_form,
     ],
     [
-     $.def_form,
      $._bare_symbol,
+     $.def_form,
     ],
-    // defn_form
+    [
+     $.anon_func,
+     $.deref_form,
+     $.list,
+     $.map,
+     $.namespaced_map,
+     $.quote_form,
+     $.read_cond,
+     $.set,
+     $.symbol,
+     $.syntax_quote_form,
+     $.tagged_literal,
+     $.unquote_form,
+     $.unquote_splicing_form,
+     $.var_quote_form,
+     $.vector,
+    ],
+    // defn_form - single arity
     [
      $._form,
      $.defn_form,
     ],
     [
      $.defn_form,
-     $._bare_symbol,
-    ],
-    [
-     $.defn_form,
      $.vector,
     ],
     [
@@ -240,6 +253,54 @@ module.exports = grammar({
     ],
     [
      $.map,
+     $.vector,
+    ],
+    // a weird one
+    [
+    ],
+    // defn_form - multi-arity
+    [
+     $.defn_form,
+     $.map,
+    ],
+    [
+     $._form,
+    ],
+    [
+     $.anon_func,
+     $.defn_form,
+     $.deref_form,
+     $.list,
+     $.map,
+     $.namespaced_map,
+     $.quote_form,
+     $.read_cond,
+     $.set,
+     $.symbol,
+     $.syntax_quote_form,
+     $.tagged_literal,
+     $.unquote_form,
+     $.unquote_splicing_form,
+     $.var_quote_form,
+     $.vector,
+    ],
+    [
+     $.anon_func,
+     $.defn_form,
+     $.deref_form,
+     $.discard_expr,
+     $.list,
+     $.map,
+     $.namespaced_map,
+     $.quote_form,
+     $.read_cond,
+     $.set,
+     $.symbol,
+     $.syntax_quote_form,
+     $.tagged_literal,
+     $.unquote_form,
+     $.unquote_splicing_form,
+     $.var_quote_form,
      $.vector,
     ],
   ],
@@ -313,12 +374,12 @@ module.exports = grammar({
           repeat($._non_form),
           "def",
           repeat1($._non_form),
-          $.symbol,
-          optional(seq(repeat1($._non_form),
-                       optional(seq($.string,
-                                    repeat1($._non_form))),
-                       $._form,
-                       repeat($._non_form))),
+          field("name", $.symbol),
+          optional(seq(optional(seq(repeat1($._non_form),
+                                    field("doc_string", $.string))),
+                       repeat1($._non_form),
+                       field("init", $._form))),
+          repeat($._non_form),
           ")"),
 
     /*
@@ -327,28 +388,77 @@ module.exports = grammar({
             attr-map?
             [params*]
             prepost-map?
-            body)
+            body)        <- XXX: body is actually optional
+
+      // adding multi-arity defns increased the number of files with errors from
+      // 1 up to 3793 out of 108,188 files...clojure.core does not parse correctly
+      // anymore :(
+
+      (defn name
+            doc-string?
+            attr-map?
+            ([params*] prepost-map? body)+
+            attr-map?)
+
+      // macro def doesn't have prepost-map
+
+      (defmacro name
+                doc-string?
+                attr-map?
+                [params*]
+                body)     <- XXX: body is actually optional
+
+      (defmacro name
+                doc-string?
+                attr-map?
+                ([params*] body)+
+                attr-map?)
     */
     defn_form: $ =>
-      // XXX: only single arity first
-      seq("(",
-          repeat($._non_form),
-          choice("defn", "defn-"),
-          repeat1($._non_form),
-          $.symbol,
-          optional(seq(repeat1($._non_form),
-                       optional(seq($.string,
-                                    repeat1($._non_form))))),
-          optional(seq(repeat1($._non_form),
-                       optional(seq($.map,
-                                    repeat1($._non_form))))),
-          $.vector,
-          optional(seq(repeat1($._non_form),
-                       optional(seq($.map,
-                                    repeat1($._non_form))))),
-          $._form,
-          repeat($._non_form),
-          ")"),
+      prec(5, // XXX: otherwise multi-arity defns get recognized as lists sometimes...
+           seq("(",
+               repeat($._non_form),
+               choice("defn", "defn-", "defmacro"),
+               repeat1($._non_form),
+               // name
+               field("name", $.symbol),
+               repeat1($._non_form),
+               // doc-string?
+               optional(seq(field("doc_string", $.string),
+                            repeat1($._non_form))),
+               // attr-map?
+               optional(seq(field("attr_map", $.map),
+                            repeat1($._non_form))),
+               choice(field('single_arity', // XXX: doesn't appear
+                            seq(// params
+                                field("params", $.vector),
+                                repeat1($._non_form),
+                                // prepost-map?
+                                optional(seq(field("prepost_map", $.map),
+                                             repeat1($._non_form))),
+                                // body
+                                repeat(seq(field("body", $._form),
+                                           repeat($._non_form))))),
+                      field('multi_arity', // XXX: doesn't appear
+                            seq(repeat1(seq(repeat($._non_form), // XXX: errors otherwise
+                                            "(",
+                                            repeat($._non_form),
+                                            // params
+                                            field("params", $.vector),
+                                            repeat1($._non_form),
+                                            // prepost-map?
+                                            optional(seq(field("prepost_map", $.map),
+                                                         repeat1($._non_form))),
+                                            // body
+                                            repeat(seq(field("body", $._form),
+                                                       repeat($._non_form))),
+                                            ")",
+                                            repeat($._non_form))),
+                                // attr-map?
+                                optional(seq(field("attr_map", $.map),
+                                             repeat1($._non_form)))))),
+               repeat($._non_form),
+               ")")),
 
     list: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
@@ -423,7 +533,8 @@ module.exports = grammar({
       choice(SYMBOL,
              "def",
              "defn",
-             "defn-"),
+             "defn-",
+             "defmacro"),
 
     symbol: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
