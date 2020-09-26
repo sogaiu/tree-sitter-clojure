@@ -504,7 +504,7 @@ module.exports = grammar({
                         $._non_form)),
           "#'",
           repeat($._non_form),
-          // XXX: symobl, reader conditional, and tagged literal can work
+          // XXX: symbol, reader conditional, and tagged literal can work
           //      any other things?
           field('value', $._form)),
 
