@@ -1,5 +1,7 @@
+Cargo.lock
 node_modules
 bin
 build
 *.log
+target
 binding.gyp
