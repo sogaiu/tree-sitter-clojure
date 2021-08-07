@@ -2,6 +2,8 @@
 //
 // - 0.0.9 (planning)
 //   - rename _form -> _lit
+//     - queries in nvim-treesitter would be affected
+//     - not worth it then?
 //   - update tree-sitter and friends to latest
 //   - regenerate
 //   - test
@@ -42,11 +44,21 @@
 //
 // - probably won't do
 //   - support def, if, and other "primitives"
+//     - https://github.com/tree-sitter/tree-sitter/discussions/1063#discussioncomment-628198
 //   - support for {{}} template constructs
 //
 // - testing
 //   - clj, cljc, cljs
 //   - what about edn?
+//   - successful parse
+//     - are appropriate constructs recognized
+//       - e.g. are the right number of things recognized?
+//       - e.g. are the recognized types of things correct?
+//       - e.g. does a list yield an appropriate number of elements
+//       - e.g. are the types recognized in a list's elements appropriate?
+//   - things that should fail?
+//     - is this worthwhile?
+//     - how would it be done?
 //   - approaches
 //     - "port" hand-written tests
 //       - oakmac (done)
