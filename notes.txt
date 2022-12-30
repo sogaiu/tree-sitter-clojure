@@ -1,30 +1,5 @@
 // NOTES
 //
-// - 0.0.10 (possibly)
-//   - rename _form -> _lit
-//   - update tree-sitter and friends to latest
-//   - regenerate
-//   - test
-//
-//   0.0.9
-//   - misc doc updates
-//   - add corpus
-//   - add minimal highlighting queries
-//   - remove web-tree-sitter dependency
-//   - add binding.gyp
-//
-//   0.0.8
-//   - upgrade tree-sitter bits to 0.19.3
-//   - misc
-//
-//   0.0.7
-//   - add COPYING.txt (cc0)
-//   - misc
-//
-//   0.0.3
-//   - major renaming effort
-//   - misc
-//
 // - possibilities (may be as separate grammars?)
 //   - no fields (but likely that means metadata lives "outside")
 //   - retain whitespace and comments (for round-tripping)
@@ -88,10 +63,10 @@
 //   - web-ui subcommand
 //     - didn't work when grammar used externals
 //     - file browsing + loading better than copy-paste
-//     - indiciate error via color
+//     - indicate error via color
 //     - jump to error
 //     - somehow searching for error doesn't seem to work sometimes
-//   - ~/.tree-sitter
+//   - ~/.tree-sitter - legacy locations, up through some 0.19.x?
 //     - bin
 //       - contains shared libraries for each grammar
 //       - parse command seems to install stuff here
@@ -302,68 +277,3 @@
 // floatPat
 //   "([-+]?[0-9]+(\\.[0-9]*)?([eE][-+]?[0-9]+)?)(M)?"
 
-// patterns in the grammar
-//
-// token-ish
-//   _ws
-//   comment
-//   num_lit
-//   kwd_lit
-//   str_lit
-//   char_lit
-//   nil_lit
-//   bool_lit
-//   auto_res_mark
-//
-// choice
-//   _gap
-//   _lit
-//
-// choice + optional
-//   _metadata_lit
-//
-// marker + inline token
-//   regex_lit
-//
-// marker + _gap + specific form
-//   sym_val_lit
-//
-// marker + _gap + choice of specific form
-//   meta_lit
-//   old_meta_lit
-//
-// marker + _gap + generic form
-//   dis_expr
-//
-// metadata + inline token
-//   sym_lit
-//
-// metadata + inline specific form
-//   list_lit
-//   map_lit
-//   set_lit
-//   vector_lit
-//
-// metadata + marker + inline bare list
-//   anon_fn_lit
-//
-// metadata + marker + _ws + inline bare list
-//   read_cond_lit
-//   read_cond_splicing_lit
-//
-// metadata + marker + prefix + _gap + inline bare map
-//   ns_map_lit
-//
-// metadata + marker + _gap + specific form
-//   evaling_lit
-//
-// metadata + marker + _gap + generic form
-//   derefing_lit
-//   quoting_lit
-//   syn_quoting_lit
-//   unquoting_lit
-//   unquote_splicing_lit
-//   var_quoting_lit (possibly limit form in future?)
-//
-// metadata + marker + _gap + tag + _gap + generic form
-//   tagged_or_ctor_lit
