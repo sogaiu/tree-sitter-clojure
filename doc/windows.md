@@ -1,4 +1,4 @@
-## Development
+## Development on Windows
 
 This page touches on the following development-related items:
 
@@ -7,23 +7,28 @@ This page touches on the following development-related items:
 * Grammar Development
 * Performance Measurement
 * Building a .wasm File
-* Testing
 * Formatting
-* Known Issues
+* Troubleshooting
 
 ### Background
 
 Primary development for tree-sitter-clojure occurs in some kind of
 Linux environment.  Periodically, attempts are made to get things to
-work on Windows.  There is a separate document for
-[Development on Windows](windows.md).
+work on Windows.
 
-macos may work, but it may be necessary to get Xcode command line
-tools.  Having brew might also help.
+To make installation and upgrading of various pieces more manageable,
+[scoop](https://scoop.sh) is used.  After scoop is installed,
+installation is usually a matter of an invocation like: `scoop install
+git` from a PowerShell prompt.
 
-Have not tried any BSD flavor.
+scoop is used to install:
 
-nvm is used to install and manage different versions of Node.js.
+* git
+* [nvm-windows](https://github.com/coreybutler/nvm-windows)
+* python
+
+nvm-windows is used to install and manage different versions of
+Node.js.
 
 git is used to fetch:
 
@@ -40,15 +45,15 @@ this repository.
 
 * At a minimum:
 
-    * Node.js >= 12, <= 14 - recently tested 12.9.1, 12.16.1, 12.22.12
-      * nvm seems to work.
+    * Node.js >= 12, <= 14 - recently tested 12.9.1, 12.16.1, 12.22.12.
+      * Use an nvm-windows-based setup (e.g. via scoop)
 
     * Python (used by node-gyp (which Node.js has a bundled version of))
-      * Likely it's already installed.
+      * May need to install separately (e.g. via scoop)
 
     * C/C++ compiler
-      * *nix - recent versions of gcc or clang may work
-      * macos - Xcode command line tools may be enough
+      * Windows - an appropriate Visual Studio based setup with the
+        "Desktop Development with C++" workload (via Microsoft)
 
 * If interactive exploration via a web browser and/or building a
   `.wasm` file is desired [Emscripten / emsdk](https://emscripten.org)
@@ -68,27 +73,13 @@ this repository.
 
 ### Setup Steps
 
-Suppose typical development sources are stored under `~/src`.
-
-#### Short Version
-
-If this brief version doesn't work, try the "Long Version" below.
-
-```
-# clone repository
-cd ~/src
-git clone https://github.com/sogaiu/tree-sitter-clojure
-cd tree-sitter-clojure
-
-# install tree-sitter-cli and dependencies, then build
-npm ci
-```
-
-#### Long Version
+The command prompt the commands below are invoked from may make a
+difference.  Look for something named like [x64 Native Tools Command
+Prompt for
+VS...](https://stackoverflow.com/questions/61209155/how-do-i-get-the-x64-native-tools-developer-command-prompt-for-visual-studio-com).
 
 ```
 # clone repository
-cd ~/src
 git clone https://github.com/sogaiu/tree-sitter-clojure
 cd tree-sitter-clojure
 
@@ -110,11 +101,9 @@ npx tree-sitter test
 
 ### A Note on Further Instructions...
 
-Where applicable, the instructions below assume emsdk has been
-installed, but `emcc` (tool that can be used to compile to wasm) is
-not necessarily on one's `PATH`.  If an appropriate `emcc` is on one's
-`PATH` (e.g. emscripten installed via homebrew), the emsdk steps
-(e.g. `source ~/src/emsdk/emsdk_env.sh`) below may be ignored.
+Commands below are assumed to be invoked from within the
+tree-sitter-clojure directory and emsdk is assumed to be installed in
+a sibling directory of tree-sitter-clojure.
 
 ### Grammar Development
 
@@ -124,7 +113,7 @@ Hack on grammar.
 # edit grammar.js using some editor
 
 # regenerate and rebuild tree-sitter stuff
-npx tree-sitter generate && \
+npx tree-sitter generate
 npx node-gyp rebuild
 ```
 
@@ -143,10 +132,10 @@ Interactively test in the browser (requires emsdk).
 
 ```
 # prepare emsdk (specifically emcc) for building .wasm
-source ~/src/emsdk/emsdk_env.sh
+..\emsdk\emsdk_env.bat
 
 # build .wasm bits and invoke web-ui for interactive testing
-npx tree-sitter build-wasm && \
+npx tree-sitter build-wasm
 npx tree-sitter web-ui
 
 # in appropriate browser window, paste code in left pane
@@ -165,26 +154,17 @@ a good idea :)
 ```
 # single measurement
 npx tree-sitter parse --time sample.clj
-
-# mutliple measurements with `multitime`
-multitime -n10 -s1 npx tree-sitter parse --time --quiet sample.clj
 ```
 
 ### Building a .wasm File
 
-Assuming emsdk is installed appropriately under `~/src/emsdk`.
-
 ```
 # prepare emsdk (specifically emcc) for use
-source ~/src/emsdk/emsdk_env.sh
+..\emsdk\emsdk_env.bat
 
 # create `tree-sitter-clojure.wasm`
 npx tree-sitter build-wasm
 ```
-
-### Testing
-
-See the [testing page](testing.md).
 
 ### Formatting
 
@@ -203,10 +183,14 @@ later invoke the script to help tidy things up.  Emacs is invoked by
 this script, so it's necessary to have Emacs installed for this
 purpose.  See the `format` directory.
 
-### Known Issues
+### Troubleshooting
 
-* `node-gyp` (tool for compiling native addon modules for Node.js)
-  related things may fail on a machine upgraded to macos Catalina --
-  [this
-  document](https://github.com/nodejs/node-gyp/blob/master/macOS_Catalina.md)
-  may help cope with such a situation.
+* It may be necessary to invoke `nvm on` to activate nvm-windows before
+  using npm or npx.
+
+* Consider executing the `--verbose` versions of various commands if
+  errors occur to gain hints about what factors might be relevant.
+
+* For switching between different versions of emsdk, learn to use the
+  `install` and `activate` subcommands.
+

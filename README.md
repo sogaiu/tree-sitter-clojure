@@ -29,7 +29,8 @@ tree-sitter-clojure has been:
 
 ## Development
 
-Please see the [development page](doc/development.md).
+Please see the [development page](doc/development.md) if using some
+*nix / macos.  For Windows, see [this document](doc/windows.md).
 
 ## Communication
 
