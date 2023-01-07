@@ -1042,6 +1042,10 @@ The other portion is a visualization of the final tree
 A neat feature of this tree is that hovering over different areas can
 sometimes reveal relevant information.
 
+[Here](log.html) is a sample `log.html` file.  You may need to
+download it to a local file first to be able to view it properly.
+Note that the background is all white.
+
 ## tree-sitter Project Info
 
 * tree-sitter maintainers appear to be quite busy and it may be that
