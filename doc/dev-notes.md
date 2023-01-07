@@ -1,0 +1,1055 @@
+# tree-sitter Grammar Dev Notes
+
+Notes so that when maintainers return to look after the project at
+some point, they will have an easier time :)
+
+Possibly, parts of this could be handy for getting interested folks up
+to speed.
+
+## A Note on Terminology
+
+The string "tree-sitter" may refer to:
+
+* the name of a command line program
+* the name of a library
+* an adjective used in front of "grammar"
+
+...and possibly other things.
+
+## `grammar.js` and `src/scanner.(c|cc)`
+
+A tree-sitter grammar is typically expressed in the form of a
+`grammar.js` file.  The content should be JavaScript of some sort, but
+it's somewhat vague as to what constructs are supported.  Possibly the
+most notable item regarding ambiguity is support for regular
+expressions.  Simple things work fine, but it's not entirely clear
+exactly what can be used.
+
+If the ordinary machinery of tree-sitter is not up to the task of
+handling parsing (e.g. indentation-related constructs for languages
+like Python or Haskell), one may provide a C or C++ implementation of
+an "external scanner" to aid in processing.  This is typically stored
+in a file at `src/scanner.c` or
+[`src/scanner.cc`](https://github.com/tree-sitter/tree-sitter-python/blob/9e53981ec31b789ee26162ea335de71f02186003/src/scanner.cc).
+In `grammar.js`, one expresses that such handling is used via [the
+`externals`
+construct](https://github.com/tree-sitter/tree-sitter-python/blob/9e53981ec31b789ee26162ea335de71f02186003/grammar.js#L54-L74).
+
+It's most likely the case that a fair bit of one's development efforts
+will be focused around `grammar.js`.  It may be that an external
+scanner is not necessary for a particular programming language.
+Having said that, out of 58 grammars fetched locally, 37 of them had
+external scanners...at least there are plenty of examples :)
+
+## Pipeline: From Grammar to Library
+
+Below is an edited version of a "pipeline" diagram showing stages of
+processing involved in ending up at a library file, starting with
+`grammar.js`.
+
+```
+              {grammar.js}  ->    [Node.js]   ->
+
+            {grammar.json}  ->  [tree-sitter] ->
+
+{parser.c, scanner.(c|cc)}  ->   [cc or c++]  ->
+
+            {library file}
+
+-------------------
+| {} are files    |
+| [] are programs |
+-------------------
+```
+
+(The original diagram was apparently by Gregory Heytings and was seen
+[here](https://lists.gnu.org/archive/html/emacs-devel/2022-12/msg01253.html).)
+
+The [actual
+processing](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/src/generate/mod.rs#L55-L90)
+is more like:
+
+* Someone puts together `grammar.js` (and possibly `src/scanner.(c|cc)`)
+* tree-sitter reads `grammar.js`, and invokes Node.js' `node` [passing
+  it some
+  bits](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/src/generate/mod.rs#L192-L195)
+  to produce `src/grammar.json`
+* tree-sitter uses the received `src/grammar.json` to produce
+  `src/parser.c` (and `node-types.json`)
+* A C / C++ compiler is used to produce a library using `parser.c`
+  (and possibly `src/scanner.(c|cc)`)
+
+These steps might be carried out via a `Makefile` or done
+automatically by tooling.  Indeed, Neovim's nvim-treesitter plugin
+will fetch files from grammar repositories to produce grammar-specific
+shared libraries for use in a running editor session. Emacs 29+
+currently does something similar [1].
+
+Note that in the flow above, "tree-sitter" can refer to the command
+line program or some other program that uses the tree-sitter library
+[2]:
+
+* See [these
+  lines](https://github.com/nvim-treesitter/nvim-treesitter/blob/2d8e6b666297ddf19cbf7cbc2b0f1928bc49224a/lua/nvim-treesitter/install.lua#L389-L399)
+  from nvim-treesitter's source code for an example of the former case
+* See [this
+  PR](https://github.com/emacs-tree-sitter/elisp-tree-sitter/pull/220)
+  at the elisp-tree-sitter repository for an example of the latter
+  case
+
+[1] ATM emacs only [compiles fetched `.c` / `.cc` files to produce a
+shared
+library](https://github.com/emacs-mirror/emacs/blob/9d410f8de64e91d16999a9bb5dd884d6d06d22bd/lisp/treesit.el#L2734-L2803).
+nvim-treesitter tries to do that but under certain circumstances will
+get `tree-sitter` to use `grammar.js` to produce `src/grammar.json`
+and `src/parser.c` first before making a compilation attempt.
+
+[2] ...as `tree-sitter` (the cli) is also a program that uses the
+tree-sitter library.
+
+## Brief Summary of Important Files
+
+* `grammar.js` - main expression of grammar
+
+* `src/scanner.(c|cc)` - expresses an external scanner (not every grammar has one)
+
+* generated files under `src`
+  * `parser.c` - influenced by `grammar.js` via `grammar.json`
+  * `grammar.json` - produced from `grammar.js`
+  * [`node-types.json`](https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types) - influenced by `grammar.js` via `grammar.json`
+
+## The tree-sitter Command Line Program (or CLI)
+
+`tree-sitter` is a command line program used for development of
+tree-sitter grammars.
+
+It is [a Rust
+program](https://github.com/tree-sitter/tree-sitter/tree/master/cli)
+which uses the tree-sitter [library which is written in
+C](https://github.com/tree-sitter/tree-sitter/tree/master/lib).
+
+Some tasks it is used for include:
+
+* Generating source code (`.c` and `.json`) that can be used in
+  building artifacts such as shared libraries for use by the
+  tree-sitter library
+* Parsing source code for the target programming language
+* Running tests
+* Starting a local instance of a web-based playground
+* Building a `.wasm` file for use by the playground
+
+Like `git`, it has a "subcommand" interface, so typical invocations
+look like `tree-sitter generate` or `tree-sitter test`.
+
+### Some Subcommands
+
+* `generate`
+  * Given `grammar.js`, produce at least `src/parser.c`,
+    `src/grammars.json`, and `src/node-types.json`
+  * [`--abi`
+    option](https://github.com/tree-sitter/tree-sitter/pull/1599) - at
+    the time of the PR -- 2022-01 -- 13 was chosen as the default, [in
+    2022-09 this changed to
+    14](https://github.com/tree-sitter/tree-sitter/commit/e2fe380a08408ff42eada21f8723f653e6da6606)
+    [1].
+* `parse`
+  * parses source code and outputs a representation of computed tree
+  * `--debug` option - produces detailed text trace
+  * `--debug-graph` option - produces `log.html` with visualization of
+    shift-reduce parsing + tree at end
+* `test`
+  * runs tests, typically stored in the `corpus` directory
+  * may lead to compilation and installtion of grammar's shared object
+    in a location which `tree-sitter` knows to look for when it needs
+    to use the shared object later...like for parsing code or running
+    tests :)
+* `playground` (or `web-ui`)
+   * starts a local web-based playground, needs appropriate `.wasm` file
+* `build-wasm`
+   * builds a `.wasm` file for a particular grammar
+
+[1] On the topic of ABIs, maxbrunsfeld had
+[this](https://github.com/tree-sitter/tree-sitter/pull/1599) to say:
+
+> As with most ABI version bumps, new builds of the Tree-sitter
+> library are compatible with old generated parsers, but the reverse
+> is not true. Once we regenerate a parser with the new ABI version
+> (14) old versions of the library won't be able to load it.
+
+### Relevant Directories
+
+For the `tree-sitter` cli to be able to parse source code for a
+particular language, it needs access to a shared object that handles
+that specific language.  Thus, an issue of where `tree-sitter` should
+look for such files presents itself.
+
+#### Configuration Information for `tree-sitter`
+
+[In older versions of
+`tree-sitter`](https://github.com/tree-sitter/tree-sitter/blob/162ce789bcf43693924d14232856c5ffee6da2c7/cli/src/config.rs#L20-L35),
+a configuration file was checked for in the following order:
+
+* `$TREE_SITTER_DIR/config.json`
+* `$HOME/.tree-sitter/config.json`
+
+Here `$TREE_SITTER_DIR` represents the value (if any) of a
+corresponding environment variable.  If no such environment variable
+existed, the user's home directory was tried as a root instead.
+
+Among other information, `config.json` can contain location
+information for `tree-sitter` to use for finding and accessing
+grammar-specific shared objects as well as source code.
+
+[At some
+point](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/config/src/lib.rs#L24-L46)
+this was changed.  In the new arrangement, the bits concerning
+`TREE_SITTER_DIR` still apply, but the user's home directory is only
+checked assuming there is no indication of a
+[XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)-based
+configuration file.
+
+To be more concrete, under the new arrangement, on a Linux box,
+configuration might live under
+`$HOME/.config/tree-sitter/config.json`.
+
+This sounds good in theory but in practice it could mean that if
+you're working on different grammars that use an unlucky combination
+of different `tree-sitter` cli programs, you can easily get confused
+about which configuration information applies.  That is, unless you
+use the `TREE_SITTER_DIR` method.
+
+Another point worth noting is that what XDG (or even what a user's
+home directory -- e.g. on Windows) means on certain operating systems
+may be unclear.
+
+#### Shared Object Storage Location for `tree-sitter`
+
+Once `tree-sitter` finds a configuration file, it can use it to try to
+determine where grammar-specific shared object files should live.
+This location is used both for saving the shared object that's a
+result of compiling a grammar [1] as well as for when trying to handle
+a subcommand such as `parse`or `query` as language-specific handling
+becomes necessary.
+
+In the older setup, this was typically `$TREE_SITTER_DIR/bin` or
+`~/.tree-sitter/bin`.
+
+Typical values for more recent setups include:
+
+* `$TREE_SITTER_DIR/lib`
+* `~/.cache/tree-sitter/lib`
+
+I don't have values for Windows handy.  May be I'll add some
+eventually :)
+
+[1] Currently, tree-sitter's loader's
+[`load_language_from_sources`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L347)
+can trigger a recompilation.  It's not clear to me yet exactly what
+can trigger this, but I believe at least `tree-sitter test` can.  It
+may be that other subcommands can trigger it too.  One reason this
+might be worth knowing about is that specifically which
+grammar-specific shared object is being used by `tree-sitter` to
+handle a subcommand might matter to you (e.g. when testing).
+
+AFAIK, only
+[`load_language_at_path`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L314)
+calls `load_language_from_sources`.  Further, `load_language_at_path`
+is only called by
+[`language_for_id`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L304).
+However, `language_for_id` appears to be called from multiple places:
+
+* [`language_configuration_for_injection_string`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L277)
+* [`language_configuration_for_file_name`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L206)
+* [`language_configuration_for_scope`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L193)
+* [`languages_at_path`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L169)
+
+Following those trails was a bit too much for me manually so I
+confirmed that the subcommands below lead to recompilation sometimes
+by directly invoking `tree-sitter` after removing an appropriate
+shared object:
+
+* `generate` -- in 2023-01 `--build` was added; if it's present, yes
+* `highlight`
+* `query`
+* `tags`
+* `test`
+
+N.B. if you want to force a recompilation via the execution of a
+`tree-sitter` subcommand, first remove the shared object from where it
+lives and then use the `test` subcommand.  The other subcommands may
+lead to an unexpected shared object replacing the erased one because
+the order in which the scanning of "tree-sitter-*" directories is done
+may yield unexpected results.
+
+#### Parser Directories
+
+A `config.json` file created via the `init-config` subcommand will
+specify that `~/github`, `~/src`, and `~/source` are to be scanned for
+grammar repositories particularly when `tree-sitter` is executing any of
+the following subcommands:
+
+* [`parse`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/src/main.rs#L371-L399)
+* [`query`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/src/main.rs#L442-L446)
+* [`tags`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/src/main.rs#L468-L470)
+* [`highlight`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/src/main.rs#L481-L485)
+* [`dump-languages`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/src/main.rs#L560-L562)
+
+In the tree-sitter source code, these are stored under the name
+`parser_directories`.  In `config.json`, the string
+"parser-directories" is used.
+
+IIUC, every directory that lives under a parser directory that starts
+with the name "tree-sitter-" is scanned.
+
+Depending on one's setup, that can lead to not so desirable
+situations.  For example, if you happen to be in the habit of checking
+out different versions of a particular grammar, you might end up with
+directory names like `tree-sitter-c.alice` and `tree-sitter-c.bob`
+because you happen to work with alice's and bob's forks.  Prepare to
+be confused after a while if you do this kind of thing and your
+`tree-sitter` configuration setup scans these directories.
+
+The `dump-languages` subcommand will make it clear which directories
+were identified so that might help with diagnosing issues.
+
+This situation can be worked around, but it can be surprising and a
+time sink at first if it happens to you and you are not aware of how
+these things work.  Can you tell I got stuck?
+
+One work-around is to not name forks in the manner mentioned before --
+that's doable, but when it's a convention you've been following for
+years, it's not very nice.
+
+Another work-around is to not place those directories where you
+usually place your source...but see the previous point.
+
+Yet another work-around is to create a user account for each grammar
+repository you work with...possibly cleaner in some sense, but the
+increased overhead for setup doesn't seem so nice.  Then there's the
+matter of when to get rid of such extra accounts...
+
+So far I've been placing forks in a different location, but I'm not
+really happy with it.  Perhaps I'll try the former.
+
+#### Tips
+
+If things seems strange, on Linux you can use `strace` to figure out
+which files and directories are being accessed by `tree-sitter`.  On
+Windows you can use [Sysinternals' ProcMon / Process
+Monitor](https://en.wikipedia.org/wiki/Process_Monitor) -- available
+via scoop: `scoop install sysinternals`.
+
+The tree-sitter source code might also come in handy to figure things
+out on occasion.  Isn't source access amazing?
+
+### Local Web Browser Playground
+
+If you've looked at the tree-sitter site, you may have seen [the
+playground](https://tree-sitter.github.io/tree-sitter/playground).
+
+It's possible to run a local version of this and for it to use the
+grammar you are working on.  This can be a nice interactive way of
+trying out / testing your grammar.
+
+Getting (and keeping) it working can be a bit tricky though.
+
+#### Emscripten and `.wasm` Files
+
+One of the key things behind the playground is the use of WebAssembly.
+
+In `tree-sitter`'s case, it uses [Emscripten](https://emscripten.org/)
+for WebAssembly matters,
+
+According to its web site, Emscripten is:
+
+> a complete compiler toolchain to WebAssembly, using LLVM, with a
+> special focus on speed, size, and the Web platform.
+
+One of the programs it provides is `emcc` -- perhaps short for
+"Emscripten C Compiler"?  To get the playground working locally, part
+of the idea is to feed `emcc` a grammar's C / C++ source and get back
+a `.wasm` file.  The `.wasm` file is typically created using
+`tree-sitter`'s `build-wasm` subcommand which uses `emcc` behind the
+scenes.
+
+Once the `.wasm` file is available, it can be used by a web page in a
+web browser (or other things such as for cross-platform editor
+plugins).  A suitable web page is arranged for by invoking a
+subcommand of `tree-sitter` currently named `playground` -- though it
+used to be called `web-ui` (still a valid alias, FWIW).
+
+This doesn't sound too bad in theory but in practice it turns out that
+the precise combination of `tree-sitter` version and Emscripten can
+matter.  See below for details.
+
+#### Install and Enable Emscripten Environment
+
+The [Download and
+Install](https://emscripten.org/docs/getting_started/downloads.html)
+section of the Emscripten web site has the relevant details, but
+briefly for a *nix-like system using `sh`:
+
+```
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install <version>
+./emsdk activate <version>
+source ./emsdk_env.sh
+```
+
+where `<version>` may matter.  At the time of writing, the version
+number that works with the latest master branch of tree-sitter is
+allegedly, `3.1.29`, but that may not work with any currently released
+`tree-sitter`.  See an upcoming section for hints on how to determine
+an appropriate version.
+
+Note: if using `csh` or `fish`, there are specific `emsdk_env.*`
+scripts to use instead.
+
+For Windows (if using `cmd.exe`):
+
+```
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+.\emsdk install <version>
+.\emsdk activate <version>
+.\emsdk_env.bat
+```
+
+Note: if using Powershell, there's a `emsdk_env.ps1` script to use
+instead.
+
+Please be aware that the last step involving `emsdk_env.*` is
+important to perform each time before using the upcoming `tree-sitter
+build-wasm` invocation.
+
+#### Create `.wasm` File and Start Playground
+
+Assuming success so far, this part should be straight-forward.
+
+First, set the current working directory to be your grammar's root
+directory, e.g. that might be something like:
+
+```
+cd ~/src/tree-sitter-<name>
+```
+
+To build the `.wasm` file (remember that `emsdk_env.*` needs to be
+used first):
+
+```
+tree-sitter build-wasm
+```
+
+This should produce a file named `tree-sitter-<name>.wasm` where
+`<name>` might be something like `c`, `clojure`, `c-sharp`, etc.
+
+With that file available, the playground may be started by:
+
+```
+tree-sitter playground
+```
+
+That should lead to a web browser starting up -- if all went well, a
+web page with a playground should appear in it.
+
+#### Version Woes
+
+At the time of this writing, [this
+file](https://github.com/tree-sitter/tree-sitter/blob/master/cli/emscripten-version)
+indicates a version that might be appropriate. That has sometimes
+depended on precisely what version of the `tree-sitter` cli is in use,
+so if something doesn't work right away, you might consider [trying
+different versions that have been
+recorded](https://github.com/tree-sitter/tree-sitter/commits/master/emscripten-version).
+
+There are a few specifics mentioned
+[here](https://github.com/sogaiu/tree-sitter-clojure/issues/17#issue-968695001)
+and [here](https://github.com/sogaiu/tree-sitter-clojure/issues/34)
+too.
+
+### Building `tree-sitter`, the CLI
+
+It's sometimes helpful to use different versions of `tree-sitter` or
+to customize it for various purposes (e.g. investigating issues,
+debugging, etc.) so it's handy to be able to build from source.
+
+There are [official
+instructions](https://tree-sitter.github.io/tree-sitter/contributing#developing-tree-sitter)
+[1] that are worth taking a look at.
+
+Below are descriptions of the sorts of things I do.  Welcome to the
+platform fork-in-the-road.
+
+#### Linux and Other *nix-likes
+
+I'm only familiar with getting `rustc`, `cargo`, and friends using
+[`rustup`](https://rustup.rs/).  Perhaps a version via a package
+manager on one's system would suffice as well.
+
+Assuming appropriate Rust development bits are in place:
+
+* `git clone https://github.com/tree-sitter/tree-sitter` to get a
+  local copy of the tree-sitter repository
+* `cd tree-sitter && cargo build --release` to build appropriately
+* `ln -s ~/src/tree-sitter/target/release/tree-sitter
+  ~/bin/tree-sitter` to make an appropriate symlink so that
+  `tree-sitter` is available via `PATH`
+
+Unless you need to work with Windows, I suggest skipping the next
+section.
+
+#### Windows
+
+(I don't use WSL* for reasons (TM), but if that works for your
+situation, you may be able to just follow the non-Windows instructions
+above with your WSL* setup, but note that that might mean staying and
+working within a WSL* environment.  I'm not sure though :) )
+
+For historical reasons development bits have been much more work to
+prepare on Windows.  Things are significantly better than before but
+it's still almost always more of a hassle than on many *nix machines.
+
+To cope with the situation I often reach for
+[scoop](https://scoop.sh/).  There are other alternatives such as
+Chocolatey but it wasn't to my taste.  There is even the upcoming
+[`winget`](https://github.com/microsoft/winget-cli) from Microsoft
+itself, but I haven't tried it yet.
+
+I suggest taking a look at the official instructions at the top of
+[their main page](https://scoop.sh/), but for the record, what worked
+here was pretty much what's in their Quickstart text:
+
+> Open a PowerShell terminal (version 5.1 or later) and run:
+
+```
+> Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
+> irm get.scoop.sh | iex
+```
+
+Note that this is a "do at your own risk" sort of thing.
+
+Once scoop is installed, to install `rustup`, open a new Powershell
+terminal and:
+
+```
+> scoop install rustup
+```
+
+to set up Rust bits.
+
+Then I installed [msys2 / mingw64](https://www.msys2.org/), which
+is:
+
+> a collection of tools and libraries providing you with an
+> easy-to-use environment for building, installing and running native
+> Windows software
+
+msys2 / mingw-w64 can also be installed via scoop, but the
+resulting installation path is rather deep for my taste so I opted for
+[following the steps here](https://www.msys2.org/#installation).
+
+If you'd prefer to go the scoop route, in a Powershell terminal, try:
+
+```
+> scoop install msys2
+```
+
+(Have you pinned Powershell to your taskbar yet?)
+
+You'll probably want to learn where the msys2 bits ended up on your
+system.  It's likely under `C:\Users\<username>\AppData\` somewhere.
+The `AppData` directory might not be visible at first but that can be
+remedied via Windows Explorer's settings.
+
+But back to the non-scoop method...
+
+0. View [the installation steps](https://www.msys2.org/#installation)
+
+1. Download the installer.  Mine was called
+   `msys2-x86_64-20221216.exe`, but don't be surprised if yours has a
+   different name.  Specifically, the filename has a date embedded in
+   it, so that might be different.
+
+2. Verify the checksum.  Since the file you get will most likely be
+   different, the file content may also differ and thus the checksum
+   may be different too.  For reference, what I saw was:
+
+   `de5b410dd0813e5904aeed082bfc3d9a8167e0f93b296f52d80bee2dfec9f13d`
+
+   I used the certutil program via a Powershell terminal:
+
+    ```
+    > certutil -hashfile msys2-x86_64-20221216.exe SHA256
+    ```
+
+   That produced a long string matching the long one on the site so I
+   didn't do the GPG Signature method (which is security-wise the much
+   more recommended method).  I did however search for the checksum to
+   see if anyone else had mentioned it.  There were some hits so I
+   took a look and decided to risk not doing the public key stuff.
+
+3. Run the installer and choose `C:\msys64` as the "Installation
+   Folder".
+
+4. Follow the rest of the steps except uncheck the "Run MSYS2 now"
+   checkbox.  I prefer not to let the installers do more than they
+   need to.
+
+The advantage of this approach is that the length of the string I end
+up having to use repeatedly -- `C:\msys64\mingw64\bin` -- is much
+shorter than for the one you'd get with the scoop one.
+
+I don't tend to add environment variable settings to my system
+settings because AFAIU that affects too many things and makes it more
+difficult to accurately document what I've done.
+
+Note that to make use of msys2 / mingw64 in our build, right before we
+enter the build command, we'll want to change `PATH` so the
+appropriate bits are available for use.  For me, that ends up looking
+like:
+
+```
+C:\> set PATH=C:\msys64\mingw64\bin;%PATH%
+```
+
+Note that that's via a `cmd.exe` command prompt.
+
+For Powershell it can be something like:
+
+```
+> $env:Path = "C:\msys64\mingw64\bin;$env:Path"
+```
+
+Note that "Path" is used above though "PATH" works too.  "Path" is
+something you can end up with via Tab-completion :)
+
+If you don't already have `git` in your environment...
+
+`scoop install git`
+
+is one way to arrange for it :)
+
+Finally, we can work on building!  Via a `cmd.exe` command prompt:
+
+* `git clone https://github.com/tree-sitter/tree-sitter` to get a
+  local copy of the tree-sitter repository
+* `cd tree-sitter`
+* `set PATH=C:\msys64\mingw64\bin;%PATH%` to make the msys2 / mingw64
+  stuff available
+* `cargo build --release` to build appropriately
+
+[Here's a log of the Windows
+build](https://gist.github.com/sogaiu/10534158414b7109581e7670f4736b38)
+for reference.
+
+For comparison, via Powershell that might be:
+
+* `git clone https://github.com/tree-sitter/tree-sitter` to get a
+  local copy of the tree-sitter repository
+* `cd tree-sitter`
+* `$env:Path = "C:\msys64\mingw64\bin;$env:Path"` to make the msys2 / mingw64
+  stuff available
+* `cargo build --release` to build appropriately
+
+(On the off-chance you're wondering if scoop has `tree-sitter`...it
+does, but that gets you a precompiled version.)
+
+#### ...and we're back from the fork!
+
+It might be obivous, but to build a specific version, use `git
+checkout` first to arrange for the local working tree to correspond to
+a particular commit / tag / whatever.  Then do the build.
+
+[1] If you take a look you'll notice that NPM is listed as required.
+Though most grammar repositories show evidence of using NPM, it's not
+strictly necessary.  ATM, Node.js is necessary, but
+[experiments](https://github.com/tree-sitter/tree-sitter/issues/465#issuecomment-1371911897)
+suggest it wouldn't have to be.
+
+## Examining `tree-sitter parse` Output
+
+For this section we'll look at the output of the `parse` subcommand of
+`tree-sitter` with various options.  It's likely that at some point
+you'll find yourself wondering why your current grammar isn't behaving
+as it should.  The `parse` command's output can sometimes shed some
+light on the matter.
+
+For the following sections, we'll be using the following Clojure code
+as input to the `parse` subcommand.  I typically put the code in a
+file and specify it as an argument.
+
+```clojure
+(def a 1)
+
+(def b 2)
+
+(def c 3)
+```
+
+### `tree-sitter parse`
+
+The "vanilla" version of the subcommand produces an s-expression tree
+representation:
+
+```
+(source [0, 0] - [5, 0]
+  (list_lit [0, 0] - [0, 9]
+    value: (sym_lit [0, 1] - [0, 4]
+      name: (sym_name [0, 1] - [0, 4]))
+    value: (sym_lit [0, 5] - [0, 6]
+      name: (sym_name [0, 5] - [0, 6]))
+    value: (num_lit [0, 7] - [0, 8]))
+  (list_lit [2, 0] - [2, 9]
+    value: (sym_lit [2, 1] - [2, 4]
+      name: (sym_name [2, 1] - [2, 4]))
+    value: (sym_lit [2, 5] - [2, 6]
+      name: (sym_name [2, 5] - [2, 6]))
+    value: (num_lit [2, 7] - [2, 8]))
+  (list_lit [4, 0] - [4, 9]
+    value: (sym_lit [4, 1] - [4, 4]
+      name: (sym_name [4, 1] - [4, 4]))
+    value: (sym_lit [4, 5] - [4, 6]
+      name: (sym_name [4, 5] - [4, 6]))
+    value: (num_lit [4, 7] - [4, 8])))
+```
+
+Some things to note:
+
+* There are nodes for:
+  * [`source`](https://github.com/sogaiu/tree-sitter-clojure/blob/50468d3dc38884caa682800343d9a1d0fda46c9b/grammar.js#L219)
+  * [`list_lit`](https://github.com/sogaiu/tree-sitter-clojure/blob/50468d3dc38884caa682800343d9a1d0fda46c9b/grammar.js#L353)
+  * [`sym_lit`](https://github.com/sogaiu/tree-sitter-clojure/blob/50468d3dc38884caa682800343d9a1d0fda46c9b/grammar.js#L316)
+  * [`sym_name`](https://github.com/sogaiu/tree-sitter-clojure/blob/50468d3dc38884caa682800343d9a1d0fda46c9b/grammar.js#L326-L328) -
+    actually an alias
+  * [`num_lit`](https://github.com/sogaiu/tree-sitter-clojure/blob/50468d3dc38884caa682800343d9a1d0fda46c9b/grammar.js#L269)
+
+* There are fields for:
+  * [`value`](https://github.com/sogaiu/tree-sitter-clojure/blob/50468d3dc38884caa682800343d9a1d0fda46c9b/grammar.js#L359)
+  * [`name`](https://github.com/sogaiu/tree-sitter-clojure/blob/50468d3dc38884caa682800343d9a1d0fda46c9b/grammar.js#L326)
+
+* The square-bracketed pairs of numbers refer to locations in the source.
+  * The first number is a row or line number -- 0-based
+  * The second number is a sort of a column-ish index number -- 0-based
+
+Let's look at a specific example:
+
+```
+(num_lit [0, 7] - [0, 8])
+```
+
+This tells us that:
+
+* A `num_lit` node was found
+
+* The starting location is indicated by `[0, 7]` and means:
+  * line / row 0 (the first line)
+  * 7 refers to "before" a byte (character?) at position 7 (since the
+    index is 0-based, this would be right before the eighth character
+    / byte)
+
+* The ending location is indicated by `[0, 8]` and means:
+  * line / row 0 (the same line as the starting position)
+  * 8 refers to "before" a character / byte at position 8
+
+This "before" business is a way of articulating that we think of these
+numbers as referring to the "gap" between two successive bytes /
+characters.  Below is an attempt at visualizing the first line of the
+sample code where the string has been spaced out a bit to provide gaps for
+illustrative purposes:
+
+```
+     nth byte:  1 2 3 4 5 6 7 8 9
+---------------------------------
+byte position:  0 1 2 3 4 5 6 7 8
+---------------------------------
+       string:  ( d e f   a   1 )
+      indeces: 0 1 2 3 4 5 6 7 8 9
+```
+
+For our `num_lit` -- "1" -- is at byte position 7, and the index that
+refers to where it starts is 7, though it refers to the gap between
+byte positions 6 and 7.  The index that refers to where "1" ends is 8,
+which is between byte positions 7 and 8.
+
+The notation is similar to what is typically used [in corpus
+tests](https://github.com/sogaiu/tree-sitter-clojure/blob/50468d3dc38884caa682800343d9a1d0fda46c9b/corpus/sym_lit.txt#L33-L35)
+as expected values, e.g.:
+
+```
+(source
+  (sym_lit
+    (sym_name)))
+```
+
+However, the corpus test expected value notation doesn't contain
+location or field information.
+
+### `tree-sitter parse --debug`
+
+If the `--debug` option is specified, before the s-expression tree is
+printed, one will get a detailed shift-reduce + lexer activity log.
+
+Let's go over a bit of the log.
+
+At the beginning of the parsing we see typically see this:
+
+```
+new_parse
+```
+
+That corresponds to [this
+line](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/lib/src/parser.c#L1904)
+in `ts_parser_parse`.
+
+Then we'll typically see the following sorts of lines repeatedly.
+
+For something with just lexing and shifting:
+
+```
+process version:0, version_count:1, state:1, row:0, col:0
+lex_internal state:0, row:0, column:0
+consume character:'('
+lexed_lookahead sym:(, size:1
+shift state:7
+```
+
+For something with lexing, shifting, and reducing:
+
+```
+process version:0, version_count:1, state:97, row:0, col:4
+lex_internal state:0, row:0, column:4
+consume character:' '
+lexed_lookahead sym:_ws, size:1
+reduce sym:sym_lit, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:1
+shift state:2
+```
+
+We might go into some of these details later, but first let's finish
+up by examining the tail end:
+
+```
+accept
+done
+```
+
+`accept` corresponds to [this
+line](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/lib/src/parser.c#L1519)
+from `ts_parser__advance`.
+
+`done` corresponds to [this line](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/lib/src/parser.c#L1961) from `ts_parser_parse`.
+
+Full log can be seen below.
+
+<details><pre>
+new_parse
+process version:0, version_count:1, state:1, row:0, col:0
+lex_internal state:0, row:0, column:0
+consume character:'('
+lexed_lookahead sym:(, size:1
+shift state:7
+process version:0, version_count:1, state:7, row:0, col:1
+lex_internal state:0, row:0, column:1
+consume character:'d'
+consume character:'e'
+consume character:'f'
+lexed_lookahead sym:sym_lit_token1, size:3
+shift state:97
+process version:0, version_count:1, state:97, row:0, col:4
+lex_internal state:0, row:0, column:4
+consume character:' '
+lexed_lookahead sym:_ws, size:1
+reduce sym:sym_lit, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:1
+shift state:2
+process version:0, version_count:1, state:2, row:0, col:5
+lex_internal state:0, row:0, column:5
+consume character:'a'
+lexed_lookahead sym:sym_lit_token1, size:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:97
+process version:0, version_count:1, state:97, row:0, col:6
+lex_internal state:0, row:0, column:6
+consume character:' '
+lexed_lookahead sym:_ws, size:1
+reduce sym:sym_lit, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:2
+process version:0, version_count:1, state:2, row:0, col:7
+lex_internal state:0, row:0, column:7
+consume character:'1'
+lexed_lookahead sym:num_lit, size:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:169
+process version:0, version_count:1, state:169, row:0, col:8
+lex_internal state:0, row:0, column:8
+consume character:')'
+lexed_lookahead sym:), size:1
+reduce sym:_bare_list_lit_repeat1, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:96
+process version:0, version_count:1, state:96, row:0, col:9
+lex_internal state:0, row:0, column:9
+consume character:10
+consume character:10
+lexed_lookahead sym:_ws, size:2
+reduce sym:_bare_list_lit, child_count:3
+reduce sym:list_lit, child_count:1
+shift state:5
+process version:0, version_count:1, state:5, row:2, col:0
+lex_internal state:0, row:2, column:0
+consume character:'('
+lexed_lookahead sym:(, size:1
+reduce sym:source_repeat1, child_count:2
+shift state:7
+process version:0, version_count:1, state:7, row:2, col:1
+lex_internal state:0, row:2, column:1
+consume character:'d'
+consume character:'e'
+consume character:'f'
+lexed_lookahead sym:sym_lit_token1, size:3
+shift state:97
+process version:0, version_count:1, state:97, row:2, col:4
+lex_internal state:0, row:2, column:4
+consume character:' '
+lexed_lookahead sym:_ws, size:1
+reduce sym:sym_lit, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:1
+shift state:2
+process version:0, version_count:1, state:2, row:2, col:5
+lex_internal state:0, row:2, column:5
+consume character:'b'
+lexed_lookahead sym:sym_lit_token1, size:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:97
+process version:0, version_count:1, state:97, row:2, col:6
+lex_internal state:0, row:2, column:6
+consume character:' '
+lexed_lookahead sym:_ws, size:1
+reduce sym:sym_lit, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:2
+process version:0, version_count:1, state:2, row:2, col:7
+lex_internal state:0, row:2, column:7
+consume character:'2'
+lexed_lookahead sym:num_lit, size:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:169
+process version:0, version_count:1, state:169, row:2, col:8
+lex_internal state:0, row:2, column:8
+consume character:')'
+lexed_lookahead sym:), size:1
+reduce sym:_bare_list_lit_repeat1, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:96
+process version:0, version_count:1, state:96, row:2, col:9
+lex_internal state:0, row:2, column:9
+consume character:10
+consume character:10
+lexed_lookahead sym:_ws, size:2
+reduce sym:_bare_list_lit, child_count:3
+reduce sym:list_lit, child_count:1
+reduce sym:source_repeat1, child_count:2
+shift state:5
+process version:0, version_count:1, state:5, row:4, col:0
+lex_internal state:0, row:4, column:0
+consume character:'('
+lexed_lookahead sym:(, size:1
+reduce sym:source_repeat1, child_count:2
+shift state:7
+process version:0, version_count:1, state:7, row:4, col:1
+lex_internal state:0, row:4, column:1
+consume character:'d'
+consume character:'e'
+consume character:'f'
+lexed_lookahead sym:sym_lit_token1, size:3
+shift state:97
+process version:0, version_count:1, state:97, row:4, col:4
+lex_internal state:0, row:4, column:4
+consume character:' '
+lexed_lookahead sym:_ws, size:1
+reduce sym:sym_lit, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:1
+shift state:2
+process version:0, version_count:1, state:2, row:4, col:5
+lex_internal state:0, row:4, column:5
+consume character:'c'
+lexed_lookahead sym:sym_lit_token1, size:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:97
+process version:0, version_count:1, state:97, row:4, col:6
+lex_internal state:0, row:4, column:6
+consume character:' '
+lexed_lookahead sym:_ws, size:1
+reduce sym:sym_lit, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:2
+process version:0, version_count:1, state:2, row:4, col:7
+lex_internal state:0, row:4, column:7
+consume character:'3'
+lexed_lookahead sym:num_lit, size:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:169
+process version:0, version_count:1, state:169, row:4, col:8
+lex_internal state:0, row:4, column:8
+consume character:')'
+lexed_lookahead sym:), size:1
+reduce sym:_bare_list_lit_repeat1, child_count:1
+reduce sym:_bare_list_lit_repeat1, child_count:2
+shift state:96
+process version:0, version_count:1, state:96, row:4, col:9
+lex_internal state:0, row:4, column:9
+consume character:10
+lexed_lookahead sym:_ws, size:1
+reduce sym:_bare_list_lit, child_count:3
+reduce sym:list_lit, child_count:1
+reduce sym:source_repeat1, child_count:2
+shift state:5
+process version:0, version_count:1, state:5, row:5, col:0
+lex_internal state:0, row:5, column:0
+lexed_lookahead sym:end, size:0
+reduce sym:source_repeat1, child_count:2
+reduce sym:source, child_count:1
+accept
+done
+</pre></details>
+
+### `tree-sitter parse --debug-graph`
+
+As with the other output types described before, the s-expression tree
+is printed out, but in addition, a file named `log.html` will be
+produced.
+
+This `log.html` file contains concatenated bits of SVG.  Conceptually,
+the file contains 2 portions.
+
+An initial portion corresponds to the lexer + shift + reduce activity
+log like for `--debug` output though there is more visualization of
+nodes and "states".
+
+![debug-graph-output](log.html.png?raw=true "debug-graph output")
+
+Note that the image's colors have been inverted to protect my eyes :P
+
+The other portion is a visualization of the final tree
+
+![debug-graph-tree-output](log.html.tree.png?raw=true "debug-graph tree output")
+
+A neat feature of this tree is that hovering over different areas can
+sometimes reveal relevant information.
+
+## tree-sitter Project Info
+
+* tree-sitter maintainers appear to be quite busy and it may be that
+  they are all volunteers
+* The [official tree-sitter
+  docs](https://tree-sitter.github.io/tree-sitter/) have come a long
+  way since their early days thanks to contributions from various
+  folks.
+* tree-sitter itself has been in [a pre-1.0
+  state](https://github.com/tree-sitter/tree-sitter/issues/930) for
+  some time.
