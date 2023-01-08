@@ -751,7 +751,7 @@ Some things to note:
   * [`name`](https://github.com/sogaiu/tree-sitter-clojure/blob/50468d3dc38884caa682800343d9a1d0fda46c9b/grammar.js#L326)
 
 * The square-bracketed pairs of numbers refer to locations in the source.
-  * The first number is a row or line number -- 0-based
+  * The first number is a row or line number -- 0-based [1]
   * The second number is a sort of a column-ish index number -- 0-based
 
 Let's look at a specific example:
@@ -806,6 +806,11 @@ as expected values, e.g.:
 
 However, the corpus test expected value notation doesn't contain
 location or field information.
+
+[1] On the topic of 0-based numbers for rows, at one point there was
+[a PR to change UI ouput for rows to be
+1-based](https://github.com/tree-sitter/tree-sitter/pull/304), but I'm
+not clear on whether this is still the case.
 
 ### `tree-sitter parse --debug`
 
