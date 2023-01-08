@@ -853,8 +853,8 @@ reduce sym:_bare_list_lit_repeat1, child_count:1
 shift state:2
 ```
 
-We might go into some of these details later, but first let's finish
-up by examining the tail end:
+We might go into some of these details later [1], but first let's
+finish up by examining the tail end:
 
 ```
 accept
@@ -1044,6 +1044,11 @@ reduce sym:source, child_count:1
 accept
 done
 </pre></details>
+
+[1] At some point I may get around to describing the details here, but
+in the mean time, some of the info in
+[#1309](https://github.com/tree-sitter/tree-sitter/issues/1309) might
+help for investigation.
 
 ### `tree-sitter parse --debug-graph`
 
