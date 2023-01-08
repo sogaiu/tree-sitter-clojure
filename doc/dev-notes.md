@@ -155,6 +155,8 @@ look like `tree-sitter generate` or `tree-sitter test`.
     2022-09 this changed to
     14](https://github.com/tree-sitter/tree-sitter/commit/e2fe380a08408ff42eada21f8723f653e6da6606)
     [1].
+  * [`--build`](https://github.com/tree-sitter/tree-sitter/pull/2013) - also build the shared object
+  * [`--libdir`](https://github.com/tree-sitter/tree-sitter/pull/2013) - specify location for the shared object requested for build via `--build`
 * `parse`
   * parses source code and outputs a representation of computed tree
   * `--debug` option - produces detailed text trace
