@@ -22,8 +22,9 @@ A tree-sitter grammar is typically expressed in the form of a
 `grammar.js` file.  The content should be JavaScript of some sort, but
 it's somewhat vague as to what constructs are supported.  Possibly the
 most notable item regarding ambiguity is support for regular
-expressions.  Simple things work fine, but it's not entirely clear
-exactly what can be used.
+expressions.  Simple things work fine, but [it's not entirely clear
+exactly what can be
+used](https://github.com/tree-sitter/tree-sitter/issues/463).
 
 If the ordinary machinery of tree-sitter is not up to the task of
 handling parsing (e.g. indentation-related constructs for languages
