@@ -782,9 +782,9 @@ illustrative purposes:
 
 ```
      nth byte:  1 2 3 4 5 6 7 8 9
----------------------------------
+----------------------------------
 byte position:  0 1 2 3 4 5 6 7 8
----------------------------------
+----------------------------------
        string:  ( d e f   a   1 )
       indeces: 0 1 2 3 4 5 6 7 8 9
 ```
@@ -1226,9 +1226,8 @@ The expected value is:
     I have not used this.
 
 * Test expectation values can be updated programmatically via
-  `--update`:
-
-    * [#442](https://github.com/tree-sitter/tree-sitter/pull/442)
+  `--update`
+  [#442](https://github.com/tree-sitter/tree-sitter/pull/442)
 
     Note that there is at least [one report of problematic
     behavior](https://github.com/tree-sitter/tree-sitter/issues/835).
@@ -1237,17 +1236,20 @@ The expected value is:
     to be uses for this but without some care it seems possible that
     an incorrect expected value will sneak in to tests.
 
-* Tests can be constrained to specific ones by matching against the test
-  name via `--filter`:
-
-    * [#991](https://github.com/tree-sitter/tree-sitter/issues/991)
+* Tests can be constrained to specific ones by matching against the
+  test name via `--filter`
+  [#991](https://github.com/tree-sitter/tree-sitter/issues/991)
 
 * Doesn't seem possible to express that a test should result in an
-  error in a generic way:
-
-    * [#992](https://github.com/tree-sitter/tree-sitter/issues/992)
+  error in a generic way
+  [#992](https://github.com/tree-sitter/tree-sitter/issues/992)
 
 ## Performance Measurement
+
+One of the major use cases for tree-sitter is in the context of text
+editors.  That often means there is a human attention span involved.
+Thus there are certain durations that are practically unacceptable for
+parsing.
 
 The `parse` subcommand has a `--time` flag that can be used to get
 some duration information.
@@ -1262,11 +1264,13 @@ collection of source files to see if there are noticeable changes.
 ## tree-sitter Project Info
 
 * tree-sitter maintainers appear to be quite busy and it may be that
-  they are all volunteers
+  they are all volunteers.
+
 * The [official tree-sitter
   docs](https://tree-sitter.github.io/tree-sitter/) have come a long
   way since their early days thanks to contributions from various
   folks.
+
 * tree-sitter itself has been in [a pre-1.0
   state](https://github.com/tree-sitter/tree-sitter/issues/930) for
   some time.
