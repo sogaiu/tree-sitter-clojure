@@ -1290,3 +1290,20 @@ collection of source files to see if there are noticeable changes.
 * tree-sitter itself has been in [a pre-1.0
   state](https://github.com/tree-sitter/tree-sitter/issues/930) for
   some time.
+
+## Misc Things To Be Incorporated Somewhere :)
+
+* Acoording to [this
+  comment](https://github.com/tree-sitter/tree-sitter/issues/1870#issuecomment-1248659929),
+  it's by design that there the grammar writer gets little to no
+  control over error recovery.
+
+XXX: reasons to get away from doing node bindings
+
+https://github.com/tree-sitter/tree-sitter/issues/175
+
+XXX: not into documenting minimum versions of things?
+
+https://github.com/tree-sitter/tree-sitter/issues/423
+
+XXX: not all grammars keep generated source under src, e.g. tree-sitter-typescript
