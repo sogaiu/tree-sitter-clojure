@@ -75,7 +75,7 @@ is more like:
   bits](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/src/generate/mod.rs#L192-L195)
   to produce `src/grammar.json`
 * tree-sitter uses the received `src/grammar.json` to produce
-  `src/parser.c` (and `node-types.json`)
+  `src/parser.c` [1]
 * A C / C++ compiler is used to produce a library using `parser.c`
   (and possibly `src/scanner.(c|cc)`)
 
@@ -83,11 +83,11 @@ These steps might be carried out via a `Makefile` or done
 automatically by tooling.  Indeed, Neovim's nvim-treesitter plugin
 will fetch files from grammar repositories to produce grammar-specific
 shared libraries for use in a running editor session. Emacs 29+
-currently does something similar [1].
+currently does something similar [2].
 
 Note that in the flow above, "tree-sitter" can refer to the command
 line program or some other program that uses the tree-sitter library
-[2]:
+[3]:
 
 * See [these
   lines](https://github.com/nvim-treesitter/nvim-treesitter/blob/2d8e6b666297ddf19cbf7cbc2b0f1928bc49224a/lua/nvim-treesitter/install.lua#L389-L399)
@@ -97,14 +97,16 @@ line program or some other program that uses the tree-sitter library
   at the elisp-tree-sitter repository for an example of the latter
   case
 
-[1] ATM emacs only [compiles fetched `.c` / `.cc` files to produce a
+[1] `node-types.json` is also produced.
+
+[2] ATM emacs only [compiles fetched `.c` / `.cc` files to produce a
 shared
 library](https://github.com/emacs-mirror/emacs/blob/9d410f8de64e91d16999a9bb5dd884d6d06d22bd/lisp/treesit.el#L2734-L2803).
 nvim-treesitter tries to do that but under certain circumstances will
 get `tree-sitter` to use `grammar.js` to produce `src/grammar.json`
 and `src/parser.c` first before making a compilation attempt.
 
-[2] ...as `tree-sitter` (the cli) is also a program that uses the
+[3] ...as `tree-sitter` (the cli) is also a program that uses the
 tree-sitter library.
 
 ## Brief Summary of Important Files
