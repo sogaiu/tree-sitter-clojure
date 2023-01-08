@@ -284,6 +284,25 @@ lead to an unexpected shared object replacing the erased one because
 the order in which the scanning of "tree-sitter-*" directories is done
 may yield unexpected results.
 
+There is [a bit in the official docs about "automatic
+compilation"](https://tree-sitter.github.io/tree-sitter/creating-parsers#automatic-compilation)
+:
+
+> Automatic Compilation
+
+> You might notice that the first time you run tree-sitter test after
+> regenerating your parser, it takes some extra time. This is because
+> Tree-sitter automatically compiles your C code into a
+> dynamically-loadable library. It recompiles your parser as-needed
+> whenever you update it by re-running tree-sitter generate.
+
+I think what's meant by this is that if one first invokes `tree-sitter
+generate`, a subsequent invocation of `tree-sitter test` can lead to a
+build (and install) of a grammar-specific shared object.
+
+There doesn't appear to be mention of other subcommands leading to
+building though.
+
 #### Parser Directories
 
 A `config.json` file created via the `init-config` subcommand will
