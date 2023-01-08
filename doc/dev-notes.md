@@ -1082,6 +1082,183 @@ situations:
 
 * [`--stat`](https://github.com/tree-sitter/tree-sitter/pull/746)
 
+## Testing
+
+The `test` subcommand of `tree-sitter` provides some functionality to
+aid in some basic sanity testing.
+
+The [official
+docs](https://tree-sitter.github.io/tree-sitter/creating-parsers#command-test)
+say:
+
+> The tree-sitter test command allows you to easily test that your
+> parser is working correctly.
+
+but this seems on the optimistic side.  It's certainly helpful to
+have, but:
+
+* Tests still need to be conceived of and written properly
+* Unimagined scenarios don't get tested with this method
+
+With that in mind, it still seems worth using not only for quick
+sanity tests but also to specifically express cases that are intended
+to be handled.
+
+Quite a few repositories [1] also make use of the `parse` subcommand
+across collections of code.  Though this won't catch every kind of
+issue, this provides another type of checking that I have found
+helpful in practice.
+
+I've also used
+[Hypothesis](https://github.com/HypothesisWorks/hypothesis) in
+combination with the [Python bindings for the tree-sitter
+library](https://github.com/tree-sitter/py-tree-sitter) to do some
+generative / property-based testing.  I found the maintenance of the
+testing code to be cumbersome though and wouldn't recommend the
+approach while a fair bit of change is happening in a grammar.  YMMV.
+
+FWIW, it did turn up one issue that all other methods failed to find.
+
+[1] It's not uncommon for the `parse` subcommand to be used against a
+collection of real-world code, though the size of the collection seems
+to vary a fair bit.  Below are some examples.  By looking at some of
+the top-level files (often `package.json`) one can get an idea of what
+kind of testing is performed.
+
+* [tree-sitter-agda](https://github.com/tree-sitter/tree-sitter-agda)
+* [tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash)
+* [tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c)
+* [tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp)
+* [tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)
+* [tree-sitter-elm](https://github.com/elm-tooling/tree-sitter-elm)
+* [tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)
+* [tree-sitter-haskell](https://github.com/tree-sitter/tree-sitter-haskell)
+* [tree-sitter-html](https://github.com/tree-sitter/tree-sitter-html)
+* [tree-sitter-java](https://github.com/tree-sitter/tree-sitter-java)
+* [tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript)
+* [tree-sitter-julia](https://github.com/tree-sitter/tree-sitter-julia)
+* [tree-sitter-org](https://github.com/milisims/tree-sitter-org)
+* [tree-sitter-perl](https://github.com/ganezdragon/tree-sitter-perl)
+* [tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php)
+* [tree-sitter-python](https://github.com/tree-sitter/tree-sitter-python)
+* [tree-sitter-ruby](https://github.com/tree-sitter/tree-sitter-ruby)
+* [tree-sitter-scala](https://github.com/tree-sitter/tree-sitter-scala)
+* [tree-sitter-sql](https://github.com/m-novikov/tree-sitter-sql)
+* [tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)
+
+### `test` subcommand
+
+The `test` subcommand invokes "corpus tests".
+
+From the [official
+docs](https://tree-sitter.github.io/tree-sitter/creating-parsers#command-test):
+
+> For each rule that you add to the grammar, you should first create a
+> test that describes how the syntax trees should look when parsing
+> that rule. These tests are written using specially-formatted text
+> files in the corpus/ or test/corpus/ directories within your
+> parser’s root folder.
+
+Here is an example from tree-sitter-clojure:
+
+```
+================================================================================
+BigInt Integer
+================================================================================
+
+11N
+
+--------------------------------------------------------------------------------
+
+(source
+  (num_lit))
+```
+
+One might decompose that as:
+
+* Header - text naming test bounded above and below by `=` [1]
+* Test Input - source code fragment to be parsed for testing
+* Separator - multiple (at least how many?) instances of `-`
+* Expected Value - s-expression representing expected value
+
+(Though this leaves the unanswered question of what the empty lines
+between the header and the separator count as...)
+
+So the header is:
+
+```
+================================================================================
+BigInt Integer
+================================================================================
+```
+
+The test input is:
+
+```
+11N
+```
+
+The separator is:
+
+```
+--------------------------------------------------------------------------------
+```
+
+The expected value is:
+```
+(source
+  (num_lit))
+```
+
+[1] There is a type of tweaking that is possible for the header:
+
+* [#982](https://github.com/tree-sitter/tree-sitter/issues/982)
+* [#1348](https://github.com/tree-sitter/tree-sitter/pull/1348)
+
+#### Miscellanous Bits
+
+* Comments may also be present using a lisp-ish `;` construct:
+
+    * [#752](https://github.com/tree-sitter/tree-sitter/issues/752)
+    * [Answer in
+  discussions](https://github.com/tree-sitter/tree-sitter/discussions/1586#discussioncomment-1965131)
+
+    I have not used this.
+
+* Test expectation values can be updated programmatically via
+  `--update`:
+
+    * [#442](https://github.com/tree-sitter/tree-sitter/pull/442)
+
+    Note that there is at least [one report of problematic
+    behavior](https://github.com/tree-sitter/tree-sitter/issues/835).
+
+    I've used the feature on occasion without issues.  There do seem
+    to be uses for this but without some care it seems possible that
+    an incorrect expected value will sneak in to tests.
+
+* Tests can be constrained to specific ones by matching against the test
+  name via `--filter`:
+
+    * [#991](https://github.com/tree-sitter/tree-sitter/issues/991)
+
+* Doesn't seem possible to express that a test should result in an
+  error in a generic way:
+
+    * [#992](https://github.com/tree-sitter/tree-sitter/issues/992)
+
+## Performance Measurement
+
+The `parse` subcommand has a `--time` flag that can be used to get
+some duration information.
+
+Multiple measurements can be obtained using things like
+[`multitime`](https://github.com/ltratt/multitime) to somewhat
+mitigate single invocation issues.
+
+I also measure how long it takes to complete parsing across a large
+collection of source files to see if there are noticeable changes.
+
 ## tree-sitter Project Info
 
 * tree-sitter maintainers appear to be quite busy and it may be that
