@@ -1295,6 +1295,10 @@ collection of source files to see if there are noticeable changes.
 
 ## Misc Things To Be Incorporated Somewhere :)
 
+* `TREE_SITTER_LIBDIR` now exists for customizing the path to the
+  generated shared objects:
+  [#2013](https://github.com/tree-sitter/tree-sitter/pull/2013)
+
 * Acoording to [this
   comment](https://github.com/tree-sitter/tree-sitter/issues/1870#issuecomment-1248659929),
   it's by design that there the grammar writer gets little to no
