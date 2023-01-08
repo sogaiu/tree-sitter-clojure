@@ -490,6 +490,19 @@ There are a few specifics mentioned
 and [here](https://github.com/sogaiu/tree-sitter-clojure/issues/34)
 too.
 
+For reference here are some reports of issues that have been reported:
+
+* [#571](https://github.com/tree-sitter/tree-sitter/issues/571)
+* [#873](https://github.com/tree-sitter/tree-sitter/issues/873)
+* [#1088](https://github.com/tree-sitter/tree-sitter/issues/1088)
+* [#1098](https://github.com/tree-sitter/tree-sitter/issues/1098)
+* [#1131](https://github.com/tree-sitter/tree-sitter/issues/1131)
+* [#1560](https://github.com/tree-sitter/tree-sitter/issues/1560)
+* [#1593](https://github.com/tree-sitter/tree-sitter/issues/1593)
+* [#1652](https://github.com/tree-sitter/tree-sitter/issues/1652)
+* [#1829](https://github.com/tree-sitter/tree-sitter/issues/1829)
+* [#2005](https://github.com/tree-sitter/tree-sitter/discussions/2005)
+
 ### Building `tree-sitter`, the CLI
 
 It's sometimes helpful to use different versions of `tree-sitter` or
@@ -1231,7 +1244,7 @@ The expected value is:
     I have not used this.
 
 * Test expectation values can be updated programmatically via
-  `--update`
+  `--update`:
   [#442](https://github.com/tree-sitter/tree-sitter/pull/442)
 
     Note that there is at least [one report of problematic
