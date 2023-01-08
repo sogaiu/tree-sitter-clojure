@@ -492,16 +492,16 @@ too.
 
 For reference here are some reports of issues that have been reported:
 
-* [#571](https://github.com/tree-sitter/tree-sitter/issues/571)
-* [#873](https://github.com/tree-sitter/tree-sitter/issues/873)
-* [#1088](https://github.com/tree-sitter/tree-sitter/issues/1088)
-* [#1098](https://github.com/tree-sitter/tree-sitter/issues/1098)
-* [#1131](https://github.com/tree-sitter/tree-sitter/issues/1131)
-* [#1560](https://github.com/tree-sitter/tree-sitter/issues/1560)
-* [#1593](https://github.com/tree-sitter/tree-sitter/issues/1593)
-* [#1652](https://github.com/tree-sitter/tree-sitter/issues/1652)
-* [#1829](https://github.com/tree-sitter/tree-sitter/issues/1829)
-* [#2005](https://github.com/tree-sitter/tree-sitter/discussions/2005)
+[#571](https://github.com/tree-sitter/tree-sitter/issues/571),
+[#873](https://github.com/tree-sitter/tree-sitter/issues/873),
+[#1088](https://github.com/tree-sitter/tree-sitter/issues/1088),
+[#1098](https://github.com/tree-sitter/tree-sitter/issues/1098),
+[#1131](https://github.com/tree-sitter/tree-sitter/issues/1131),
+[#1560](https://github.com/tree-sitter/tree-sitter/issues/1560),
+[#1593](https://github.com/tree-sitter/tree-sitter/issues/1593),
+[#1652](https://github.com/tree-sitter/tree-sitter/issues/1652),
+[#1829](https://github.com/tree-sitter/tree-sitter/issues/1829),
+[#2005](https://github.com/tree-sitter/tree-sitter/discussions/2005)
 
 ### Building `tree-sitter`, the CLI
 
@@ -1229,16 +1229,14 @@ The expected value is:
 ```
 
 [1] There is a type of tweaking that is possible for the header:
-
-* [#982](https://github.com/tree-sitter/tree-sitter/issues/982)
-* [#1348](https://github.com/tree-sitter/tree-sitter/pull/1348)
+[#982](https://github.com/tree-sitter/tree-sitter/issues/982),
+[#1348](https://github.com/tree-sitter/tree-sitter/pull/1348)
 
 #### Miscellanous Bits
 
 * Comments may also be present using a lisp-ish `;` construct:
-
-    * [#752](https://github.com/tree-sitter/tree-sitter/issues/752)
-    * [Answer in
+  [#752](https://github.com/tree-sitter/tree-sitter/issues/752),
+  [Answer in
   discussions](https://github.com/tree-sitter/tree-sitter/discussions/1586#discussioncomment-1965131)
 
     I have not used this.
@@ -1255,11 +1253,11 @@ The expected value is:
     an incorrect expected value will sneak in to tests.
 
 * Tests can be constrained to specific ones by matching against the
-  test name via `--filter`
+  test name via `--filter`:
   [#991](https://github.com/tree-sitter/tree-sitter/issues/991)
 
 * Doesn't seem possible to express that a test should result in an
-  error in a generic way
+  error in a generic way:
   [#992](https://github.com/tree-sitter/tree-sitter/issues/992)
 
 ## Performance Measurement
