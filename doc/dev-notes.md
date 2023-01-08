@@ -1073,6 +1073,15 @@ sometimes reveal relevant information.
 download it to a local file first to be able to view it properly.
 Note that the background is all white.
 
+### Other Options
+
+I have not used the following, but may be they could be handy in some
+situations:
+
+* [`--xml`](https://github.com/tree-sitter/tree-sitter/pull/863)
+
+* [`--stat`](https://github.com/tree-sitter/tree-sitter/pull/746)
+
 ## tree-sitter Project Info
 
 * tree-sitter maintainers appear to be quite busy and it may be that
