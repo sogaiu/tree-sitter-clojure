@@ -275,6 +275,7 @@ shared object:
 
 * `generate` -- in 2023-01 `--build` was added; if it's present, yes
 * `highlight`
+* `parse`
 * `query`
 * `tags`
 * `test`
@@ -303,7 +304,12 @@ generate`, a subsequent invocation of `tree-sitter test` can lead to a
 build (and install) of a grammar-specific shared object.
 
 There doesn't appear to be mention of other subcommands leading to
-building though.
+building in the docs, but [this
+explanation](https://github.com/tree-sitter/tree-sitter/issues/2017#issuecomment-1374932752) mentioned:
+
+> Automatic compilation may trigger on every subcommand that requires
+> a parser for its function, that happens in the tree-sitter-loader
+> crate.
 
 #### Parser Directories
 
