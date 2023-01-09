@@ -1349,3 +1349,7 @@ XXX: not into documenting minimum versions of things?
 https://github.com/tree-sitter/tree-sitter/issues/423
 
 XXX: not all grammars keep generated source under src, e.g. tree-sitter-typescript
+
+XXX: not all grammars keep the generated parser.c + other things in the repository
+
+https://github.com/CyberShadow/tree-sitter-d
