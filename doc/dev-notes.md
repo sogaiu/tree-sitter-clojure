@@ -1330,6 +1330,10 @@ collection of source files to see if there are noticeable changes.
   it's by design that there the grammar writer gets little to no
   control over error recovery.
 
+* The `--report-states-for-rule` flag for `generate` might be worth
+  investigating: [Answer in
+  #994](https://github.com/tree-sitter/tree-sitter/discussions/994)
+
 XXX: reasons to get away from doing node bindings
 
 https://github.com/tree-sitter/tree-sitter/issues/175
