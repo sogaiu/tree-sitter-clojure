@@ -1296,7 +1296,7 @@ collection of source files to see if there are noticeable changes.
 ## Some tree-sitter Version Highlights
 
 * Unreleased
-  * [loader: add TREE_SITTER_LIBDIR; cli: add --libdir to `tree-sitter generate](https://github.com/tree-sitter/tree-sitter/commit/108d0ecede9312e88ac12475ffac62af9fba5dbf)
+  * [loader: add TREE_SITTER_LIBDIR; cli: add --libdir to `tree-sitter generate`](https://github.com/tree-sitter/tree-sitter/commit/108d0ecede9312e88ac12475ffac62af9fba5dbf)
   * [cli: add -b, --build flags for tree-sitter generate](https://github.com/tree-sitter/tree-sitter/commit/5088781ef965c5cd7187c5308e3cb45f8f892860)
   * [Bump Emscripten version to 3.1.29](https://github.com/tree-sitter/tree-sitter/commit/88fe1d00c42760beda7cc01f5259da3d7fc5265e)
   * [Upgrade to emscripten 3.1.25](https://github.com/tree-sitter/tree-sitter/commit/1f36bf091e1faaec5d9282f47c9dab00f7435e06)
@@ -1309,7 +1309,13 @@ collection of source files to see if there are noticeable changes.
 
 * [0.20.2](https://github.com/tree-sitter/tree-sitter/commit/4ee52ee99e63f32e7307705e4cbb85c28aacb412) - 2022-01-02
 
+* [0.20.1](https://github.com/tree-sitter/tree-sitter/commit/062421dece3315bd6f228ad6d468cba083d0a2d5) - 2021-11-22
+  * [Put emscripten-version file in cli directory](https://github.com/tree-sitter/tree-sitter/commit/4d64c2b939d4bb1074b5ae5631cf2616368f78d8)
+
 * [0.20.0](https://github.com/tree-sitter/tree-sitter/commit/e85a279cf29da1b08648e27214dda20a841e57c8) - 2021-06-30
+  * [Bump emscripten version to 2.0.24](https://github.com/tree-sitter/tree-sitter/commit/a286f831c749d1cb00d577cceb19d28c9d0f3338)
+  * [Refactor emscripten/emsdk version to a single file](https://github.com/tree-sitter/tree-sitter/commit/b14ea51e3df4f5614d8913513a4d1eed8be07d71)
+  * [Pin emscripten/emsdk Docker version ](https://github.com/tree-sitter/tree-sitter/commit/725f3f7f2b7da6f71fb4254445bc300ba7681025)
 
 * [0.19.5](https://github.com/tree-sitter/tree-sitter/commit/8d8690538ef0029885c7ef1f163b0e32f256a5aa) - 2021-05-21
   * [Fix build-wasm on Windows](https://github.com/tree-sitter/tree-sitter/commit/919eab023f4bd7ea78eca06adea3b8de5b388d8e)
