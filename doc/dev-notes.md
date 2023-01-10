@@ -1519,8 +1519,10 @@ older versions within fairly short periods.
 
 AFAIK, the only reason we need the `node` binary at this point is
 because `tree-sitter` uses it to generate `src/parser.c` and friends.
-I tested out some changes to `tree-sitter` that allowed use of quickjs
-instead.  Other JavaScript runtimes may also work.
+I [tested out some
+changes](https://github.com/tree-sitter/tree-sitter/issues/465#issuecomment-1371911897)
+to `tree-sitter` that allowed use of quickjs instead.  Other
+JavaScript runtimes may also work.
 
 On a side note, ATM as part of installing `emsdk`, a version of `node`
 is installed.  So currently it's probably possible to just use that
