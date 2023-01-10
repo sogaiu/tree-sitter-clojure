@@ -1347,6 +1347,86 @@ https://github.com/tree-sitter/tree-sitter/pull/1913
 
 * [0.19.3](https://github.com/tree-sitter/tree-sitter/commit/24785cdb39ad2740ca33c111490984333787f5d3) - 2021-03-10
 
+## Makefile Experiment
+
+Reasons to consider using a Makefile:
+
+* Entering full commands repeatedly can be error-prone and when
+  returning to project after a while, details may be difficult to
+  recall.
+
+* Abstracting tasks seems better handled by `Makefile`s than via
+  `package.json`'s `scripts` mechanism.  One benefit of this might be
+  that reliance on some of `tree-sitter`'s features that involve
+  side-effects (which can lead to confusion) can be reduced.
+
+* Dependencies can be expressed -- this doesn't seem possible with
+  `package.json`
+
+* Might be helpful in reducing the amount of reliance on `npm`.  It
+  may even be possible to stop using `npm` altogether.
+
+Some Potential Drawbacks
+
+* Windows support is less straight-forward than for *nix-like systems.
+
+* Makefiles can get complicated, so keeping things reasonable and
+  well-documented may be important.
+
+### Isolation
+
+I tried to isolate `tree-sitter` so that it doesn't go looking
+elsewhere for other `tree-sitter-` directories.  There is a setting in
+`tree-sitter`'s `config.json` named `parser-directories` that can be
+abused for this purpose.
+
+By making `"."` the only element:
+
+```json
+{
+  "parser-directories": [
+    "."
+  ],
+```
+
+and making a symlink between `tree-sitter-<name>` and the grammar's
+project directory (so, `.`), the `tree-sitter` cli can be convinced to
+not scan elsewhere.
+
+This works, but there appear to be at least 2 downsides to this:
+
+1. If working on Windows, one may need to make appropriate
+   arrangements to handle symlinks.  Putting the account(?) in
+   "Developer Mode" and tweaking git's settings `core.symlink = true`
+   seems to be sufficient, but this may not be acceptable in certain
+   scenarios.
+
+2. It appears that yarn may have issues handling packages that contain
+   symlinks in them:
+
+   * https://github.com/yarnpkg/yarn/issues/3276
+   * https://github.com/yarnpkg/yarn/issues/4293
+
+   I experienced this trying to get
+   [vscode-parse-tree](https://github.com/cursorless-dev/vscode-parse-tree/)
+   to build when I pointed the dependency for tree-sitter-clojure at a
+   branch that had a symlink in it.  The error output was like:
+
+    ```
+    $ yarn
+    yarn install v1.22.19
+    [1/5] Validating package.json...
+    warning parse-tree@0.24.0: The engine "vscode" appears to be invalid.
+    [2/5] Resolving packages...
+    [3/5] Fetching packages...
+    error https://codeload.github.com/sogaiu/tree-sitter-clojure/tar.gz/d5c55b0d701a1f09bdb698c624489a57945f735d: Extracting tar content of undefined failed, the file appears to be corrupt: "ENOENT: no such file or directory, symlink '' -> '/home/user/.cache/yarn/v6/npm-tree-sitter-clojure-0.0.0-d5c55b0d701a1f09bdb698c624489a57945f735d/node_modules/tree-sitter-clojure/tree-sitter-clojure'"
+    info Visit https://yarnpkg.com/en/docs/cli/install for documentation about this command.
+    ```
+
+  On a side note, some npm packages (projects) do [appear to contain
+  symlinks](https://github.com/browserify/browserify/tree/master/test/symlink_dedupe/one),
+  so it seems like having symlinks should be ok...
+
 ## Misc Things To Be Incorporated Somewhere :)
 
 * `TREE_SITTER_LIBDIR` now exists for customizing the path to the
