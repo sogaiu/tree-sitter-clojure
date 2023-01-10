@@ -1402,8 +1402,8 @@ By making `"."` the only element:
   ],
 ```
 
-and the `tree-sitter` cli can be convinced to only scan immediately
-under the current directory.
+the `tree-sitter` cli can be convinced to only scan immediately under
+the current directory.
 
 Further, inside the grammar's project directory, one can make a
 symlink between `tree-sitter-<name>` and `.` (points at the grammar's
