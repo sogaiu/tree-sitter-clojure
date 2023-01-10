@@ -1435,8 +1435,8 @@ This works, but there appear to be at least 2 downsides to this:
 
 * Acoording to [this
   comment](https://github.com/tree-sitter/tree-sitter/issues/1870#issuecomment-1248659929),
-  it's by design that there the grammar writer gets little to no
-  control over error recovery.
+  it's by design that the grammar writer gets little to no control
+  over error recovery.
 
 * The `--report-states-for-rule` flag for `generate` might be worth
   investigating: [Answer in
