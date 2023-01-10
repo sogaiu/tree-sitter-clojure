@@ -41,16 +41,10 @@ TREE_SITTER_DIR ?= $(GRAMMAR_PROJ_DIR)/.tree-sitter
 #      same time.
 TREE_SITTER_LIBDIR ?= $(TREE_SITTER_DIR)/lib
 
-# name of the directory the shared object is built to
-BUILD_DIR_NAME ?= build
-
 # XXX: most likely it's stuff above this line one might want to tweak
 
 # where the shared object is looked for by tree-sitter cli
 SO_INSTALL_DIR ?= $(TREE_SITTER_LIBDIR)
-
-# full path of the directory the shared object is built to
-BUILD_DIR = $(GRAMMAR_PROJ_DIR)/build
 
 # XXX: cache value and reuse?
 ifeq ("$(shell uname -s)", "Linux")
@@ -73,34 +67,41 @@ dump:
 	@echo "         TS_VERSION:" $(TS_VERSION)
 	@echo "    TREE_SITTER_DIR:" $(TREE_SITTER_DIR)
 	@echo " TREE_SITTER_LIBDIR:" $(TREE_SITTER_LIBDIR)
-	@echo "          BUILD_DIR:" $(BUILD_DIR)
 	@echo "     SO_INSTALL_DIR:" $(SO_INSTALL_DIR)
 
 #################
 # shared object #
 #################
 
-# XXX: --no-bindings became available in 0.19.4
-src: grammar.js
+src/parser.c: grammar.js
 	$(TS_PATH) generate --no-bindings
-#	$(TS_PATH) generate
-	# XXX: node and rust bindings get created by default
-	#      once tree-sitter is upgraded to 0.19.4 or
-	#      beyond, should be able to use --no-bindings
-	#      to avoid having them get generated
-#	- rm -rf binding.gyp
-#	- rm -rf bindings
-#	- rm -rf Cargo.toml
-#       - rm -rf package.json
 
-# XXX: put build result other than ultimate install location initially?
-shared-object:
-	mkdir -p $(BUILD_DIR)
-	$(TS_PATH) generate --no-bindings --build --libdir $(BUILD_DIR)
+# XXX: not relying on the tree-sitter cli for building seems more
+#      flexible
+shared-object: src/parser.c
+	# Compiling parser
+	cc -fPIC -c -Isrc src/parser.c -o src/parser.o
+	# May be compiling scanner.c
+	if test -f src/scanner.c; then \
+	  cc -fPIC -c -Isrc src/scanner.c -o src/scanner.o; \
+	fi
+	# May be compiling scanner.cc
+	if test -f src/scanner.cc; then \
+	  c++ -fPIC -Isrc -c src/scanner.cc -o src/scanner.o; \
+	fi
+	# Linking
+	if test -f src/scanner.cc; then \
+	  c++ -fPIC -shared src/*.o -o src/$(TS_LANGUAGE).$(SO_EXT); \
+	else \
+	  cc -fPIC -shared src/*.o -o src/$(TS_LANGUAGE).$(SO_EXT); \
+	fi
 
-# XXX: could also provide an uninstall target
-install-shared-object: shared-object
-	cp $(BUILD_DIR)/$(TS_LANGUAGE).$(SO_EXT) $(SO_INSTALL_DIR)
+install: shared-object
+	cp src/$(TS_LANGUAGE).$(SO_EXT) $(SO_INSTALL_DIR)
+
+.PHONY: uninstall
+uninstall:
+	rm -rf $(SO_INSTALL_DIR)/$(TS_LANGUAGE).$(SO_EXT)
 
 ###############
 ### testing ###
@@ -118,8 +119,9 @@ corpus-test: src
 playground: tree-sitter-$(TS_LANGUAGE).wasm
 	$(TS_PATH) playground
 
-# XXX: arrange for emsdk?
-tree-sitter-$(TS_LANGUAGE).wasm: src
+# XXX: arrange for emsdk?  may need cross-platform detection because
+#      script name is different
+tree-sitter-$(TS_LANGUAGE).wasm: src/parser.c
 	$(TS_PATH) build-wasm
 
 ###################
