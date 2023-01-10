@@ -1483,7 +1483,8 @@ XXX: not all grammars keep the generated parser.c + other things in the reposito
 
 https://github.com/CyberShadow/tree-sitter-d
 
-XXX: `tree-sitter init-config` doesn't appear to honor `TREE_SITTER_DIR`
+XXX: `tree-sitter init-config` doesn't appear to honor
+     `TREE_SITTER_DIR`.  I tried making a patch for it:
 
 https://gist.github.com/sogaiu/022c6eaadd9698878aa97c9880e41ca5
 
