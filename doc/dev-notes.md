@@ -1431,8 +1431,9 @@ to this:
 
    I experienced this trying to get
    [vscode-parse-tree](https://github.com/cursorless-dev/vscode-parse-tree/)
-   to build when I pointed the dependency for tree-sitter-clojure at a
-   branch that had a symlink in it.  The error output was like:
+   (which has tree-sitter-clojure as a dependency) to build when I
+   pointed the dependency for tree-sitter-clojure at a branch that had
+   a symlink in it.  The error output was like:
 
     ```
     $ yarn
@@ -1448,6 +1449,10 @@ to this:
   On a side note, some npm packages (projects) do [appear to contain
   symlinks](https://github.com/browserify/browserify/tree/master/test/symlink_dedupe/one),
   so it seems like having symlinks should be ok...
+
+  Perhaps more recent versions of yarn will work better.  I didn't try
+  the "modern" yarn, only something from the older 1.x series --
+  apparently it was 1.22.19.
 
 ## Misc Things To Be Incorporated Somewhere :)
 
