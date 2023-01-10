@@ -542,6 +542,20 @@ Assuming appropriate Rust development bits are in place:
 Unless you need to work with Windows, I suggest skipping the next
 section.
 
+XXX: if intending to use `build-wasm` or `playground`, it's impotant
+to run `script/build-wasm` before building the `tree-sitter` cli.
+`script/build-wasm` creates `tree-sitter.js` and `tree-sitter.wasm`
+which are served by `tree-sitter playground`.  the tree-sitter
+repository does not appear to have these two files checked in at the
+time of this writing.
+
+XXX: from time to time it may be good to check [these ci
+lines](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/.github/workflows/ci.yml#L66-L75)
+for what's necessary to build the cli.
+
+XXX: windows instructions probably need to be updated with this info
+too
+
 #### Windows
 
 (I don't use WSL* for reasons (TM), but if that works for your
