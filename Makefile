@@ -128,32 +128,8 @@ tree-sitter-$(TS_LANGUAGE).wasm: src/parser.c
 ### for cleanup ###
 ###################
 
-# XXX: what about clearing out shared object from TREE_SITTER_LIBDIR?
 .PHONY: clean
 clean:
 	- rm -rf src
 	- rm -f tree-sitter-$(TS_LANGUAGE).wasm
-	- rm -f $(BUILD_DIR)/$(TS_LANGUAGE).$(SO_EXT)
 
-# XXX: would be nice to get rid of
-
-.PHONY: clean-all-bindings
-clean-all-bindings: clean-node-bindings clean-rust-bindings clean-bindings-dir clean-package-json
-
-.PHONY: clean-node-bindings
-clean-node-bindings:
-	- rm -rf binding.gyp
-	- rm -rf bindings/node
-
-.PHONY: clean-rust-bindings
-clean-rust-bindings:
-	- rm -rf Cargo.toml
-	- rm -rf bindings/rust
-
-.PHONY: clean-bindings-dir
-clean-bindings-dir:
-	- rm -rf bindings
-
-.PHONY: clean-package-json
-clean-package-json:
-	- rm -rf package.json
