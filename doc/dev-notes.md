@@ -1487,6 +1487,98 @@ to this:
   script" that can be run after cloning (perhaps there can be a
   "setup" target in the Makefile).
 
+### Reducing Dependence On Certain Things
+
+Some pieces that seem to have become churny, complicated, and/or
+side-effecty include:
+
+* `emsdk`
+* `Node.js`
+* `npm`
+* `tree-sitter`
+
+#### emsdk
+
+If we want to be able to continue to build `tree-sitter` as well as
+grammar `.wasm` files, an alternative to `emsdk` would be necessary.
+There may be options but I have not investigated them much.  One
+candidate is [cheerp](https://github.com/leaningtech/cheerp-compiler).
+There may be others.
+
+However, if we don't use the playground, we can still build a version
+of `tree-sitter` without that part being functional.  The playground
+has definitely had uses (and may continue to be useful) even though I
+don't typically use it.
+
+#### Node.js
+
+My impression is that Node.js seems to have had relatively speaking,
+little regard for backward compatibility (though perhaps this is no
+longer true?).  Another point is that they seem to insist on retiring
+older versions within fairly short periods.
+
+AFAIK, the only reason we need the `node` binary at this point is
+because `tree-sitter` uses it to generate `src/parser.c` and friends.
+I tested out some changes to `tree-sitter` that allowed use of quickjs
+instead.  Other JavaScript runtimes may also work.
+
+On a side note, ATM as part of installing `emsdk`, a version of `node`
+is installed.  So currently it's probably possible to just use that
+version of `node`.  On a related note, I tried out
+[volta](https://volta.sh/).  So far it seems better than `nvm` as
+AFAICT it will work on the usual 3 platforms (where as `nvm` only
+works on 2 of the 3, since `nvm-windows` isn't the same as `nvm`).
+
+#### npm
+
+My current leaning is to try to stop using `npm` if possible.  Of the
+candidates listed, this is the one I want to stop using the most.
+Some reasons include:
+
+* Difficult to get to the bottom of issues (IME)
+* Not using for anything else so trying to track changes is not worth it
+* Churn level seems unreasonably high
+
+Translated into higher level terms, a significant amount of my time
+and attention gets sucked up for what seem like poor reasons.
+
+#### tree-sitter cli
+
+As for `tree-sitter`, I think the related project lacks attention and
+resources.  It's not the fault of the people involved.  They are
+capable people who are well-meaning, but:
+
+* They seem to be very busy.
+
+* The CLI has things built into it that could be externalized for
+  flexibility, diagnosing issues, and reduced maintenance:
+  * Building .wasm file of grammar with Emscripten / emsdk
+  * Built-in web server to serve the playground
+  * Compiling grammar shared objects
+  * Corpus Testing
+
+* Extra features that seem questionable (to me anyway) are included in
+  the CLI:
+  * Scanning of multiple source directories other than a specific grammar's
+  * Generating bindings for Node.js and Rust
+
+It seems possible that some of these things made a lot more sense
+earlier (e.g. when Atom was getting tree-sitter-enhanced), but certain
+things have changed over the years.
+
+With limited staff and resources, extra things can end up taking away
+from essential things.
+
+Essential things that occur to me ATM include:
+
+* The C library is crucial
+* The `generate` subcommand of `tree-sitter` is essential
+
+I do use some other pieces, but I am considering reducing the
+dependence on `tree-sitter` (the cli) for non-`generate` pieces.  For
+example, building of `.wasm` can be externalized, controlled, and
+diagnosed better if it sits within a Makefile, say.
+
 ## Misc Things To Be Incorporated Somewhere :)
 
 * `TREE_SITTER_LIBDIR` now exists for customizing the path to the
