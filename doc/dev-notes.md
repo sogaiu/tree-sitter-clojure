@@ -1430,6 +1430,9 @@ to this:
    * https://github.com/yarnpkg/yarn/issues/3276
    * https://github.com/yarnpkg/yarn/issues/4293
 
+   I tried the "reproducing" code in the first issue but it appears to
+   have been addressed, so my case appears to be different.
+
    I experienced this trying to get
    [vscode-parse-tree](https://github.com/cursorless-dev/vscode-parse-tree/)
    (which has tree-sitter-clojure as a dependency) to build when I
