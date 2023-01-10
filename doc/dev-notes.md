@@ -1402,11 +1402,20 @@ By making `"."` the only element:
   ],
 ```
 
-and making a symlink between `tree-sitter-<name>` and the grammar's
-project directory (so, `.`), the `tree-sitter` cli can be convinced to
-not scan elsewhere.
+and the `tree-sitter` cli can be convinced to only scan immediately
+under the current directory.
 
-This works, but there appear to be at least 2 downsides to this:
+Further, inside the grammar's project directory, one can make a
+symlink between `tree-sitter-<name>` and `.` (points at the grammar's
+project directory itself).
+
+The effect of these two tweaks is to make it possible to run `parse`,
+`query`, and other `tree-sitter` subcommands (that can involve
+scanning) to function if invoked inside the grammar's project
+directory.
+
+This hack currently works, but there appear to be at least 2 downsides
+to this:
 
 1. If working on Windows, one may need to make appropriate
    arrangements to handle symlinks.  Putting the account(?) in
