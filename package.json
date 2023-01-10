@@ -1,0 +1,13 @@
+{
+  "tree-sitter": [
+    {
+      "scope": "source.clojure",
+      "file-types": [
+        "bb",
+        "clj",
+        "cljc",
+        "cljs"
+      ]
+    }
+  ]
+}
