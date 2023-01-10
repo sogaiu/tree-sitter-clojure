@@ -1365,8 +1365,8 @@ https://github.com/tree-sitter/tree-sitter/pull/1913
 Reasons to consider using a Makefile:
 
 * Entering full commands repeatedly can be error-prone and when
-  returning to project after a while, details may be difficult to
-  recall.
+  returning to work on the project after not thinking about it for
+  some time, details may be difficult to recall.
 
 * Abstracting tasks seems better handled by `Makefile`s than via
   `package.json`'s `scripts` mechanism.  One benefit of this might be
