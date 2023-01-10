@@ -1475,3 +1475,28 @@ https://github.com/tree-sitter/tree-sitter/pull/1835
 XXX: info on some debugging-related TREE_SITTER_* env vars
 
 https://github.com/tree-sitter/tree-sitter/issues/2021
+
+XXX: there is some hard-wired code that expects to find
+     `package.json`.  for certain subcommands (e.g. `parse`, `query`,
+     `highlight`, etc.) to function `package.json` appears to be
+     required.
+
+    however, the only necessary content in `package.json` is:
+
+    ```
+    {
+      "tree-sitter": [
+        {
+          "scope": "source.clojure",
+          "file-types": [
+            "bb",
+            "clj",
+            "cljc",
+            "cljs"
+          ]
+        }
+      ]
+    }
+    ```
+
+https://github.com/tree-sitter/tree-sitter/blob/master/cli/loader/src/lib.rs#L536-L591
