@@ -2,6 +2,7 @@
 TS_LANGUAGE ?= clojure
 
 # path to tree-sitter cli binary
+# XXX: version must be at least 0.19.4
 TS_PATH ?= tree-sitter
 
 # example tree-sitter --version output:
