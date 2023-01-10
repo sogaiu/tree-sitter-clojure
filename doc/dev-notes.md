@@ -511,231 +511,10 @@ For reference here are some reports of issues that have been reported:
 [#1829](https://github.com/tree-sitter/tree-sitter/issues/1829),
 [#2005](https://github.com/tree-sitter/tree-sitter/discussions/2005)
 
-### Building `tree-sitter`, the CLI
-
-It's sometimes helpful to use different versions of `tree-sitter` or
-to customize it for various purposes (e.g. investigating issues,
-debugging, etc.) so it's handy to be able to build from source.
-
-There are [official
-instructions](https://tree-sitter.github.io/tree-sitter/contributing#developing-tree-sitter)
-[1] that are worth taking a look at.
-
-Below are descriptions of the sorts of things I do.  Welcome to the
-platform fork-in-the-road.
-
-#### Linux and Other *nix-likes
-
-I'm only familiar with getting `rustc`, `cargo`, and friends using
-[`rustup`](https://rustup.rs/).  Perhaps a version via a package
-manager on one's system would suffice as well.
-
-Assuming appropriate Rust development bits are in place:
-
-* `git clone https://github.com/tree-sitter/tree-sitter` to get a
-  local copy of the tree-sitter repository
-* `cd tree-sitter && cargo build --release` to build appropriately
-* `ln -s ~/src/tree-sitter/target/release/tree-sitter
-  ~/bin/tree-sitter` to make an appropriate symlink so that
-  `tree-sitter` is available via `PATH`
-
-Unless you need to work with Windows, I suggest skipping the next
-section.
-
-XXX: if intending to use `build-wasm` or `playground`, it's important
-to run `script/build-wasm` before building the `tree-sitter` cli.
-`script/build-wasm` creates `tree-sitter.js` and `tree-sitter.wasm`
-which are served by `tree-sitter playground`.  the tree-sitter
-repository does not appear to have these two files checked in at the
-time of this writing.
-
-note that the docs [claim that not doing this will result in requiring
-an internet connection to use the
-playground](https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-6-contributing.md#building)
--- that may not work in practice if the fetched `.wasm` and/or `.js`
-files are not compatible with the `.wasm` file for the grammar, so for
-reliability purposes, it may be better to build with
-`script/build-wasm` as mentioned above.
-
-XXX: from time to time it may be good to check [these ci
-lines](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/.github/workflows/ci.yml#L66-L75)
-for what's necessary to build the cli.
-
-XXX: windows instructions probably need to be updated with this info
-too
-
-#### Windows
-
-(I don't use WSL* for reasons (TM), but if that works for your
-situation, you may be able to just follow the non-Windows instructions
-above with your WSL* setup, but note that that might mean staying and
-working within a WSL* environment.  I'm not sure though :) )
-
-For historical reasons development bits have been much more work to
-prepare on Windows.  Things are significantly better than before but
-it's still almost always more of a hassle than on many *nix machines.
-
-To cope with the situation I often reach for
-[scoop](https://scoop.sh/).  There are other alternatives such as
-Chocolatey but it wasn't to my taste.  There is even the upcoming
-[`winget`](https://github.com/microsoft/winget-cli) from Microsoft
-itself, but I haven't tried it yet.
-
-I suggest taking a look at the official instructions at the top of
-[their main page](https://scoop.sh/), but for the record, what worked
-here was pretty much what's in their Quickstart text:
-
-> Open a PowerShell terminal (version 5.1 or later) and run:
-
-```
-> Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
-> irm get.scoop.sh | iex
-```
-
-Note that this is a "do at your own risk" sort of thing.
-
-Once scoop is installed, to install `rustup`, open a new Powershell
-terminal and:
-
-```
-> scoop install rustup
-```
-
-to set up Rust bits.
-
-Then I installed [msys2 / mingw64](https://www.msys2.org/), which
-is:
-
-> a collection of tools and libraries providing you with an
-> easy-to-use environment for building, installing and running native
-> Windows software
-
-msys2 / mingw-w64 can also be installed via scoop, but the
-resulting installation path is rather deep for my taste so I opted for
-[following the steps here](https://www.msys2.org/#installation).
-
-If you'd prefer to go the scoop route, in a Powershell terminal, try:
-
-```
-> scoop install msys2
-```
-
-(Have you pinned Powershell to your taskbar yet?)
-
-You'll probably want to learn where the msys2 bits ended up on your
-system.  It's likely under `C:\Users\<username>\AppData\` somewhere.
-The `AppData` directory might not be visible at first but that can be
-remedied via Windows Explorer's settings.
-
-But back to the non-scoop method...
-
-0. View [the installation steps](https://www.msys2.org/#installation)
-
-1. Download the installer.  Mine was called
-   `msys2-x86_64-20221216.exe`, but don't be surprised if yours has a
-   different name.  Specifically, the filename has a date embedded in
-   it, so that might be different.
-
-2. Verify the checksum.  Since the file you get will most likely be
-   different, the file content may also differ and thus the checksum
-   may be different too.  For reference, what I saw was:
-
-   `de5b410dd0813e5904aeed082bfc3d9a8167e0f93b296f52d80bee2dfec9f13d`
-
-   I used the certutil program via a Powershell terminal:
-
-    ```
-    > certutil -hashfile msys2-x86_64-20221216.exe SHA256
-    ```
-
-   That produced a long string matching the long one on the site so I
-   didn't do the GPG Signature method (which is security-wise the much
-   more recommended method).  I did however search for the checksum to
-   see if anyone else had mentioned it.  There were some hits so I
-   took a look and decided to risk not doing the public key stuff.
-
-3. Run the installer and choose `C:\msys64` as the "Installation
-   Folder".
-
-4. Follow the rest of the steps except uncheck the "Run MSYS2 now"
-   checkbox.  I prefer not to let the installers do more than they
-   need to.
-
-The advantage of this approach is that the length of the string I end
-up having to use repeatedly -- `C:\msys64\mingw64\bin` -- is much
-shorter than for the one you'd get with the scoop one.
-
-I don't tend to add environment variable settings to my system
-settings because AFAIU that affects too many things and makes it more
-difficult to accurately document what I've done.
-
-Note that to make use of msys2 / mingw64 in our build, right before we
-enter the build command, we'll want to change `PATH` so the
-appropriate bits are available for use.  For me, that ends up looking
-like:
-
-```
-C:\> set PATH=C:\msys64\mingw64\bin;%PATH%
-```
-
-Note that that's via a `cmd.exe` command prompt.
-
-For Powershell it can be something like:
-
-```
-> $env:Path = "C:\msys64\mingw64\bin;$env:Path"
-```
-
-Note that "Path" is used above though "PATH" works too.  "Path" is
-something you can end up with via Tab-completion :)
-
-If you don't already have `git` in your environment...
-
-`scoop install git`
-
-is one way to arrange for it :)
-
-Finally, we can work on building!  Via a `cmd.exe` command prompt:
-
-* `git clone https://github.com/tree-sitter/tree-sitter` to get a
-  local copy of the tree-sitter repository
-* `cd tree-sitter`
-* `set PATH=C:\msys64\mingw64\bin;%PATH%` to make the msys2 / mingw64
-  stuff available
-* `cargo build --release` to build appropriately
-
-[Here's a log of the Windows
-build](https://gist.github.com/sogaiu/10534158414b7109581e7670f4736b38)
-for reference.
-
-For comparison, via Powershell that might be:
-
-* `git clone https://github.com/tree-sitter/tree-sitter` to get a
-  local copy of the tree-sitter repository
-* `cd tree-sitter`
-* `$env:Path = "C:\msys64\mingw64\bin;$env:Path"` to make the msys2 / mingw64
-  stuff available
-* `cargo build --release` to build appropriately
-
-(On the off-chance you're wondering if scoop has `tree-sitter`...it
-does, but that gets you a precompiled version.)
-
-#### ...and we're back from the fork!
-
-It might be obivous, but to build a specific version, use `git
-checkout` first to arrange for the local working tree to correspond to
-a particular commit / tag / whatever.  Then do the build.
-
-[1] If you take a look you'll notice that NPM is listed as required.
-Though most grammar repositories show evidence of using NPM, it's not
-strictly necessary.  ATM, Node.js is necessary, but
-[experiments](https://github.com/tree-sitter/tree-sitter/issues/465#issuecomment-1371911897)
-suggest it wouldn't have to be.
-
-## Examining `tree-sitter parse` Output
+### Examining `tree-sitter parse` Output
 
 For this section we'll look at the output of the `parse` subcommand of
-`tree-sitter` with various options.  It's likely that at some point
+`tree-sitter` with various flags.  It's likely that at some point
 you'll find yourself wondering why your current grammar isn't behaving
 as it should.  The `parse` command's output can sometimes shed some
 light on the matter.
@@ -752,7 +531,7 @@ file and specify it as an argument.
 (def c 3)
 ```
 
-### `tree-sitter parse`
+#### `tree-sitter parse`
 
 The "vanilla" version of the subcommand produces an s-expression tree
 representation:
@@ -855,7 +634,7 @@ location or field information.
 1-based](https://github.com/tree-sitter/tree-sitter/pull/304), but I'm
 not clear on whether this is still the case.
 
-### `tree-sitter parse --debug`
+#### `tree-sitter parse --debug`
 
 If the `--debug` option is specified, before the s-expression tree is
 printed, one will get a detailed shift-reduce + lexer activity log.
@@ -1093,7 +872,7 @@ in the mean time, some of the info in
 [#1309](https://github.com/tree-sitter/tree-sitter/issues/1309) might
 help for investigation.
 
-### `tree-sitter parse --debug-graph`
+#### `tree-sitter parse --debug-graph`
 
 As with the other output types described before, the s-expression tree
 is printed out, but in addition, a file named `log.html` will be
@@ -1121,14 +900,240 @@ sometimes reveal relevant information.
 download it to a local file first to be able to view it properly.
 Note that the background is all white.
 
-### Other Options
+#### Other Flags and Options
 
 I have not used the following, but may be they could be handy in some
 situations:
 
-* [`--xml`](https://github.com/tree-sitter/tree-sitter/pull/863)
+* [`--debug-build`](https://github.com/tree-sitter/tree-sitter/pull/1383)
 
 * [`--stat`](https://github.com/tree-sitter/tree-sitter/pull/746)
+
+* [`--xml`](https://github.com/tree-sitter/tree-sitter/pull/863)
+
+To find out what other flags and options exist, invoke `tree-sitter
+parse --help`.
+
+### Building `tree-sitter`, the CLI
+
+It's sometimes helpful to use different versions of `tree-sitter` or
+to customize it for various purposes (e.g. investigating issues,
+debugging, etc.) so it's handy to be able to build from source.
+
+There are [official
+instructions](https://tree-sitter.github.io/tree-sitter/contributing#developing-tree-sitter)
+[1] that are worth taking a look at.
+
+Below are descriptions of the sorts of things I do.  Welcome to the
+platform fork-in-the-road.
+
+#### Linux and Other *nix-likes
+
+I'm only familiar with getting `rustc`, `cargo`, and friends using
+[`rustup`](https://rustup.rs/).  Perhaps a version via a package
+manager on one's system would suffice as well.
+
+Assuming appropriate Rust development bits are in place:
+
+* `git clone https://github.com/tree-sitter/tree-sitter` to get a
+  local copy of the tree-sitter repository
+* `cd tree-sitter && cargo build --release` to build appropriately
+* `ln -s ~/src/tree-sitter/target/release/tree-sitter
+  ~/bin/tree-sitter` to make an appropriate symlink so that
+  `tree-sitter` is available via `PATH`
+
+Unless you need to work with Windows, I suggest skipping the next
+section.
+
+XXX: if intending to use `build-wasm` or `playground`, it's important
+to run `script/build-wasm` before building the `tree-sitter` cli.
+`script/build-wasm` creates `tree-sitter.js` and `tree-sitter.wasm`
+which are served by `tree-sitter playground`.  the tree-sitter
+repository does not appear to have these two files checked in at the
+time of this writing.
+
+note that the docs [claim that not doing this will result in requiring
+an internet connection to use the
+playground](https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-6-contributing.md#building)
+-- that may not work in practice if the fetched `.wasm` and/or `.js`
+files are not compatible with the `.wasm` file for the grammar, so for
+reliability purposes, it may be better to build with
+`script/build-wasm` as mentioned above.
+
+XXX: from time to time it may be good to check [these ci
+lines](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/.github/workflows/ci.yml#L66-L75)
+for what's necessary to build the cli.
+
+XXX: windows instructions probably need to be updated with this info
+too
+
+#### Windows
+
+(I don't use WSL* for reasons (TM), but if that works for your
+situation, you may be able to just follow the non-Windows instructions
+above with your WSL* setup, but note that that might mean staying and
+working within a WSL* environment.  I'm not sure though :) )
+
+For historical reasons development bits have been much more work to
+prepare on Windows.  Things are significantly better than before but
+it's still almost always more of a hassle than on many *nix machines.
+
+To cope with the situation I often reach for
+[scoop](https://scoop.sh/).  There are other alternatives such as
+Chocolatey but it wasn't to my taste.  There is even the upcoming
+[`winget`](https://github.com/microsoft/winget-cli) from Microsoft
+itself, but I haven't tried it yet.
+
+I suggest taking a look at the official instructions at the top of
+[their main page](https://scoop.sh/), but for the record, what worked
+here was pretty much what's in their Quickstart text:
+
+> Open a PowerShell terminal (version 5.1 or later) and run:
+
+```
+> Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
+> irm get.scoop.sh | iex
+```
+
+Note that this is a "do at your own risk" sort of thing.
+
+Once scoop is installed, to install `rustup`, open a new Powershell
+terminal and:
+
+```
+> scoop install rustup
+```
+
+to set up Rust bits.
+
+Then I installed [msys2 / mingw64](https://www.msys2.org/), which
+is:
+
+> a collection of tools and libraries providing you with an
+> easy-to-use environment for building, installing and running native
+> Windows software
+
+msys2 / mingw-w64 can also be installed via scoop, but the
+resulting installation path is rather deep for my taste so I opted for
+[following the steps here](https://www.msys2.org/#installation).
+
+If you'd prefer to go the scoop route, in a Powershell terminal, try:
+
+```
+> scoop install msys2
+```
+
+(Have you pinned Powershell to your taskbar yet?)
+
+You'll probably want to learn where the msys2 bits ended up on your
+system.  It's likely under `C:\Users\<username>\AppData\` somewhere.
+The `AppData` directory might not be visible at first but that can be
+remedied via Windows Explorer's settings.
+
+But back to the non-scoop method...
+
+0. View [the installation steps](https://www.msys2.org/#installation)
+
+1. Download the installer.  Mine was called
+   `msys2-x86_64-20221216.exe`, but don't be surprised if yours has a
+   different name.  Specifically, the filename has a date embedded in
+   it, so that might be different.
+
+2. Verify the checksum.  Since the file you get will most likely be
+   different, the file content may also differ and thus the checksum
+   may be different too.  For reference, what I saw was:
+
+   `de5b410dd0813e5904aeed082bfc3d9a8167e0f93b296f52d80bee2dfec9f13d`
+
+   I used the certutil program via a Powershell terminal:
+
+    ```
+    > certutil -hashfile msys2-x86_64-20221216.exe SHA256
+    ```
+
+   That produced a long string matching the long one on the site so I
+   didn't do the GPG Signature method (which is security-wise the much
+   more recommended method).  I did however search for the checksum to
+   see if anyone else had mentioned it.  There were some hits so I
+   took a look and decided to risk not doing the public key stuff.
+
+3. Run the installer and choose `C:\msys64` as the "Installation
+   Folder".
+
+4. Follow the rest of the steps except uncheck the "Run MSYS2 now"
+   checkbox.  I prefer not to let the installers do more than they
+   need to.
+
+The advantage of this approach is that the length of the string I end
+up having to use repeatedly -- `C:\msys64\mingw64\bin` -- is much
+shorter than for the one you'd get with the scoop one.
+
+I don't tend to add environment variable settings to my system
+settings because AFAIU that affects too many things and makes it more
+difficult to accurately document what I've done.
+
+Note that to make use of msys2 / mingw64 in our build, right before we
+enter the build command, we'll want to change `PATH` so the
+appropriate bits are available for use.  For me, that ends up looking
+like:
+
+```
+C:\> set PATH=C:\msys64\mingw64\bin;%PATH%
+```
+
+Note that that's via a `cmd.exe` command prompt.
+
+For Powershell it can be something like:
+
+```
+> $env:Path = "C:\msys64\mingw64\bin;$env:Path"
+```
+
+Note that "Path" is used above though "PATH" works too.  "Path" is
+something you can end up with via Tab-completion :)
+
+If you don't already have `git` in your environment...
+
+`scoop install git`
+
+is one way to arrange for it :)
+
+Finally, we can work on building!  Via a `cmd.exe` command prompt:
+
+* `git clone https://github.com/tree-sitter/tree-sitter` to get a
+  local copy of the tree-sitter repository
+* `cd tree-sitter`
+* `set PATH=C:\msys64\mingw64\bin;%PATH%` to make the msys2 / mingw64
+  stuff available
+* `cargo build --release` to build appropriately
+
+[Here's a log of the Windows
+build](https://gist.github.com/sogaiu/10534158414b7109581e7670f4736b38)
+for reference.
+
+For comparison, via Powershell that might be:
+
+* `git clone https://github.com/tree-sitter/tree-sitter` to get a
+  local copy of the tree-sitter repository
+* `cd tree-sitter`
+* `$env:Path = "C:\msys64\mingw64\bin;$env:Path"` to make the msys2 / mingw64
+  stuff available
+* `cargo build --release` to build appropriately
+
+(On the off-chance you're wondering if scoop has `tree-sitter`...it
+does, but that gets you a precompiled version.)
+
+#### ...and we're back from the fork!
+
+It might be obivous, but to build a specific version, use `git
+checkout` first to arrange for the local working tree to correspond to
+a particular commit / tag / whatever.  Then do the build.
+
+[1] If you take a look you'll notice that NPM is listed as required.
+Though most grammar repositories show evidence of using NPM, it's not
+strictly necessary.  ATM, Node.js is necessary, but
+[experiments](https://github.com/tree-sitter/tree-sitter/issues/465#issuecomment-1371911897)
+suggest it wouldn't have to be.
 
 ## Testing
 
