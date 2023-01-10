@@ -1501,9 +1501,9 @@ XXX: there is some hard-wired code that expects to find
      `highlight`, etc.) to function `package.json` appears to be
      required.
 
-    however, the only necessary content in `package.json` is:
+   however, the only necessary content in `package.json` is:
 
-    ```
+```
     {
       "tree-sitter": [
         {
@@ -1517,6 +1517,6 @@ XXX: there is some hard-wired code that expects to find
         }
       ]
     }
-    ```
+```
 
 https://github.com/tree-sitter/tree-sitter/blob/master/cli/loader/src/lib.rs#L536-L591
