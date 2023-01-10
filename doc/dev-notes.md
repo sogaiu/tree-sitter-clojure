@@ -1458,6 +1458,11 @@ to this:
   the "modern" yarn, only something from the older 1.x series --
   apparently it was 1.22.19.
 
+  May be there's some way to get the symlink to be created
+  automatically by the Makefile...or may be there can be a "setup
+  script" that can be run after cloning (perhaps there can be a
+  "setup" target in the Makefile).
+
 ## Misc Things To Be Incorporated Somewhere :)
 
 * `TREE_SITTER_LIBDIR` now exists for customizing the path to the
