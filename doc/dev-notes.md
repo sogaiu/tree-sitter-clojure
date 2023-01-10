@@ -1135,6 +1135,30 @@ strictly necessary.  ATM, Node.js is necessary, but
 [experiments](https://github.com/tree-sitter/tree-sitter/issues/465#issuecomment-1371911897)
 suggest it wouldn't have to be.
 
+### Subcommand Use Frequency
+
+I will probably continue to use:
+
+* `generate` - essential to create `src/parser.c` and friends
+* `parse` - debugging and testing
+* `test` - sanity checking grammar tweaks and changes
+
+I suspect I may using occasionally:
+
+* `dump-languages` - to diagnose "scanning issues"
+* `query` - to diganose occasional issues
+
+Initially I also used, but currently never use:
+
+* `build-wasm` - for playground but used to write VSCode extensions using `.wasm`
+* `playground` - was useful for early grammar development
+
+I nearly never use the following subcommands:
+
+* `init-config` - not much until it becomes `TREE_SITTER_DIR`-aware
+* `highlight` - used it out of curiosity once or twice
+* `tags` - not likely to be applicable to tree-sitter-clojure ATM
+
 ## Testing
 
 The `test` subcommand of `tree-sitter` provides some functionality to
