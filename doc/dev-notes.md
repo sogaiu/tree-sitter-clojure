@@ -1389,7 +1389,8 @@ Some Potential Drawbacks
 ### Isolation
 
 I tried to isolate `tree-sitter` so that it doesn't go looking
-elsewhere for other `tree-sitter-` directories.  There is a setting in
+elsewhere (i.e. outside of a particular grammar's project directory)
+for other `tree-sitter-` directories.  There is a setting in
 `tree-sitter`'s `config.json` named `parser-directories` that can be
 abused for this purpose.
 
