@@ -1306,6 +1306,8 @@ collection of source files to see if there are noticeable changes.
   * [cli: add -b, --build flags for tree-sitter generate](https://github.com/tree-sitter/tree-sitter/commit/5088781ef965c5cd7187c5308e3cb45f8f892860)
   * [Bump Emscripten version to 3.1.29](https://github.com/tree-sitter/tree-sitter/commit/88fe1d00c42760beda7cc01f5259da3d7fc5265e)
   * [Upgrade to emscripten 3.1.25](https://github.com/tree-sitter/tree-sitter/commit/1f36bf091e1faaec5d9282f47c9dab00f7435e06)
+https://github.com/tree-sitter/tree-sitter/pull/1913
+  * [Merge pull request #1913 from J3RN/browser-fixes](https://github.com/tree-sitter/tree-sitter/commit/b31f9e6e90933a4d87b81cc9f09f0399ec1711a4)
 
 * [0.20.7](https://github.com/tree-sitter/tree-sitter/commit/b268e412ad4848380166af153300464e5a1cf83f) - 2022-09-03
   * [Generate parsers with ABI version 14 by default](https://github.com/tree-sitter/tree-sitter/commit/e2fe380a08408ff42eada21f8723f653e6da6606)
