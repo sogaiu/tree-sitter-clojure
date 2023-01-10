@@ -1455,3 +1455,7 @@ XXX: not all grammars keep generated source under src, e.g. tree-sitter-typescri
 XXX: not all grammars keep the generated parser.c + other things in the repository
 
 https://github.com/CyberShadow/tree-sitter-d
+
+XXX: compiling on windows with gcc msys2 / mingw64 needs a tweak to tree-sitter cli
+
+https://github.com/tree-sitter/tree-sitter/pull/1835
