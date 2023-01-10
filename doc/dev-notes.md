@@ -1471,3 +1471,7 @@ https://gist.github.com/sogaiu/022c6eaadd9698878aa97c9880e41ca5
 XXX: compiling on windows with gcc msys2 / mingw64 needs a tweak to tree-sitter cli
 
 https://github.com/tree-sitter/tree-sitter/pull/1835
+
+XXX: info on some debugging-related TREE_SITTER_* env vars
+
+https://github.com/tree-sitter/tree-sitter/issues/2021
