@@ -381,6 +381,10 @@ XXX: about comments in json for rust:
 https://github.com/serde-rs/json/issues/168
 https://github.com/hjson/hjson-rust
 
+XXX: about commenting for package.json
+
+https://spin.atomicobject.com/2019/05/20/document-package-json/
+
 XXX: npm package.json scripts info:
 
 https://docs.npmjs.com/cli/v6/using-npm/scripts
