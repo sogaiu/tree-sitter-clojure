@@ -156,7 +156,15 @@ src/parser.c: grammar.js
 	$(TS_PATH) generate --abi 13 --no-bindings
 
 # XXX: not relying on the tree-sitter cli for building seems more
-#      flexible
+#      flexible.
+#
+#      on windows i had problems compiling using msys2 / mingw64 when
+#      trying to use various tree-sitter subcommands.  to debug, i
+#      ended up modifying the tree-sitter cli's source code to print
+#      out precisely what the compiler invocation was.  that involved
+#      writing some rust, recomplining the tree-sitter cli, and
+#      running the invocation again.  that kind of thing seems like it
+#      could be avoided by externalization as is dones below.
 shared-object: src/parser.c
 	# Compiling parser
 	cc -fPIC -c -Isrc src/parser.c -o src/parser.o
