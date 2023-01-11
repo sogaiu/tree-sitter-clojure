@@ -339,6 +339,8 @@ version of `node`.  On a related note, I tried out
 [volta](https://volta.sh/).  So far it seems better than `nvm` as
 AFAICT it will work on the usual 3 platforms (where as `nvm` only
 works on 2 of the 3, since `nvm-windows` isn't the same as `nvm`).
+### Unintegrated Content
+
 XXX: about comments in json for rust:
 
 https://github.com/serde-rs/json/issues/168
