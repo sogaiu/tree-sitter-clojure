@@ -298,7 +298,7 @@ hinted at above, the `Makefile` might be able to do useful things like
 report on the presence / absence of the link with explanatory text,
 for example.
 
-### Reducing Dependence On Other Things
+### Other Pieces in Use
 
 Some other pieces that seem to have become churny, complicated, and/or
 side-effecty include:
