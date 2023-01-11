@@ -1648,3 +1648,7 @@ XXX: there is some hard-wired code that expects to find
 
 https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L536-L591
 
+XXX: cursorless' vscode-parse-tree uses yarn to fetch and "install"
+     tree-sitter-clojure.  `package.json` appears necessary for this
+     to work.  Further, at least the "name" and "version" fields
+     appear necessary.  for the moment, I've added those back.
