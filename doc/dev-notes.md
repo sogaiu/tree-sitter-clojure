@@ -1397,8 +1397,8 @@ Reasons to consider using a Makefile:
   that reliance on some of `tree-sitter`'s features that involve
   side-effects (which can lead to confusion) can be reduced.
 
-* Dependencies can be expressed -- this doesn't seem possible with
-  `package.json`
+* Certain types of dependencies among targets can be expressed -- this
+  doesn't seem possible with `package.json`
 
 * Might be helpful in reducing the amount of reliance on `npm`.  It
   may even be possible to stop using `npm` altogether.
