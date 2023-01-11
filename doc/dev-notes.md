@@ -498,7 +498,7 @@ There are a few specifics mentioned
 and [here](https://github.com/sogaiu/tree-sitter-clojure/issues/34)
 too.
 
-For reference here are some reports of issues that have been reported:
+For reference below is a collection of some reports:
 
 [#571](https://github.com/tree-sitter/tree-sitter/issues/571),
 [#873](https://github.com/tree-sitter/tree-sitter/issues/873),
