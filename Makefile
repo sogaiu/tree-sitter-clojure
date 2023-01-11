@@ -25,6 +25,10 @@
 #
 # consider bmake and fmake for testing portability on occasion
 
+# XXX: different ways to assign in Makefiles...
+#
+# https://www.gnu.org/software/make/manual/html_node/Flavors.html#Flavors
+
 # trying to make this Makefile generic
 TS_LANGUAGE ?= clojure
 
