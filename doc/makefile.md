@@ -430,6 +430,11 @@ XXX: alternate js runtime
 * https://github.com/tree-sitter/tree-sitter/issues/465
 * https://github.com/tree-sitter/tree-sitter/discussions/1413#discussioncomment-1384438
 
+XXX: Makefile for grammar repositories, though just for c bindings...
+
+https://github.com/tree-sitter/tree-sitter/issues/1488
+https://github.com/tree-sitter/tree-sitter-go/blob/64457ea6b73ef5422ed1687178d4545c3e91334a/Makefile
+
 XXX: idea of having verbose mode for subcommands that reports which
      .so (by file path and other info) was used
 
