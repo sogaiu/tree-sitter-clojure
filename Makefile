@@ -25,6 +25,11 @@
 #
 # consider bmake and fmake for testing portability on occasion
 
+# XXX: additional targets?
+#
+#      * default?
+#      * deps (or similar) to report versions of dependencies?
+
 # XXX: different ways to assign in Makefiles...
 #
 # https://www.gnu.org/software/make/manual/html_node/Flavors.html#Flavors
