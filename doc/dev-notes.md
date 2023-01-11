@@ -1446,12 +1446,12 @@ https://github.com/tree-sitter/tree-sitter/issues/2021
 
 XXX: some collected info about regular expression support
 
-https://github.com/tree-sitter/tree-sitter/pull/319
-https://github.com/tree-sitter/tree-sitter/issues/380
-https://github.com/tree-sitter/tree-sitter/commit/8fadf186553998ae8992b1038e6cc72ef16353fc
-https://github.com/tree-sitter/tree-sitter/discussions/1214#discussioncomment-937306
-https://github.com/tree-sitter/tree-sitter/pull/906
-https://github.com/tree-sitter/tree-sitter/commit/5b630054c6999c134b3d2b2152b09424928efac4
+* https://github.com/tree-sitter/tree-sitter/pull/319
+* https://github.com/tree-sitter/tree-sitter/issues/380
+* https://github.com/tree-sitter/tree-sitter/commit/8fadf186553998ae8992b1038e6cc72ef16353fc
+* https://github.com/tree-sitter/tree-sitter/discussions/1214#discussioncomment-937306
+* https://github.com/tree-sitter/tree-sitter/pull/906
+* https://github.com/tree-sitter/tree-sitter/commit/5b630054c6999c134b3d2b2152b09424928efac4
 
 XXX: tree-sitter parse from stdin request
 
