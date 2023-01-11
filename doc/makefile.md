@@ -314,6 +314,9 @@ There may be options but I have not investigated them much.  One
 candidate is [cheerp](https://github.com/leaningtech/cheerp-compiler).
 There may be others.
 
+At a minimum, exploring the externalization of the playground may help
+for investigating issues as well as for customization.
+
 However, if we don't use the playground, we can still build a version
 of `tree-sitter` without that part being functional.  The playground
 has definitely had uses (and may continue to be useful) even though I
