@@ -356,7 +356,9 @@ hasn't used) features that changed over time, but I don't know.
 
 Another point though is that they seem to insist on retiring older
 versions within fairly short periods.  Being forced to upgrade in such
-a manner doesn't seem great.
+a manner doesn't seem great.  If the previous point about
+compatibility is valid, that combined with this latter point about
+retiring speed is especially not nice.
 
 AFAIK, the only reason we need the `node` binary at this point is
 because `tree-sitter` uses it to generate `src/parser.c` and friends.
