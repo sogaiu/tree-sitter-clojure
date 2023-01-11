@@ -382,6 +382,10 @@ on 2 of the 3, since `nvm-windows` isn't the same as `nvm`).
 
 ### Unintegrated Content
 
+XXX: code in `tree-sitter` that scans `package.json`
+
+https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L536-L591
+
 XXX: about comments in json for rust:
 
 https://github.com/serde-rs/json/issues/168
