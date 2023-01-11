@@ -2,9 +2,12 @@
 TS_LANGUAGE ?= clojure
 
 # path to tree-sitter cli binary
-# XXX: version must be at least 0.19.4 for --no-bindings to work
-# XXX: version must be greater than 0.20.7 for TREE_STTIER_LIBDIR to work
-#      note that version string from binary may not be a good way to
+#
+# >= 0.19.4 added --no-bindings
+# >= 0.20.3 added --abi
+# <= 0.20.7 didn't have TREE_SITTER_LIBDIR support
+#
+# XXX: note that version string from binary may not be a good way to
 #      compare versions because unreleased things appear to use the
 #      same version string
 TS_PATH ?= tree-sitter
