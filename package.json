@@ -1,4 +1,6 @@
 {
+  "name": "tree-sitter-clojure",
+  "version": "0.0.9",
   "tree-sitter": [
     {
       "scope": "source.clojure",
