@@ -339,3 +339,23 @@ version of `node`.  On a related note, I tried out
 [volta](https://volta.sh/).  So far it seems better than `nvm` as
 AFAICT it will work on the usual 3 platforms (where as `nvm` only
 works on 2 of the 3, since `nvm-windows` isn't the same as `nvm`).
+XXX: about comments in json for rust:
+
+https://github.com/serde-rs/json/issues/168
+https://github.com/hjson/hjson-rust
+
+XXX: npm package.json scripts info:
+
+https://docs.npmjs.com/cli/v6/using-npm/scripts
+
+XXX: npm package.json info:
+
+https://docs.npmjs.com/cli/v6/configuring-npm/package-json
+
+XXX: idea of having verbose mode for subcommands that reports which
+     .so (by file path and other info) was used
+
+XXX: idea of an option to subcommands to specify file path to .so
+     to be used for language-specific processing
+
+XXX: idea of a flag (or configuration item) to turn off scanning
