@@ -130,6 +130,7 @@ playground: tree-sitter-$(TS_LANGUAGE).wasm
 # XXX: arrange for emsdk?  may need cross-platform detection because
 #      script name is different
 tree-sitter-$(TS_LANGUAGE).wasm: src/parser.c
+	@echo "Did you arrange for the appropriate emsdk_env to be used?"
 	$(TS_PATH) build-wasm
 
 ###################
