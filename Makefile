@@ -74,13 +74,15 @@ GRAMMAR_PROJ_DIR = $(shell pwd)
 #         the grammar as it will appear in output for at least one
 #         tree-sitter subcommand.
 #
-#      2. arrange for the TREE_SITTER_DIR env var to point at a
-#         .tree-sitter subdirectory of the grammar's directory.
+#      2. create a .tree-sitter subdirectory in the grammar directory
 #
-#      3. put a config.json file in the aforementioned .tree-sitter
+#      3. arrange for the TREE_SITTER_DIR env var to point at the
+#         .tree-sitter subdirectory.
+#
+#      4. put a config.json file in the aforementioned .tree-sitter
 #         directory.
 #
-#      4. put an entry for "parser-directories" (an array or list)
+#      5. put an entry for "parser-directories" (an array or list)
 #         that has a single element "."  (yes quotes this time).  so
 #         the file might contain:
 #
