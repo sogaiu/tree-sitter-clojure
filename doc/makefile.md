@@ -68,8 +68,8 @@ suppressed via the `--no-bindings` flag.
 We may be able to stop using `npm`, but removing `package.json` would
 likely break [one of our
 users](https://github.com/cursorless-dev/vscode-parse-tree/) and the
-`tree-sitter` cli actually is hard-wired to look for `package.json`
-with some amount of content.
+`tree-sitter` cli is hard-wired to look for `package.json` with some
+amount of content.
 
 Although removal is not on the table at this time, its content can be
 reduced the bare minimum of say:
