@@ -1378,6 +1378,8 @@ https://github.com/tree-sitter/tree-sitter/pull/1913
   * [Bump emscripten version to 2.0.24](https://github.com/tree-sitter/tree-sitter/commit/a286f831c749d1cb00d577cceb19d28c9d0f3338)
   * [Refactor emscripten/emsdk version to a single file](https://github.com/tree-sitter/tree-sitter/commit/b14ea51e3df4f5614d8913513a4d1eed8be07d71)
   * [Pin emscripten/emsdk Docker version ](https://github.com/tree-sitter/tree-sitter/commit/725f3f7f2b7da6f71fb4254445bc300ba7681025)
+  * [cli: Extract CLI configuration into separate crate](https://github.com/tree-sitter/tree-sitter/pull/1157)
+  * [rust: Extract runtime language detection into separate crate](https://github.com/tree-sitter/tree-sitter/commit/66c30648c2c6f1bfe76c0763dc712f29d4b2a1a0)
 
 * [0.19.5](https://github.com/tree-sitter/tree-sitter/commit/8d8690538ef0029885c7ef1f163b0e32f256a5aa) - 2021-05-21
   * [Fix build-wasm on Windows](https://github.com/tree-sitter/tree-sitter/commit/919eab023f4bd7ea78eca06adea3b8de5b388d8e)
