@@ -874,6 +874,10 @@ help for investigation.
 
 #### `tree-sitter parse --debug-graph`
 
+Note that the `dot` command may be necessary for working with
+`--debug-graph`.  `dot` is part of [graphviz](https://graphviz.org/
+[1].
+
 As with the other output types described before, the s-expression tree
 is printed out, but in addition, a file named `log.html` will be
 produced.
@@ -900,6 +904,12 @@ sometimes reveal relevant information.
 download it to a local file first to be able to view it properly.
 Note that the background is all white.
 
+---
+
+[1] graphviz is typically available via package managers.  There are
+also precompiled Windows binaries.  For scoop, `scoop install
+graphviz`, should be sufficient.
+
 #### Other Flags and Options
 
 I have not used the following, but may be they could be handy in some
@@ -923,9 +933,6 @@ debugging, etc.) so it's handy to be able to build from source.
 There are [official
 instructions](https://tree-sitter.github.io/tree-sitter/contributing#developing-tree-sitter)
 [1] that are worth taking a look at.
-
-XXX: Note that the `dot` command may be necessary for working with
-`--debug-graph`.
 
 Below are descriptions of the sorts of things I do.  Welcome to the
 platform fork-in-the-road.
