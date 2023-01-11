@@ -15,6 +15,8 @@
 #
 # https://youtu.be/lgyOAiRtZGw?t=475
 
+# XXX: add bits to report versions of other tools?
+
 # trying to make this Makefile generic
 TS_LANGUAGE ?= clojure
 
