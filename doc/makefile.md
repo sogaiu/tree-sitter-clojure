@@ -388,8 +388,8 @@ https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d
 
 XXX: about comments in json for rust:
 
-https://github.com/serde-rs/json/issues/168
-https://github.com/hjson/hjson-rust
+* https://github.com/serde-rs/json/issues/168
+* https://github.com/hjson/hjson-rust
 
 XXX: about commenting for package.json
 
@@ -405,15 +405,15 @@ https://docs.npmjs.com/cli/v6/configuring-npm/package-json
 
 XXX: Makefile compared with package.json
 
-https://spin.atomicobject.com/2021/03/22/makefiles-vs-package-json-scripts/
-https://lobste.rs/s/jzhrcb/why_i_prefer_makefiles_over_package_json
-https://news.ycombinator.com/item?id=30671572
+* https://spin.atomicobject.com/2021/03/22/makefiles-vs-package-json-scripts/
+* https://lobste.rs/s/jzhrcb/why_i_prefer_makefiles_over_package_json
+* https://news.ycombinator.com/item?id=30671572
 
 XXX: alleged history of package.json's scripts
 
-https://github.com/npm/npm/issues/298
-https://github.com/npm/npm/commit/c8e17cef720875c1f7cea1b49b7bc9f1325ccff5
-https://github.com/npm/npm/commit/9b8c0cf87a9d4ef560e17e060f4ddc03b2ff1a1c
+* https://github.com/npm/npm/issues/298
+* https://github.com/npm/npm/commit/c8e17cef720875c1f7cea1b49b7bc9f1325ccff5
+* https://github.com/npm/npm/commit/9b8c0cf87a9d4ef560e17e060f4ddc03b2ff1a1c
 
 XXX: cheerp license could be an issue:
 
@@ -427,8 +427,8 @@ https://github.com/tree-sitter/tree-sitter/discussions/1413#discussioncomment-14
 
 XXX: alternate js runtime
 
-https://github.com/tree-sitter/tree-sitter/issues/465
-https://github.com/tree-sitter/tree-sitter/discussions/1413#discussioncomment-1384438
+* https://github.com/tree-sitter/tree-sitter/issues/465
+* https://github.com/tree-sitter/tree-sitter/discussions/1413#discussioncomment-1384438
 
 XXX: idea of having verbose mode for subcommands that reports which
      .so (by file path and other info) was used
