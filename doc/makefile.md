@@ -309,19 +309,23 @@ side-effecty include:
 #### emsdk
 
 If we want to be able to continue to build `tree-sitter` as well as
-grammar `.wasm` files, an alternative to `emsdk` would be necessary.
-There may be options but I have not investigated them much.  One
-candidate is [cheerp](https://github.com/leaningtech/cheerp-compiler).
-There may be others.
+grammar `.wasm` files without `emsdk`, an alternative would be
+necessary.  There may be options but I have not investigated them
+much.  One candidate is
+[cheerp](https://github.com/leaningtech/cheerp-compiler).  There may
+be others.
 
-At a minimum, exploring the externalization of the playground may help
-for investigating issues as well as for customization.
+At a minimum, exploring the externalization of the playground even
+using `emsdk` may help for investigating issues as well as for
+customization.
 
 However, if we don't use the playground, we can still build a version
-of `tree-sitter` without that part being functional.  The playground
-has definitely had uses (and may continue to be useful) even though I
-don't typically use it currently, I think it's at least valuable to
-develop a feel for tree-sitter as well as specific grammars.
+of `tree-sitter` without that part being functional.
+
+The playground has definitely had uses (and may continue to be useful)
+even though I don't typically use it currently, I think it's at least
+valuable to develop a feel for tree-sitter as well as specific
+grammars.
 
 #### Node.js
 
