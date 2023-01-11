@@ -92,7 +92,7 @@ reduced the bare minimum of say:
 }
 ```
 
-The `name` and `version` entries will satisfy our user's needs while
+The `name` and `version` entries should satisfy our user's needs while
 the `tree-sitter` entry will satisy the `tree-sitter` cli.
 
 ### Drawbacks of Some `tree-sitter` Subcommands
