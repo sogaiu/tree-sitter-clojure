@@ -45,7 +45,7 @@ MIN_VERSION := "0.20.8"
 # the directory this Makefile lives in
 GRAMMAR_PROJ_DIR = $(shell pwd)
 
-# XXX: various tree-sitter commands can lead to scanning of
+# XXX: various tree-sitter subcommands can lead to scanning of
 #      directories looking for grammar directories that can have their
 #      content automatically compiled and made accessible to
 #      tree-sitter.  there may be more than one problem with this
@@ -53,7 +53,7 @@ GRAMMAR_PROJ_DIR = $(shell pwd)
 #      different versions of the same language's grammar having .so
 #      files be used by tree-sitter.  this can be confusing during
 #      testing or otherwise interpreting the results of tree-sitter
-#      commands.
+#      subcommands.
 #
 #      there doesn't appear to be a nice way to turn off this scanning
 #      behavior nor a way to explicitly tell tree-sitter to use one
@@ -144,7 +144,7 @@ dump:
 	@$(TS_PATH) dump-languages
 	@echo "If tree-sitter dump-languages shows info about more"
 	@echo "than one language, be careful while interpreting output"
-	@echo "from tree-sitter commands.  The shared object used by"
+	@echo "from tree-sitter subcommands.  The shared object used by"
 	@echo "tree-sitter for processing may be different from what is"
 	@echo "expected."
 
