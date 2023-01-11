@@ -303,21 +303,41 @@ for example.
 Some other pieces that seem to have become churny, complicated, and/or
 side-effecty include:
 
-* `emsdk`
+* Emscripten / emsdk
 * `Node.js`
 
-#### emsdk
+#### Emscripten / emsdk
 
 If we want to be able to continue to build `tree-sitter` as well as
-grammar `.wasm` files without `emsdk`, an alternative would be
-necessary.  There may be options but I have not investigated them
-much.  One candidate is
-[cheerp](https://github.com/leaningtech/cheerp-compiler).  There may
-be others.
+grammar `.wasm` files without Emscripten / emsdk, an alternative would
+be necessary.  One reason to consider an alternative is summed up in
+this quote:
+
+> Emscripten is a great toolchain that let's you compile your C/C++
+> projects to WebAssembly so you can use them in the web easily.
+
+> However, Emscripten has a non-stable ABI (because constant and fast
+> iteration is very useful for their usecase). This makes it a bit
+> challening for standalone-runtimes to continually adapt. Because of
+> that, adopting the WASI ABI is a much easier path for standalone
+> server-side WebAssembly runtimes.
+
+I think the `tree-sitter` cli would count as a case of being
+repeatedly affected by Emscripten's non-stable ABI.
+
+I haven't yet come across a suitable alternative though.
+
+A few that I looked into briefly include:
+
+* [cheerp](https://github.com/leaningtech/cheerp-compiler) - licensing
+  might be an issue though
+
+* [Wasienv](https://github.com/wasienv/wasienv/) - doesn't appear
+  active and Windows support is unclear
 
 At a minimum, exploring the externalization of the playground even
-using `emsdk` may help for investigating issues as well as for
-customization.
+using Emscripten / emsdk may help for investigating issues as well as
+for customization.
 
 However, if we don't use the playground, we can still build a version
 of `tree-sitter` without that part being functional.
