@@ -1353,7 +1353,10 @@ collection of source files to see if there are noticeable changes.
   state](https://github.com/tree-sitter/tree-sitter/issues/930) for
   some time.
 
-## Some tree-sitter Version Highlights
+## Some `tree-sitter` Version Highlights
+
+Note that these versions refer to the command line program, not
+necessarily the library (though they might be close in many cases).
 
 * Unreleased
   * [Add setting TREE_SITTER_DEBUG in the test subcommand](https://github.com/tree-sitter/tree-sitter/commit/c7d431b53ed6e7b08d73d237cba960da1d437e62)
