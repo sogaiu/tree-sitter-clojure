@@ -152,6 +152,13 @@ dump:
 	@echo "tree-sitter for processing may be different from what is"
 	@echo "expected."
 
+################
+# symlink hack #
+################
+
+hack-symlink:
+	ln -sf . tree-sitter-$(TS_LANGUAGE)
+
 #################
 # shared object #
 #################
