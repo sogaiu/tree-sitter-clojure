@@ -331,10 +331,12 @@ grammars.
 
 My impression is that Node.js seems to have had relatively speaking,
 little regard for backward compatibility (though perhaps this is no
-longer true?).  Another point is that they seem to insist on retiring
-older versions within fairly short periods.  It's possible that
-`tree-sitter` doesn't use (and hasn't used) features that changed over
-time, but I don't know.
+longer true?).  It's possible that `tree-sitter` doesn't use (and
+hasn't used) features that changed over time, but I don't know.
+
+Another point though is that they seem to insist on retiring older
+versions within fairly short periods.  Being forced to upgrade in such
+a manner doesn't seem great.
 
 AFAIK, the only reason we need the `node` binary at this point is
 because `tree-sitter` uses it to generate `src/parser.c` and friends.
@@ -345,10 +347,12 @@ JavaScript runtimes may also work.
 
 On a side note, ATM as part of installing `emsdk`, a version of `node`
 is installed.  So currently it's probably possible to just use that
-version of `node`.  On a related note, I tried out
+version of `node`.
+
+Regarding installation of Node.js, I tried out
 [volta](https://volta.sh/).  So far it seems better than `nvm` as
-AFAICT it will work on the usual 3 platforms (where as `nvm` only
-works on 2 of the 3, since `nvm-windows` isn't the same as `nvm`).
+AFAICT it will work on the usual 3 platforms (whereas `nvm` only works
+on 2 of the 3, since `nvm-windows` isn't the same as `nvm`).
 
 ### Unintegrated Content
 
