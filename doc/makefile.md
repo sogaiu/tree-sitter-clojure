@@ -393,6 +393,18 @@ XXX: npm package.json info:
 
 https://docs.npmjs.com/cli/v6/configuring-npm/package-json
 
+XXX: Makefile compared with package.json
+
+https://spin.atomicobject.com/2021/03/22/makefiles-vs-package-json-scripts/
+https://lobste.rs/s/jzhrcb/why_i_prefer_makefiles_over_package_json
+https://news.ycombinator.com/item?id=30671572
+
+XXX: alleged history of package.json's scripts
+
+https://github.com/npm/npm/issues/298
+https://github.com/npm/npm/commit/c8e17cef720875c1f7cea1b49b7bc9f1325ccff5
+https://github.com/npm/npm/commit/9b8c0cf87a9d4ef560e17e060f4ddc03b2ff1a1c
+
 XXX: idea of having verbose mode for subcommands that reports which
      .so (by file path and other info) was used
 
