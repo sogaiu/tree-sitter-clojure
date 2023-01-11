@@ -53,10 +53,10 @@ SO_INSTALL_DIR ?= $(TREE_SITTER_LIBDIR)
 
 # XXX: cache value and reuse?
 ifeq ("$(shell uname -s)", "Linux")
-	SO_EXT=so
+    SO_EXT=so
 endif
 ifeq ("$(shell uname -s)", "Darwin")
-	SO_EXT=dylib
+    SO_EXT=dylib
 endif
 
 ########################################################################
