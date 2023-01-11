@@ -1,3 +1,20 @@
+# "Builds are programs"
+#
+# -- clojure.core folks
+#
+# “The principal lesson of Emacs is that a language for extensions
+# should not be a mere “extension language”. It should be a real
+# programming language, designed for writing and maintaining
+# substantial programs. Because people will want to do that!”
+#
+# -- RMS
+#
+# Make is not a programming language!
+#
+# -- More than one programmer
+#
+# https://youtu.be/lgyOAiRtZGw?t=475
+
 # trying to make this Makefile generic
 TS_LANGUAGE ?= clojure
 
