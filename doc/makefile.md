@@ -317,7 +317,8 @@ There may be others.
 However, if we don't use the playground, we can still build a version
 of `tree-sitter` without that part being functional.  The playground
 has definitely had uses (and may continue to be useful) even though I
-don't typically use it.
+don't typically use it currently, I think it's at least valuable to
+develop a feel for tree-sitter as well as specific grammars.
 
 #### Node.js
 
