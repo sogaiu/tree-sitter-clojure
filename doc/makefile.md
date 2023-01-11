@@ -421,6 +421,10 @@ XXX: cheerp license could be an issue:
 > projects. Non-copyleft commercial licenses, commercial support and
 > consulting packages are available from Leaning Technologies.
 
+XXX: non js runtime way of generating?
+
+https://github.com/tree-sitter/tree-sitter/discussions/1413#discussioncomment-1414650
+
 XXX: idea of having verbose mode for subcommands that reports which
      .so (by file path and other info) was used
 
