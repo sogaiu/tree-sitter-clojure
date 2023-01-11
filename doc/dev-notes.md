@@ -1453,3 +1453,7 @@ https://github.com/tree-sitter/tree-sitter/discussions/1214#discussioncomment-93
 https://github.com/tree-sitter/tree-sitter/pull/906
 https://github.com/tree-sitter/tree-sitter/commit/5b630054c6999c134b3d2b2152b09424928efac4
 
+XXX: tree-sitter parse from stdin request
+
+https://github.com/tree-sitter/tree-sitter/issues/1511
+
