@@ -1120,7 +1120,12 @@ If you don't already have `git` in your environment...
 
 is one way to arrange for it :)
 
-Finally, we can work on building!  Via a `cmd.exe` command prompt:
+Finally, we can work on building!
+
+It might be better to hold on carrying out the following steps until
+you've read a bit passed them.
+
+Via a `cmd.exe` command prompt:
 
 * `git clone https://github.com/tree-sitter/tree-sitter` to get a
   local copy of the tree-sitter repository
@@ -1141,6 +1146,67 @@ For comparison, via Powershell that might be:
 * `$env:Path = "C:\msys64\mingw64\bin;$env:Path"` to make the msys2 / mingw64
   stuff available
 * `cargo build --release` to build appropriately
+
+At the time of writing, this built of `tree-sitter` may not be able to
+successfully carry out the `playground` subcommand because it is
+missing a couple of files: `tree-sitter.js` and `tree-sitter.wasm`.
+
+Neither of these files appears to be part of the tree-sitter
+repository and further, unlike for the *nix-like systems case, there
+do not appear to be any scripts to build them on Windows.
+
+Below is a less generic stripped down translation of
+`script/build-wasm`.  Perhaps it could be called
+`script/build-wasm.bat`.
+
+(Note: Before running `script/build-wasm.bat`, that Emscripten / emsdk
+needs to be setup.  See the "Install and Enable Emscripten
+Environment" section of this document for details.)
+
+```bat
+@echo on
+
+mkdir target\scratch
+
+REM need control to return, so use cmd /c
+cmd /c                                                        ^
+emcc                                                          ^
+  -s WASM=1                                                   ^
+  -s TOTAL_MEMORY=33554432                                    ^
+  -s ALLOW_MEMORY_GROWTH=1                                    ^
+  -s MAIN_MODULE=2                                            ^
+  -s NO_FILESYSTEM=1                                          ^
+  -s NODEJS_CATCH_EXIT=0                                      ^
+  -s NODEJS_CATCH_REJECTION=0                                 ^
+  -s EXPORTED_FUNCTIONS=@lib\binding_web\exports.json         ^
+  -s EXPORTED_RUNTIME_METHODS='stringToUTF16','AsciiToString' ^
+  -s ASSERTIONS=1 -s SAFE_HEAP=1 -O0                          ^
+  -fno-exceptions                                             ^
+  -std=c99                                                    ^
+  -Dfprintf(...)=                                             ^
+  -D NDEBUG=                                                  ^
+  -I lib\src                                                  ^
+  -I lib\include                                              ^
+  --js-library lib\binding_web\imports.js                     ^
+  --pre-js lib\binding_web\prefix.js                          ^
+  --post-js lib\binding_web\binding.js                        ^
+  --post-js lib\binding_web\suffix.js                         ^
+  lib\src\lib.c                                               ^
+  lib\binding_web\binding.c                                   ^
+  -o target\scratch\tree-sitter.js
+
+copy target\scratch\tree-sitter.js lib\binding_web\tree-sitter.js
+
+copy target\scratch\tree-sitter.wasm lib\binding_web\tree-sitter.wasm
+```
+
+(Note that you may not need to run `script/build-wasm.bat` every time
+`tree-sitter` is compiled.  It depends on what has changed.)
+
+From time to time it may be good to check [these ci
+lines](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/.github/workflows/ci.yml#L66-L75)
+for what's necessary to build the cli as that might change in the
+future.
 
 (On the off-chance you're wondering if scoop has `tree-sitter`...it
 does, but that gets you a precompiled version.)
