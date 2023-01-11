@@ -943,7 +943,8 @@ I'm only familiar with getting `rustc`, `cargo`, and friends using
 [`rustup`](https://rustup.rs/).  Perhaps a version via a package
 manager on one's system would suffice as well.
 
-Assuming appropriate Rust development bits are in place:
+Assuming appropriate Rust development bits are in place (don't do this
+yet, read on a bit further first):
 
 * `git clone https://github.com/tree-sitter/tree-sitter` to get a
   local copy of the tree-sitter repository
@@ -952,30 +953,41 @@ Assuming appropriate Rust development bits are in place:
   ~/bin/tree-sitter` to make an appropriate symlink so that
   `tree-sitter` is available via `PATH`
 
-Unless you need to work with Windows, I suggest skipping the next
-section.
+If you are intending to use the `playground` subcommand, it's
+important to run `script/build-wasm` before building the `tree-sitter`
+cli.
 
-XXX: if intending to use `build-wasm` or `playground`, it's important
-to run `script/build-wasm` before building the `tree-sitter` cli.
 `script/build-wasm` creates `tree-sitter.js` and `tree-sitter.wasm`
-which are served by `tree-sitter playground`.  the tree-sitter
-repository does not appear to have these two files checked in at the
-time of this writing.
+which are served by `tree-sitter playground`.  The two files end up
+embedded into the `tree-sitter` cli binary so they need to be built
+before the binary is compiled.
 
-note that the docs [claim that not doing this will result in requiring
+The two files need to be built because the tree-sitter repository does
+not appear to have these two files checked in at the time of this
+writing.
+
+(Note that you may not need to run `script/build-wasm` every time
+`tree-sitter` is compiled.  It depends on what has changed.)
+
+(Note also that Emscripten / emsdk needs to be setup for
+`script/build-wasm` to succeed.  See the "Install and Enable
+Emscripten Environment" section of this document for details.)
+
+Although the docs [claim that not doing this will result in requiring
 an internet connection to use the
-playground](https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-6-contributing.md#building)
--- that may not work in practice if the fetched `.wasm` and/or `.js`
+playground](https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-6-contributing.md#building),
+that may not work in practice if the fetched `.wasm` and/or `.js`
 files are not compatible with the `.wasm` file for the grammar, so for
 reliability purposes, it may be better to build with
 `script/build-wasm` as mentioned above.
 
-XXX: from time to time it may be good to check [these ci
+From time to time it may be good to check [these ci
 lines](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/.github/workflows/ci.yml#L66-L75)
-for what's necessary to build the cli.
+for what's necessary to build the cli as that might change in the
+future.
 
-XXX: windows instructions probably need to be updated with this info
-too
+Unless you need to work with Windows, I suggest skipping the next
+section.
 
 #### Windows
 
