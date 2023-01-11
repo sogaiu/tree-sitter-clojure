@@ -304,7 +304,7 @@ Some other pieces that seem to have become churny, complicated, and/or
 side-effecty include:
 
 * Emscripten / emsdk
-* `Node.js`
+* Node.js
 
 #### Emscripten / emsdk
 
