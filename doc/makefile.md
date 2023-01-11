@@ -405,6 +405,12 @@ https://github.com/npm/npm/issues/298
 https://github.com/npm/npm/commit/c8e17cef720875c1f7cea1b49b7bc9f1325ccff5
 https://github.com/npm/npm/commit/9b8c0cf87a9d4ef560e17e060f4ddc03b2ff1a1c
 
+XXX: cheerp license could be an issue:
+
+> Cheerp is open-source software and is free to use for GPLv2
+> projects. Non-copyleft commercial licenses, commercial support and
+> consulting packages are available from Leaning Technologies.
+
 XXX: idea of having verbose mode for subcommands that reports which
      .so (by file path and other info) was used
 
