@@ -1474,18 +1474,20 @@ to this:
     info Visit https://yarnpkg.com/en/docs/cli/install for documentation about this command.
     ```
 
-  On a side note, some npm packages (projects) do [appear to contain
-  symlinks](https://github.com/browserify/browserify/tree/master/test/symlink_dedupe/one),
-  so it seems like having symlinks should be ok...
+On a side note, some npm packages (projects) do [appear to contain
+symlinks](https://github.com/browserify/browserify/tree/master/test/symlink_dedupe/one),
+so it seems like having symlinks should be ok...
 
-  Perhaps more recent versions of yarn will work better.  I didn't try
-  the "modern" yarn, only something from the older 1.x series --
-  apparently it was 1.22.19.
+Perhaps more recent versions of yarn will work better.  I didn't try
+the "modern" yarn, only something from the older 1.x series --
+apparently it was 1.22.19.
 
-  May be there's some way to get the symlink to be created
-  automatically by the Makefile...or may be there can be a "setup
-  script" that can be run after cloning (perhaps there can be a
-  "setup" target in the Makefile).
+May be there's some way to get the symlink to be created automatically
+by the Makefile...or may be there can be a "setup script" that can be
+run after cloning (perhaps there can be a "setup" target in the
+Makefile).
+
+I've opted to remove the symlink from the repository for now.
 
 ### Reducing Dependence On Certain Things
 
