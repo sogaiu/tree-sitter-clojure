@@ -161,7 +161,7 @@ Had this building process been expressed in a `Makefile`, the
 activities involved for investigation likely would have been simpler
 and taken less time.
 
-[2] Haing multiple checkouts of a grammar doesn't seem like it could
+[2] Having multiple checkouts of a grammar doesn't seem like it could
 be too unlikely because:
 
 Different branches may be stored in separate directories with names
