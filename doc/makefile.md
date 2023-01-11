@@ -4,9 +4,9 @@ For historical and conformance reasons, tree-sitter-clojure's
 repository has been using an `npm` / `package.json` organization.
 
 We made use of the associated "scripts" (see inside of `package.json`)
-functionality and leaned heavily on the capabilities of the command
-line interface (cli) of `tree-sitter` for various project-related
-tasks such as:
+functionality and relied on the capabilities of the command line
+interface (cli) of `tree-sitter` for various project-related tasks
+such as:
 
 * Generating `.c` and `.json` bits from `grammar.js`
 * Generating a `.wasm` file for the grammar
