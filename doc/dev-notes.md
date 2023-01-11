@@ -1356,7 +1356,8 @@ collection of source files to see if there are noticeable changes.
 ## Some tree-sitter Version Highlights
 
 * Unreleased
-  * [loader: add TREE_SITTER_LIBDIR; cli: add --libdir to `tree-sitter generate`](https://github.com/tree-sitter/tree-sitter/commit/108d0ecede9312e88ac12475ffac62af9fba5dbf)
+  * [Add setting TREE_SITTER_DEBUG in the test subcommand](https://github.com/tree-sitter/tree-sitter/commit/c7d431b53ed6e7b08d73d237cba960da1d437e62)
+  * [loader: add TREE_SITTER_LIBDIR; cli: add --libdir to tree-sitter generate](https://github.com/tree-sitter/tree-sitter/commit/108d0ecede9312e88ac12475ffac62af9fba5dbf)
   * [cli: add -b, --build flags for tree-sitter generate](https://github.com/tree-sitter/tree-sitter/commit/5088781ef965c5cd7187c5308e3cb45f8f892860)
   * [Bump Emscripten version to 3.1.29](https://github.com/tree-sitter/tree-sitter/commit/88fe1d00c42760beda7cc01f5259da3d7fc5265e)
   * [Upgrade to emscripten 3.1.25](https://github.com/tree-sitter/tree-sitter/commit/1f36bf091e1faaec5d9282f47c9dab00f7435e06)
