@@ -1432,33 +1432,3 @@ https://github.com/tree-sitter/tree-sitter/pull/1835
 XXX: info on some debugging-related TREE_SITTER_* env vars
 
 https://github.com/tree-sitter/tree-sitter/issues/2021
-
-XXX: there is some hard-wired code that expects to find
-     `package.json`.  for certain subcommands (e.g. `parse`, `query`,
-     `highlight`, etc.) to function `package.json` appears to be
-     required.
-
-   however, the only necessary content in `package.json` is:
-
-```
-    {
-      "tree-sitter": [
-        {
-          "scope": "source.clojure",
-          "file-types": [
-            "bb",
-            "clj",
-            "cljc",
-            "cljs"
-          ]
-        }
-      ]
-    }
-```
-
-https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L536-L591
-
-XXX: cursorless' vscode-parse-tree uses yarn to fetch and "install"
-     tree-sitter-clojure.  `package.json` appears necessary for this
-     to work.  Further, at least the "name" and "version" fields
-     appear necessary.  for the moment, I've added those back.
