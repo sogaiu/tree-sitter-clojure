@@ -328,7 +328,9 @@ develop a feel for tree-sitter as well as specific grammars.
 My impression is that Node.js seems to have had relatively speaking,
 little regard for backward compatibility (though perhaps this is no
 longer true?).  Another point is that they seem to insist on retiring
-older versions within fairly short periods.
+older versions within fairly short periods.  It's possible that
+`tree-sitter` doesn't use (and hasn't used) features that changed over
+time, but I don't know.
 
 AFAIK, the only reason we need the `node` binary at this point is
 because `tree-sitter` uses it to generate `src/parser.c` and friends.
