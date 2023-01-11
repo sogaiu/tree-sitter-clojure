@@ -924,6 +924,9 @@ There are [official
 instructions](https://tree-sitter.github.io/tree-sitter/contributing#developing-tree-sitter)
 [1] that are worth taking a look at.
 
+XXX: Note that the `dot` command may be necessary for working with
+`--debug-graph`.
+
 Below are descriptions of the sorts of things I do.  Welcome to the
 platform fork-in-the-road.
 
