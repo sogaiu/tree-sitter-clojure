@@ -219,4 +219,3 @@ tree-sitter-$(TS_LANGUAGE).wasm: src/parser.c
 clean:
 	- rm -rf src
 	- rm -f tree-sitter-$(TS_LANGUAGE).wasm
-
