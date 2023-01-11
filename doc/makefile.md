@@ -425,6 +425,11 @@ XXX: non js runtime way of generating?
 
 https://github.com/tree-sitter/tree-sitter/discussions/1413#discussioncomment-1414650
 
+XXX: alternate js runtime
+
+https://github.com/tree-sitter/tree-sitter/issues/465
+https://github.com/tree-sitter/tree-sitter/discussions/1413#discussioncomment-1384438
+
 XXX: idea of having verbose mode for subcommands that reports which
      .so (by file path and other info) was used
 
