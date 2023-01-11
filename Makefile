@@ -28,24 +28,58 @@ MIN_VERSION := "0.20.8"
 # the directory this Makefile lives in
 GRAMMAR_PROJ_DIR = $(shell pwd)
 
-# by default, try to limit scanning to the directory containing this
-# file
+# XXX: various tree-sitter commands can lead to scanning of
+#      directories looking for grammar directories that can have their
+#      content automatically compiled and made accessible to
+#      tree-sitter.  there may be more than one problem with this
+#      functionality, but one clear problem is that it can lead to
+#      different versions of the same language's grammar having .so
+#      files be used by tree-sitter.  this can be confusing during
+#      testing or otherwise interpreting the results of tree-sitter
+#      commands.
 #
-# XXX: have made a symlink in the same dir from tree-sitter-clojure to
-#      the project directory itself.  on windows may need developer
-#      mode for this to work.
+#      there doesn't appear to be a nice way to turn off this scanning
+#      behavior nor a way to explicitly tell tree-sitter to use one
+#      specific .so or perhaps to only use specifically one grammar.
 #
-#      that symlink in combination with the entry in config.json for
-#      parser_directories:
+#      there is a way to work around this provided one only executes
+#      tree-sitter subcommands in the top level of one's grammar
+#      directory, but it requires an as yet unreleased tree-sitter
+#      that has TREE_SITTER_LIBDIR functionality built in.  the
+#      release after 0.20.7 may end up having this.
 #
-#      {
-#        "parser-directories": [
-#          "."
-#        ],
+#      in any case, the steps to set this up are:
 #
-#      make scanning happen only inside the grammar directory as
-#      long as `tree-sitter` is invoked only inside the grammar
-#      directory (actually at its top-level)
+#      1. create symlink in grammar directory with a name that starts
+#         with tree-sitter- and have it point to "." (no quotes).
+#         it's likely less confusing to name the link
+#         "tree-sitter-<name>" where <name> refers to the language for
+#         the grammar as it will appear in output for at least one
+#         tree-sitter subcommand.
+#
+#      2. arrange for the TREE_SITTER_DIR env var to point at a
+#         .tree-sitter subdirectory of the grammar's directory.
+#
+#      3. put a config.json file in the aforementioned .tree-sitter
+#         directory.
+#
+#      4. put an entry for "parser-directories" (an array or list)
+#         that has a single element "."  (yes quotes this time).  so
+#         the file might contain:
+#
+#         {
+#           "parser-directories": [
+#             "."
+#           ]
+#         }
+#
+#      run `tree-sitter dump-languages` to verify which gramamars are
+#      recognized and how many there are.
+#
+#      the goal is to have one and have it be the current one.
+HACK_LINK = `ls -d tree-sitter-* 2> /dev/null`
+HACK_LINK_DEREF = `readlink tree-sitter-*`
+
 TREE_SITTER_DIR ?= $(GRAMMAR_PROJ_DIR)/.tree-sitter
 # XXX: the env var TREE_SITTER_LIBDIR only affects the tree-sitter cli
 #      for versions beyond 0.20.7 -- we use it here for convenient
@@ -65,64 +99,6 @@ endif
 ifeq ("$(shell uname -s)", "Darwin")
     SO_EXT=dylib
 endif
-
-# XXX: various tree-sitter commands can lead to scanning
-#      of directories looking for grammar directories that
-#      can have their content automatically compiled and
-#      made accessible to tree-sitter.  there may be
-#      more than one problem with this functionality, but
-#      one clear problem is that it can lead to different
-#      versions of the same language's grammar having
-#      .so files be used by tree-sitter.  this can be
-#      confusing during testing or otherwise interpreting
-#      the results of tree-sitter commands.
-#
-#      there doesn't appear to be a nice way to turn off
-#      this scanning behavior nor a way to explicitly
-#      tell tree-sitter to use one specific .so or
-#      perhaps to only use specifically one grammar.
-#
-#      there is a way to work around this provided one
-#      only executes tree-sitter subcommands in the top
-#      level of one's grammar directory, but it requires
-#      an as yet unreleased tree-sitter that has
-#      TREE_SITTER_LIBDIR functionality built in.
-#      the release after 0.20.7 may end up having this.
-#
-#      in any case, the steps to set this up are:
-#
-#      1. create symlink in grammar directory with
-#         a name that starts with tree-sitter- and have
-#         it point to "." (no quotes).  it's likely less
-#         confusing to name the link "tree-sitter-<name>"
-#         where <name> refers to the language for the
-#         grammar as it will appear in output for
-#         at least one tree-sitter subcommand.
-#
-#      2. arrange for the TREE_SITTER_DIR env var to
-#         point at a .tree-sitter subdirectory of the
-#         grammar's directory.
-#
-#      3. put a config.json file in the aforementioned
-#         .tree-sitter directory.
-#
-#      4. put an entry for "parser-directories" (an
-#         array or list) that has a single element "."
-#         (yes quotes this time).  so the file might
-#         contain:
-#
-#         {
-#           "parser-directories": [
-#             "."
-#           ]
-#         }
-#
-#      run `tree-sitter dump-languages` to verify which
-#      gramamars are recognized and how many there are.
-#
-#      the goal is to have one and have it be the current one.
-HACK_LINK = `ls -d tree-sitter-* 2> /dev/null`
-HACK_LINK_DEREF = `readlink tree-sitter-*`
 
 ########################################################################
 
