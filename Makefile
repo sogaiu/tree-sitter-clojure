@@ -21,7 +21,7 @@ GRAMMAR_PROJ_DIR = $(shell pwd)
 # file
 #
 # XXX: have made a symlink in the same dir from tree-sitter-clojure to
-#      the project directory itself.  on windows may new developer
+#      the project directory itself.  on windows may need developer
 #      mode for this to work.
 #
 #      that symlink in combination with the entry in config.json for
@@ -32,14 +32,14 @@ GRAMMAR_PROJ_DIR = $(shell pwd)
 #          "."
 #        ],
 #
-#      limits scanning to the grammar's directory only
-#
-#      at least, that is the hope :)
+#      make scanning happen only inside the grammar directory as
+#      long as `tree-sitter` is invoked only inside the grammar
+#      directory (actually at its top-level)
 TREE_SITTER_DIR ?= $(GRAMMAR_PROJ_DIR)/.tree-sitter
 # XXX: the env var TREE_SITTER_LIBDIR only affects the tree-sitter cli
-#      for versions beyond 0.20.7 -- we want to use the --libdir
-#      flag for the generate subcommand, but that was added at the
-#      same time.
+#      for versions beyond 0.20.7 -- we use it here for convenient
+#      expression but just put its value in SO_INSTALL_DIR and use
+#      that instead
 TREE_SITTER_LIBDIR ?= $(TREE_SITTER_DIR)/lib
 
 # XXX: most likely it's stuff above this line one might want to tweak
