@@ -19,7 +19,11 @@ TS_PATH ?= tree-sitter
 #   1           2      3
 #
 # so split on spaces and take the 2nd and 3rd fields
-TS_VERSION = `$(TS_PATH) --version | cut -d' ' -f2-3`
+TS_VERSION = `$(TS_PATH) --version | cut -d' ' -f2`
+TS_COMMIT = `$(TS_PATH) --version | cut -d' ' -f3`
+
+#MIN_VERSION := "0.19.4"
+MIN_VERSION := "0.20.8"
 
 # the directory this Makefile lives in
 GRAMMAR_PROJ_DIR = $(shell pwd)
@@ -62,6 +66,64 @@ ifeq ("$(shell uname -s)", "Darwin")
     SO_EXT=dylib
 endif
 
+# XXX: various tree-sitter commands can lead to scanning
+#      of directories looking for grammar directories that
+#      can have their content automatically compiled and
+#      made accessible to tree-sitter.  there may be
+#      more than one problem with this functionality, but
+#      one clear problem is that it can lead to different
+#      versions of the same language's grammar having
+#      .so files be used by tree-sitter.  this can be
+#      confusing during testing or otherwise interpreting
+#      the results of tree-sitter commands.
+#
+#      there doesn't appear to be a nice way to turn off
+#      this scanning behavior nor a way to explicitly
+#      tell tree-sitter to use one specific .so or
+#      perhaps to only use specifically one grammar.
+#
+#      there is a way to work around this provided one
+#      only executes tree-sitter subcommands in the top
+#      level of one's grammar directory, but it requires
+#      an as yet unreleased tree-sitter that has
+#      TREE_SITTER_LIBDIR functionality built in.
+#      the release after 0.20.7 may end up having this.
+#
+#      in any case, the steps to set this up are:
+#
+#      1. create symlink in grammar directory with
+#         a name that starts with tree-sitter- and have
+#         it point to "." (no quotes).  it's likely less
+#         confusing to name the link "tree-sitter-<name>"
+#         where <name> refers to the language for the
+#         grammar as it will appear in output for
+#         at least one tree-sitter subcommand.
+#
+#      2. arrange for the TREE_SITTER_DIR env var to
+#         point at a .tree-sitter subdirectory of the
+#         grammar's directory.
+#
+#      3. put a config.json file in the aforementioned
+#         .tree-sitter directory.
+#
+#      4. put an entry for "parser-directories" (an
+#         array or list) that has a single element "."
+#         (yes quotes this time).  so the file might
+#         contain:
+#
+#         {
+#           "parser-directories": [
+#             "."
+#           ]
+#         }
+#
+#      run `tree-sitter dump-languages` to verify which
+#      gramamars are recognized and how many there are.
+#
+#      the goal is to have one and have it be the current one.
+HACK_LINK = `ls -d tree-sitter-* 2> /dev/null`
+HACK_LINK_DEREF = `readlink tree-sitter-*`
+
 ########################################################################
 
 ##############
@@ -71,11 +133,27 @@ endif
 dump:
 	@echo "   GRAMMAR_PROJ_DIR:" $(GRAMMAR_PROJ_DIR)
 	@echo "        TS_LANGUAGE:" $(TS_LANGUAGE)
+	@echo
 	@echo "            TS_PATH:" $(TS_PATH)
 	@echo "         TS_VERSION:" $(TS_VERSION)
+	@echo "          TS_COMMIT:" $(TS_COMMIT)
+	@echo "        MIN_VERSION:" $(MIN_VERSION)
+	@echo
 	@echo "    TREE_SITTER_DIR:" $(TREE_SITTER_DIR)
 	@echo " TREE_SITTER_LIBDIR:" $(TREE_SITTER_LIBDIR)
 	@echo "     SO_INSTALL_DIR:" $(SO_INSTALL_DIR)
+	@echo
+	@echo "          HACK_LINK:" $(HACK_LINK)
+	@echo "    HACK_LINK_DEREF:" $(HACK_LINK_DEREF)
+	@echo
+	@echo "tree-sitter dump-languages:"
+	@echo
+	@$(TS_PATH) dump-languages
+	@echo "If tree-sitter dump-languages shows info about more"
+	@echo "than one language, be careful while interpreting output"
+	@echo "from tree-sitter commands.  The shared object used by"
+	@echo "tree-sitter for processing may be different from what is"
+	@echo "expected."
 
 #################
 # shared object #
