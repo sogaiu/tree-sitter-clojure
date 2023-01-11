@@ -15,7 +15,15 @@
 #
 # https://youtu.be/lgyOAiRtZGw?t=475
 
-# XXX: add bits to report versions of other tools?
+# XXX: eventually work on portability?
+#
+# portable makefile tutorial
+#   https://nullprogram.com/blog/2017/08/20/
+#
+# posix makefile spec
+#   https://pubs.opengroup.org/onlinepubs/9699919799/utilities/make.html
+#
+# consider bmake and fmake for testing portability on occasion
 
 # trying to make this Makefile generic
 TS_LANGUAGE ?= clojure
