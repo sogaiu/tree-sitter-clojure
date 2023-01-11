@@ -45,6 +45,8 @@ based on using a `Makefile`.
   <name>`, which is verbose if it's going to be used for performing
   actions repeatedly at the command line.
 
+---
+
 [1] For example, the presence of `binding.gyp` in the root of the
 project directory leading to the execution of `node-gyp rebuild` upon
 invocation of `npm install`, was not easy to find.  Note that the
@@ -145,6 +147,8 @@ Due to the above, an attempt will be made to gradually:
    likely in the form of `Makefile` targets
 
 2. Arrange for avoidance or mitigation of the unwanted scanning.
+
+---
 
 [1] When trying to use a MSYS2 / MingW64 environment with
 `tree-sitter`, one subcommand invocation was failing with output that
