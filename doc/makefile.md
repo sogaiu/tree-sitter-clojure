@@ -355,7 +355,7 @@ grammars.
 
 My impression is that Node.js seems to have had relatively speaking,
 little regard for backward compatibility (though perhaps this is no
-longer true?).  It's possible that `tree-sitter` doesn't use (and
+longer true?) [1].  It's possible that `tree-sitter` doesn't use (and
 hasn't used) features that changed over time, but I don't know.
 
 Another point though is that they seem to insist on retiring older
@@ -379,6 +379,11 @@ Regarding installation of Node.js, I tried out
 [volta](https://volta.sh/).  So far it seems better than `nvm` as
 AFAICT it will work on the usual 3 platforms (whereas `nvm` only works
 on 2 of the 3, since `nvm-windows` isn't the same as `nvm`).
+
+---
+
+[1] One example I recall encountering is touched on
+[here](https://github.com/tree-sitter/tree-sitter/issues/571#issuecomment-596805891).
 
 ### Unintegrated Content
 
