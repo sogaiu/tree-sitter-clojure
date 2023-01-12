@@ -210,6 +210,7 @@ OLD_PATH := $(PATH)
 # XXX: doing the following as an experiment.  may be brittle though if
 #      emscripten changes certain things
 EMSDK ?= $(HOME)/src/emsdk
+EMSCRIPTEN := $(EMSDK)/upstream/emscripten
 # XXX: using * ok?  possibly an issue?
 NODE_VERSION := $(shell ls $(EMSDK)/node)
 NODE_BIN_DIR_PATH := $(EMSDK)/$(NODE_VERSION)/bin
@@ -374,7 +375,7 @@ playground: $(PARSER_WASM)
 $(PARSER_WASM): src/parser.c
 	EMSDK=$(EMSDK) \
 	EMSDK_NODE=$(EMSDK_NODE) \
-	PATH=$(EMSDK):$(EMSDK)/upstream/emscripten:$(NODE_BIN_DIR_PATH):$(OLD_PATH) \
+	PATH=$(EMSDK):$(EMSCRIPTEN):$(NODE_BIN_DIR_PATH):$(OLD_PATH) \
 	$(TS_PATH) build-wasm
 
 # alias for command line use
