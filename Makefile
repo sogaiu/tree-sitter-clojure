@@ -165,7 +165,7 @@ GENERATED_SRC := src/parser.c src/grammar.json src/node-types.json src/tree_sitt
 PARSER_WASM := tree-sitter-$(TS_LANGUAGE).wasm
 PARSER_WASM_PATH := $(GRAMMAR_PROJ_DIR)/$(PARSER_WASM)
 
-INSTALLED_SO_PATH := $(SO_INSTALL_DIR)/$(TS_LANGUAGE).$(SO_EXT)
+INSTALLED_SO_PATH := $(SO_INSTALL_DIR)/$(SO_NAME)
 
 OLD_PATH := $(PATH)
 
@@ -306,13 +306,13 @@ shared-object: src/parser.c
 	fi
 	# Linking
 	if test -f src/scanner.cc; then \
-	  c++ -fPIC -shared src/*.o -o src/$(TS_LANGUAGE).$(SO_EXT); \
+	  c++ -fPIC -shared src/*.o -o src/$(SO_NAME); \
 	else \
-	  cc -fPIC -shared src/*.o -o src/$(TS_LANGUAGE).$(SO_EXT); \
+	  cc -fPIC -shared src/*.o -o src/$(SO_NAME); \
 	fi
 
 install: shared-object
-	cp src/$(TS_LANGUAGE).$(SO_EXT) $(SO_INSTALL_DIR)
+	cp src/$(SO_NAME) $(SO_INSTALL_DIR)
 
 .PHONY: uninstall
 uninstall:
