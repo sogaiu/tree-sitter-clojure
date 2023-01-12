@@ -155,7 +155,7 @@ ifeq ("$(shell uname -s)", "Darwin")
 endif
 
 INSTALLED_SO_PATH := $(SO_INSTALL_DIR)/$(TS_LANGUAGE).$(SO_EXT)
-PARSER_WASM_PATH := tree-sitter-$(TS_LANGUAGE).wasm
+PARSER_WASM_PATH := $(GRAMMAR_PROJ_DIR)/tree-sitter-$(TS_LANGUAGE).wasm
 
 ####################
 # emsdk experiment #
