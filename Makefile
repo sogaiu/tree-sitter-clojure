@@ -219,16 +219,19 @@ dump:
 	@echo " TREE_SITTER_LIBDIR:" $(TREE_SITTER_LIBDIR)
 	@echo " ------------------"
 	@echo
-	@echo "     SO_INSTALL_DIR:" $(SO_INSTALL_DIR)
-	@echo
 	@echo "             SO_EXT:" $(SO_EXT)
 	@echo
-	@echo "       INSTALLED_SO:" $(shell ls $(INSTALLED_SO_PATH) 2> /dev/null)
+	@echo "     SO_INSTALL_DIR:" $(SO_INSTALL_DIR)
+	@echo
+	@echo "      GENERATED_SRC:" $(shell ls src/* 2> /dev/null)
 	@echo "       CURRENT_WASM:" $(shell ls $(PARSER_WASM_PATH) 2> /dev/null)
+	@echo
+	@echo "       INSTALLED_SO:" $(shell ls $(INSTALLED_SO_PATH) 2> /dev/null)
 	@echo
 	@echo "              EMSDK:" $(EMSDK)
 	@echo "         EMSDK_NODE:" $(EMSDK_NODE)
-	@echo "               PATH:" $(PATH)
+	@echo
+	@echo "           OLD_PATH:" $(PATH)
 	@echo
 	@echo "          HACK_LINK:" $(HACK_LINK)
 	@echo "    HACK_LINK_DEREF:" $(HACK_LINK_DEREF)
