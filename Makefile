@@ -278,7 +278,7 @@ uninstall:
 ###############
 
 .PHONY: corpus-test
-corpus-test: src
+corpus-test: src/parser.c
 	$(TS_PATH) test
 
 ###########################
