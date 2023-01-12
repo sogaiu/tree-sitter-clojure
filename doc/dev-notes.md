@@ -1538,3 +1538,7 @@ https://github.com/tree-sitter/tree-sitter/issues/1511
 XXX: eventually the c library might be able to load grammar / parser `.wasm`s:
 
 [Add optional WASM feature to the native library, allowing it to run wasm-compiled parsers via wasmtime](https://github.com/tree-sitter/tree-sitter/pull/1864)
+
+XXX: found some partial implementation notes:
+
+https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-5-implementation.md#the-runtime
