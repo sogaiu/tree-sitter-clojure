@@ -121,7 +121,7 @@ There is at least one thing that one may want to avoid for a common
 set of uses cases involving trying to establish the behavior of one
 specific grammar on its own (IMO, a common scenario).
 
-Many `tree-sitter` subcommands can lead to scanning certain
+Multiple `tree-sitter` subcommands can lead to scanning certain
 directories for directories that have names beginning with
 `tree-sitter-`.  This is done in order to locate grammars for various
 programming languages for use by various `tree-sitter` subcommands.
