@@ -174,6 +174,9 @@ someone else's work.  Then having a directory name like
 Storing such directories under the same parent directory such as
 `~/src` seems like a reasonable choice.
 
+Unfortunately, this combination can lead to confusion due to the
+scanning described above.
+
 ### Why a `Makefile`?
 
 #### Some Reasons to Use a `Makefile`
