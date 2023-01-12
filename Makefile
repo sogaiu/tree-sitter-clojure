@@ -155,6 +155,8 @@ ifeq ("$(shell uname -s)", "Darwin")
     SO_EXT := dylib
 endif
 
+SO_NAME := $(TS_LANGUAGE).$(SO_EXT)
+
 INSTALLED_SO_PATH := $(SO_INSTALL_DIR)/$(TS_LANGUAGE).$(SO_EXT)
 PARSER_WASM_PATH := $(GRAMMAR_PROJ_DIR)/tree-sitter-$(TS_LANGUAGE).wasm
 OLD_PATH := $(PATH)
