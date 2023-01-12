@@ -23,6 +23,11 @@
 # posix makefile spec
 #   https://pubs.opengroup.org/onlinepubs/9699919799/utilities/make.html
 #
+
+# XXX: process rules of makefiles
+#
+# https://make.mad-scientist.net/papers/rules-of-makefiles/
+
 # consider bmake and fmake for testing portability on occasion
 
 # XXX: additional targets?
