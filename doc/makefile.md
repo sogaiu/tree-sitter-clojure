@@ -461,6 +461,10 @@ possible location for such info might be:
 
 https://github.com/tree-sitter/tree-sitter/blob/master/lib/binding_web/README.md
 
+XXX: symlinks in msys2 / mingw64:
+
+https://www.joshkel.com/2018/01/18/symlinks-in-windows/
+
 XXX: idea of having verbose mode for subcommands that reports which
      .so (by file path and other info) was used
 
