@@ -126,8 +126,9 @@ GRAMMAR_PROJ_DIR := $(shell pwd)
 #      recognized and how many there are.
 #
 #      the goal is to have one and have it be the current one.
-HACK_LINK := $(shell ls -d tree-sitter-$(TS_LANGUAGE) 2> /dev/null)
-HACK_LINK_DEREF := $(shell readlink tree-sitter-*)
+LINK_NAME := tree-sitter-$(TS_LANGUAGE)
+HACK_LINK := $(shell ls -d $(LINK_NAME) 2> /dev/null || echo "None")
+HACK_LINK_DEREF := $(shell readlink $(LINK_NAME) 2> /dev/null || echo "None")
 
 OLD_TREE_SITTER_DIR := $(TREE_SITTER_DIR)
 TREE_SITTER_DIR ?= $(GRAMMAR_PROJ_DIR)/.tree-sitter
