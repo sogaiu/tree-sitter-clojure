@@ -152,6 +152,7 @@ endif
 # diagnostic #
 ##############
 
+#  XXX: using `set` can be a handy way to see what env vars got exported
 dump:
 	@echo "   GRAMMAR_PROJ_DIR:" $(GRAMMAR_PROJ_DIR)
 	@echo "        TS_LANGUAGE:" $(TS_LANGUAGE)
