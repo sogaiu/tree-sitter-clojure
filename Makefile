@@ -209,7 +209,7 @@ OLD_PATH := $(PATH)
 # diagnostic #
 ##############
 
-#  XXX: using `set` can be a handy way to see what env vars got exported
+# XXX: using `set` can be a handy way to see what env vars got exported
 dump:
 	@echo "        TS_LANGUAGE:" $(TS_LANGUAGE)
 	@echo "   GRAMMAR_PROJ_DIR:" $(GRAMMAR_PROJ_DIR)
