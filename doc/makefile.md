@@ -394,6 +394,9 @@ on 2 of the 3, since `nvm-windows` isn't the same as `nvm`).
 [1] One example I recall encountering is touched on
 [here](https://github.com/tree-sitter/tree-sitter/issues/571#issuecomment-596805891).
 
+Another example is a case where [the used Node.js version was too
+recent](https://github.com/tree-sitter/tree-sitter/issues/409#issuecomment-517903683).
+
 ### Unintegrated Content
 
 XXX: code in `tree-sitter` that scans `package.json`
