@@ -147,12 +147,14 @@ export TREE_SITTER_LIBDIR
 # where the shared object is looked for by tree-sitter cli
 SO_INSTALL_DIR ?= $(TREE_SITTER_LIBDIR)
 
-# XXX: cache value and reuse?
-ifeq ("$(shell uname -s)", "Linux")
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), "Linux")
     SO_EXT := so
-endif
-ifeq ("$(shell uname -s)", "Darwin")
+else ifeq ($(UNAME_S), "Darwin")
     SO_EXT := dylib
+else ifeq ($(shell echo $(UNAME_S) | head -7), "MINGW64")
+    SO_EXT := dll
 endif
 
 SO_NAME := $(TS_LANGUAGE).$(SO_EXT)
