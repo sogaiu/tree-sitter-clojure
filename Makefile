@@ -259,6 +259,10 @@ hack-symlink:
 src/parser.c: grammar.js
 	$(TS_PATH) generate --abi 13 --no-bindings
 
+# XXX: not using this anywhere
+#src/grammar.json: grammar.js
+#	$(TS_PATH) generate --abi 13 --no-bindings
+
 # XXX: not relying on the tree-sitter cli for building seems more
 #      flexible.
 #
