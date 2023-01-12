@@ -157,9 +157,12 @@ endif
 
 SO_NAME := $(TS_LANGUAGE).$(SO_EXT)
 
-# XXX: build in another directory
-# XXX: brittle because there could be src/scanner.(c|cc)
-# XXX: reason to keep build and source directories separate?
+# build directory for shared object
+#
+# NOTE: making this the same as src will make some values in this program
+#       incorrect so don't do that
+BUILD_DIR_NAME ?= build
+BUILD_DIR_PATH := $(GRAMMAR_PROJ_DIR)/$(BUILD_DIR_NAME)
 
 PARSER_WASM := tree-sitter-$(TS_LANGUAGE).wasm
 PARSER_WASM_PATH := $(GRAMMAR_PROJ_DIR)/$(PARSER_WASM)
@@ -237,7 +240,7 @@ dump:
 	@echo "   Generated source:" \
               $(shell find src -type f 2> /dev/null || echo "None")
 	@echo "        Compiled SO:" \
-              $(shell ls src/$(SO_NAME) 2> /dev/null || echo "None")
+              $(shell ls $(BUILD_DIR_PATH)/$(SO_NAME) 2> /dev/null || echo "None")
 	@echo "        Parser wasm:" \
               $(shell ls $(PARSER_WASM_PATH) 2> /dev/null || echo "None")
 	@echo
@@ -293,25 +296,28 @@ src/parser.c: grammar.js
 #      running the invocation again.  that kind of thing seems like it
 #      could be avoided by externalization as is dones below.
 shared-object: src/parser.c
+	mkdir -p $(BUILD_DIR_PATH)
 	# Compiling parser
-	cc -fPIC -c -Isrc src/parser.c -o src/parser.o
+	cc -fPIC -c -Isrc src/parser.c -o $(BUILD_DIR_PATH)/parser.o
 	# May be compiling scanner.c
 	if test -f src/scanner.c; then \
-	  cc -fPIC -c -Isrc src/scanner.c -o src/scanner.o; \
+	  cc -fPIC -c -Isrc src/scanner.c -o $(BUILD_DIR_PATH)/scanner.o; \
 	fi
 	# May be compiling scanner.cc
 	if test -f src/scanner.cc; then \
-	  c++ -fPIC -Isrc -c src/scanner.cc -o src/scanner.o; \
+	  c++ -fPIC -Isrc -c src/scanner.cc -o $(BUILD_DIR_PATH)/scanner.o; \
 	fi
 	# Linking
 	if test -f src/scanner.cc; then \
-	  c++ -fPIC -shared src/*.o -o src/$(SO_NAME); \
+	  c++ -fPIC -shared $(BUILD_DIR_PATH)/*.o \
+              -o $(BUILD_DIR_PATH)/$(SO_NAME); \
 	else \
-	  cc -fPIC -shared src/*.o -o src/$(SO_NAME); \
+	  cc -fPIC -shared $(BUILD_DIR_PATH)/*.o \
+             -o $(BUILD_DIR_PATH)/$(SO_NAME); \
 	fi
 
 install: shared-object
-	cp src/$(SO_NAME) $(SO_INSTALL_DIR)
+	cp $(BUILD_DIR_PATH)/$(SO_NAME) $(SO_INSTALL_DIR)
 
 .PHONY: uninstall
 uninstall:
@@ -358,4 +364,5 @@ parser-wasm: $(PARSER_WASM)
 .PHONY: clean
 clean:
 	- rm -rf src
+	- rm -rf $(BUILD_DIR_PATH)
 	- rm -f $(PARSER_WASM)
