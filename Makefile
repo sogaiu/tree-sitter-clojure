@@ -316,7 +316,7 @@ install: shared-object
 
 .PHONY: uninstall
 uninstall:
-	rm -rf $(SO_INSTALL_DIR)/$(TS_LANGUAGE).$(SO_EXT)
+	rm -rf $(INSTALLED_SO_PATH)
 
 ###############
 ### testing ###
