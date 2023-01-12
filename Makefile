@@ -167,7 +167,16 @@ BUILD_DIR_PATH := $(GRAMMAR_PROJ_DIR)/$(BUILD_DIR_NAME)
 PARSER_WASM := tree-sitter-$(TS_LANGUAGE).wasm
 PARSER_WASM_PATH := $(GRAMMAR_PROJ_DIR)/$(PARSER_WASM)
 
+BUILT_SO_PATH := $(BUILD_DIR_PATH)/$(SO_NAME)
 INSTALLED_SO_PATH := $(SO_INSTALL_DIR)/$(SO_NAME)
+
+SOS_SAME := $(shell diff $(BUILT_SO_PATH) $(INSTALLED_SO_PATH) \
+                         2> /dev/null; \
+                         if test $$? -eq 0; then \
+                           echo "Yes"; \
+                         else \
+                           echo "No"; \
+                         fi)
 
 OLD_PATH := $(PATH)
 
