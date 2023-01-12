@@ -232,31 +232,38 @@ dump:
 	@echo "          TS_COMMIT:" $(TS_COMMIT)
 	@echo "        MIN_VERSION:" $(MIN_VERSION)
 	@echo
-	@echo "       Original Env"
-	@echo "       ------------"
+	@echo "  Original Env Vars"
+	@echo "  -----------------"
 	@echo "    TREE_SITTER_DIR:" $(OLD_TREE_SITTER_DIR)
 	@echo " TREE_SITTER_LIBDIR:" $(OLD_TREE_SITTER_LIBDIR)
 	@echo " ------------------"
 	@echo
-	@echo "           Make Env"
-	@echo "           --------"
+	@echo "      Make Env Vars"
+	@echo "      -------------"
 	@echo "    TREE_SITTER_DIR:" $(TREE_SITTER_DIR)
 	@echo " TREE_SITTER_LIBDIR:" $(TREE_SITTER_LIBDIR)
 	@echo " ------------------"
 	@echo
+	@echo "      Shared Object"
+	@echo "      -------------"
 	@echo "             SO_EXT:" $(SO_EXT)
 	@echo
 	@echo "     SO_INSTALL_DIR:" $(SO_INSTALL_DIR)
 	@echo
 	@echo "   Generated source:" \
               $(shell find src -type f 2> /dev/null || echo "None")
+	@echo
 	@echo "        Compiled SO:" \
               $(shell ls $(BUILD_DIR_PATH)/$(SO_NAME) 2> /dev/null || echo "None")
-	@echo "        Parser wasm:" \
-              $(shell ls $(PARSER_WASM_PATH) 2> /dev/null || echo "None")
-	@echo
 	@echo "       Installed SO:" \
               $(shell ls $(INSTALLED_SO_PATH) 2> /dev/null || echo "None")
+	@echo
+	@echo "Shared objects same:" $(SOS_SAME)
+	@echo
+	@echo "               WASM"
+	@echo "               ----"
+	@echo "        Parser wasm:" \
+              $(shell ls $(PARSER_WASM_PATH) 2> /dev/null || echo "None")
 	@echo
 	@echo "              EMSDK:" $(EMSDK)
 	@echo "         EMSDK_NODE:" $(EMSDK_NODE)
