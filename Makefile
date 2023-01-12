@@ -29,6 +29,8 @@
 #
 #      * default?
 #      * deps (or similar) to report versions of dependencies?
+#
+# https://www.gnu.org/software/make/manual/html_node/Standard-Targets.html
 
 # XXX: different ways to assign in Makefiles...
 #
