@@ -285,6 +285,10 @@ src/parser.c: grammar.js
 #src/grammar.json: grammar.js
 #	$(TS_PATH) generate --abi 13 --no-bindings
 
+# alias for command line use
+.PHONY: parser-source
+parser-source: src/parser.c
+
 # XXX: not relying on the tree-sitter cli for building seems more
 #      flexible.
 #
