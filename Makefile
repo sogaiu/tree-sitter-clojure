@@ -42,7 +42,7 @@
 # https://www.gnu.org/software/make/manual/html_node/Flavors.html#Flavors
 # https://austingroupbugs.net/view.php?id=330
 
-# trying to make this Makefile generic
+# trying to make this Makefile generic -- though no support for multiple languages
 #
 # XXX: get this info from outside the file somehow?
 TS_LANGUAGE ?= clojure
