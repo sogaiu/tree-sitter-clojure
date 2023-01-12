@@ -35,7 +35,7 @@ based on using a `Makefile`.
 
 * No comments allowed in `package.json` because it's `.json`
 
-* Poor stability of `npm `across upgrades (e.g. lock file version
+* Poor stability of `npm` across upgrades (e.g. lock file version
   changes)
 
 * Conceptually, `npm` / `package.json` has "scripts" that are not
