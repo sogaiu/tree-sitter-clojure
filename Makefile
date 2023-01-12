@@ -157,8 +157,16 @@ endif
 
 SO_NAME := $(TS_LANGUAGE).$(SO_EXT)
 
+# XXX: build in another directory
+# XXX: brittle because there could be src/scanner.(c|cc)
+# XXX: reason to keep build and source directories separate?
+GENERATED_SRC := src/parser.c src/grammar.json src/node-types.json src/tree_sitter/parser.h
+
+PARSER_WASM := tree-sitter-$(TS_LANGUAGE).wasm
+PARSER_WASM_PATH := $(GRAMMAR_PROJ_DIR)/$(PARSER_WASM)
+
 INSTALLED_SO_PATH := $(SO_INSTALL_DIR)/$(TS_LANGUAGE).$(SO_EXT)
-PARSER_WASM_PATH := $(GRAMMAR_PROJ_DIR)/tree-sitter-$(TS_LANGUAGE).wasm
+
 OLD_PATH := $(PATH)
 
 ####################
@@ -227,10 +235,15 @@ dump:
 	@echo
 	@echo "     SO_INSTALL_DIR:" $(SO_INSTALL_DIR)
 	@echo
-	@echo "      GENERATED_SRC:" $(shell ls src/* 2> /dev/null)
-	@echo "       CURRENT_WASM:" $(shell ls $(PARSER_WASM_PATH) 2> /dev/null)
+	@echo "   Generated source:" \
+              $(shell ls $(GENERATED_SRC) 2> /dev/null || echo "None")
+	@echo "        Compiled SO:" \
+              $(shell ls src/$(SO_NAME) 2> /dev/null || echo "None")
+	@echo "        Parser wasm:" \
+              $(shell ls $(PARSER_WASM_PATH) 2> /dev/null || echo "None")
 	@echo
-	@echo "       INSTALLED_SO:" $(shell ls $(INSTALLED_SO_PATH) 2> /dev/null)
+	@echo "       Installed SO:" \
+              $(shell ls $(INSTALLED_SO_PATH) 2> /dev/null || echo "None")
 	@echo
 	@echo "              EMSDK:" $(EMSDK)
 	@echo "         EMSDK_NODE:" $(EMSDK_NODE)
@@ -318,7 +331,7 @@ corpus-test: src/parser.c
 ###########################
 
 .PHONY: playground
-playground: tree-sitter-$(TS_LANGUAGE).wasm
+playground: $(PARSER_WASM)
 	$(TS_PATH) playground
 
 # XXX: arrange for emsdk?  may need cross-platform detection because
@@ -328,11 +341,16 @@ playground: tree-sitter-$(TS_LANGUAGE).wasm
 #      the following back:
 #
 # @echo "Did you arrange for the appropriate emsdk_env to be used?"
-tree-sitter-$(TS_LANGUAGE).wasm: src/parser.c
+
+$(PARSER_WASM): src/parser.c
 	EMSDK=$(EMSDK) \
 	EMSDK_NODE=$(EMSDK_NODE) \
 	PATH=$(EMSDK):$(EMSDK)/upstream/emscripten:$(NODE_BIN_DIR_PATH):$(OLD_PATH) \
 	$(TS_PATH) build-wasm
+
+# alias for command line use
+.PHONY: parser-wasm
+parser-wasm: $(PARSER_WASM)
 
 ###################
 ### for cleanup ###
@@ -341,4 +359,4 @@ tree-sitter-$(TS_LANGUAGE).wasm: src/parser.c
 .PHONY: clean
 clean:
 	- rm -rf src
-	- rm -f tree-sitter-$(TS_LANGUAGE).wasm
+	- rm -f $(PARSER_WASM)
