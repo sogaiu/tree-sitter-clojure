@@ -293,6 +293,8 @@ dump:
 ################
 
 # for msys2 / mingw64, need env var MSYS to be set to winsymlinks:nativestrict
+# from some version of windows 10 and beyond(?), setting up developer mode
+# allows use of symlinks
 # XXX: is it a problem to just set that here unconditionally?
 hack-symlink:
 	MSYS=winsymlinks:nativestrict ln -sf . $(LINK_NAME)
