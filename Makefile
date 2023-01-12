@@ -289,8 +289,10 @@ dump:
 # symlink hack #
 ################
 
+# for msys2 / mingw64, need env var MSYS to be set to winsymlinks:nativestrict
+# XXX: is it a problem to just set that here unconditionally?
 hack-symlink:
-	ln -sf . $(LINK_NAME)
+	MSYS=winsymlinks:nativestrict ln -sf . $(LINK_NAME)
 
 #################
 # shared object #
