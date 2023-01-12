@@ -212,6 +212,8 @@ OLD_PATH := $(PATH)
 ##############
 
 # XXX: using `set` can be a handy way to see what env vars got exported
+
+# XXX: output about if src/<lang>.so and installed <lang>.so differ?
 dump:
 	@echo "        TS_LANGUAGE:" $(TS_LANGUAGE)
 	@echo "   GRAMMAR_PROJ_DIR:" $(GRAMMAR_PROJ_DIR)
