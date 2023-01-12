@@ -267,7 +267,7 @@ dump:
 ################
 
 hack-symlink:
-	ln -sf . tree-sitter-$(TS_LANGUAGE)
+	ln -sf . $(LINK_NAME)
 
 #################
 # shared object #
