@@ -213,7 +213,7 @@ EMSDK ?= $(HOME)/src/emsdk
 EMSCRIPTEN := $(EMSDK)/upstream/emscripten
 # XXX: using * ok?  possibly an issue?
 NODE_VERSION := $(shell ls $(EMSDK)/node)
-NODE_BIN_DIR_PATH := $(EMSDK)/$(NODE_VERSION)/bin
+NODE_BIN_DIR_PATH := $(EMSDK)/node/$(NODE_VERSION)/bin
 EMSDK_NODE := $(NODE_BIN_DIR_PATH)/node
 OLD_PATH := $(PATH)
 
