@@ -161,6 +161,8 @@ dump:
 	@echo " TREE_SITTER_LIBDIR:" $(TREE_SITTER_LIBDIR)
 	@echo "     SO_INSTALL_DIR:" $(SO_INSTALL_DIR)
 	@echo
+	@echo "             SO_EXT:" $(SO_EXT)
+	@echo
 	@echo "          HACK_LINK:" $(HACK_LINK)
 	@echo "    HACK_LINK_DEREF:" $(HACK_LINK_DEREF)
 	@echo
