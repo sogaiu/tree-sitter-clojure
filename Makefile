@@ -153,7 +153,7 @@ ifeq ($(UNAME_S), "Linux")
     SO_EXT := so
 else ifeq ($(UNAME_S), "Darwin")
     SO_EXT := dylib
-else ifeq ($(shell echo $(UNAME_S) | head -7), "MINGW64")
+else ifeq ($(shell echo $(UNAME_S) | head -c 7), "MINGW64")
     SO_EXT := dll
 endif
 
