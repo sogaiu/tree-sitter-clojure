@@ -160,7 +160,6 @@ SO_NAME := $(TS_LANGUAGE).$(SO_EXT)
 # XXX: build in another directory
 # XXX: brittle because there could be src/scanner.(c|cc)
 # XXX: reason to keep build and source directories separate?
-GENERATED_SRC := src/parser.c src/grammar.json src/node-types.json src/tree_sitter/parser.h
 
 PARSER_WASM := tree-sitter-$(TS_LANGUAGE).wasm
 PARSER_WASM_PATH := $(GRAMMAR_PROJ_DIR)/$(PARSER_WASM)
@@ -236,7 +235,7 @@ dump:
 	@echo "     SO_INSTALL_DIR:" $(SO_INSTALL_DIR)
 	@echo
 	@echo "   Generated source:" \
-              $(shell ls $(GENERATED_SRC) 2> /dev/null || echo "None")
+              $(shell find src -type f 2> /dev/null || echo "None")
 	@echo "        Compiled SO:" \
               $(shell ls src/$(SO_NAME) 2> /dev/null || echo "None")
 	@echo "        Parser wasm:" \
