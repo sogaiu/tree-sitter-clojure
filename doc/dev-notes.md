@@ -1542,3 +1542,7 @@ XXX: eventually the c library might be able to load grammar / parser `.wasm`s:
 XXX: found some partial implementation notes:
 
 https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-5-implementation.md#the-runtime
+
+XXX: consider w64devkit vs msys2 / mingw64 - will it be maintained though...
+
+https://github.com/skeeto/w64devkit
