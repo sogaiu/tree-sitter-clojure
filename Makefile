@@ -39,7 +39,7 @@
 
 # XXX: different ways to assign in Makefiles...
 #
-# https://www.gnu.org/software/make/manual/html_node/Flavors.html#Flavors
+# https://www.gnu.org/software/make/manual/html_node/Flavors.html
 # https://austingroupbugs.net/view.php?id=330
 
 # trying to make this Makefile generic -- though no support for multiple languages
