@@ -120,11 +120,14 @@ HACK_LINK = $(shell ls -d tree-sitter-* 2> /dev/null)
 HACK_LINK_DEREF = $(shell readlink tree-sitter-*)
 
 TREE_SITTER_DIR ?= $(GRAMMAR_PROJ_DIR)/.tree-sitter
+export TREE_SITTER_DIR
+
 # XXX: the env var TREE_SITTER_LIBDIR only affects the tree-sitter cli
 #      for versions beyond 0.20.7 -- we use it here for convenient
 #      expression but just put its value in SO_INSTALL_DIR and use
 #      that instead
 TREE_SITTER_LIBDIR ?= $(TREE_SITTER_DIR)/lib
+export TREE_SITTER_LIBDIR
 
 # XXX: most likely it's stuff above this line one might want to tweak
 
