@@ -129,6 +129,7 @@ GRAMMAR_PROJ_DIR := $(shell pwd)
 HACK_LINK := $(shell ls -d tree-sitter-* 2> /dev/null)
 HACK_LINK_DEREF := $(shell readlink tree-sitter-*)
 
+OLD_TREE_SITTER_DIR := $(TREE_SITTER_DIR)
 TREE_SITTER_DIR ?= $(GRAMMAR_PROJ_DIR)/.tree-sitter
 export TREE_SITTER_DIR
 
@@ -136,6 +137,7 @@ export TREE_SITTER_DIR
 #      for versions beyond 0.20.7 -- we use it here for convenient
 #      expression but just put its value in SO_INSTALL_DIR and use
 #      that instead
+OLD_TREE_SITTER_LIBDIR := $(TREE_SITTER_LIBDIR)
 TREE_SITTER_LIBDIR ?= $(TREE_SITTER_DIR)/lib
 export TREE_SITTER_LIBDIR
 
@@ -151,6 +153,9 @@ endif
 ifeq ("$(shell uname -s)", "Darwin")
     SO_EXT := dylib
 endif
+
+INSTALLED_SO_PATH := $(SO_INSTALL_DIR)/$(TS_LANGUAGE).$(SO_EXT)
+PARSER_WASM_PATH := tree-sitter-$(TS_LANGUAGE).wasm
 
 ####################
 # emsdk experiment #
@@ -202,11 +207,24 @@ dump:
 	@echo "          TS_COMMIT:" $(TS_COMMIT)
 	@echo "        MIN_VERSION:" $(MIN_VERSION)
 	@echo
+	@echo "       Original Env"
+	@echo "       ------------"
+	@echo "    TREE_SITTER_DIR:" $(OLD_TREE_SITTER_DIR)
+	@echo " TREE_SITTER_LIBDIR:" $(OLD_TREE_SITTER_LIBDIR)
+	@echo " ------------------"
+	@echo
+	@echo "           Make Env"
+	@echo "           --------"
 	@echo "    TREE_SITTER_DIR:" $(TREE_SITTER_DIR)
 	@echo " TREE_SITTER_LIBDIR:" $(TREE_SITTER_LIBDIR)
+	@echo " ------------------"
+	@echo
 	@echo "     SO_INSTALL_DIR:" $(SO_INSTALL_DIR)
 	@echo
 	@echo "             SO_EXT:" $(SO_EXT)
+	@echo
+	@echo "       INSTALLED_SO:" $(shell ls $(INSTALLED_SO_PATH) 2> /dev/null)
+	@echo "       CURRENT_WASM:" $(shell ls $(PARSER_WASM_PATH) 2> /dev/null)
 	@echo
 	@echo "              EMSDK:" $(EMSDK)
 	@echo "         EMSDK_NODE:" $(EMSDK_NODE)
