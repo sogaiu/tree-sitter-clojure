@@ -152,6 +152,40 @@ ifeq ("$(shell uname -s)", "Darwin")
     SO_EXT := dylib
 endif
 
+####################
+# emsdk experiment #
+####################
+
+# XXX: not sure how to integrate emsdk_env.sh...
+#
+#      might not be possble because one needs to . or source it?
+#
+#        https://lists.gnu.org/archive/html/help-make/2006-04/msg00142.html
+#
+#      the output of sourcing displays which env vars are set and what
+#      they are set to.  a hack would be to capture and parse that output?
+#      some attempts at this failed -- "source" doesn't work via
+#      $(shell ,,,) and "." didn't work out for different reasons
+#
+#      running EMSDK_QUIET=1 python ~/src/emsdk/emsdk.py construct_env
+#      produces output of the form:
+#
+#        export PATH="...";
+#        export EMSDK="...";
+#        export EMSDK_NODE="...";
+#        unset EMSDK_QUIET;
+#
+#      possibly that could be parsed...but seems like a lot of work
+
+# XXX: doing the following as an experiment.  may be brittle though if
+#      emscripten changes certain things
+EMSDK ?= $(HOME)/src/emsdk
+# XXX: using * ok?  possibly an issue?
+NODE_VERSION := $(shell ls $(EMSDK)/node)
+NODE_BIN_DIR_PATH := $(EMSDK)/$(NODE_VERSION)/bin
+EMSDK_NODE := $(NODE_BIN_DIR_PATH)/node
+OLD_PATH := $(PATH)
+
 ########################################################################
 
 ##############
@@ -173,6 +207,10 @@ dump:
 	@echo "     SO_INSTALL_DIR:" $(SO_INSTALL_DIR)
 	@echo
 	@echo "             SO_EXT:" $(SO_EXT)
+	@echo
+	@echo "              EMSDK:" $(EMSDK)
+	@echo "         EMSDK_NODE:" $(EMSDK_NODE)
+	@echo "               PATH:" $(PATH)
 	@echo
 	@echo "          HACK_LINK:" $(HACK_LINK)
 	@echo "    HACK_LINK_DEREF:" $(HACK_LINK_DEREF)
@@ -253,8 +291,15 @@ playground: tree-sitter-$(TS_LANGUAGE).wasm
 
 # XXX: arrange for emsdk?  may need cross-platform detection because
 #      script name is different
+#
+# XXX: if experiment with setting emsdk env vars is aborted, put
+#      the following back:
+#
+# @echo "Did you arrange for the appropriate emsdk_env to be used?"
 tree-sitter-$(TS_LANGUAGE).wasm: src/parser.c
-	@echo "Did you arrange for the appropriate emsdk_env to be used?"
+	EMSDK=$(EMSDK) \
+	EMSDK_NODE=$(EMSDK_NODE) \
+	PATH=$(EMSDK):$(EMSDK)/upstream/emscripten:$(NODE_BIN_DIR_PATH):$(OLD_PATH) \
 	$(TS_PATH) build-wasm
 
 ###################
