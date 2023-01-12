@@ -235,6 +235,9 @@ hack-symlink:
 # shared object #
 #################
 
+# XXX: tools that produces more than one output complicate things...
+#
+# https://www.gnu.org/software/automake/manual/html_node/Multiple-Outputs.html
 src/parser.c: grammar.js
 	$(TS_PATH) generate --abi 13 --no-bindings
 
