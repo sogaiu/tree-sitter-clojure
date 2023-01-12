@@ -221,8 +221,8 @@ dump:
 	@echo "If tree-sitter dump-languages shows info about more"
 	@echo "than one language, be careful while interpreting output"
 	@echo "from tree-sitter subcommands.  The shared object used by"
-	@echo "tree-sitter for processing may be different from what is"
-	@echo "expected."
+	@echo "tree-sitter for processing may be different from what you"
+	@echo "might be expecting."
 
 ################
 # symlink hack #
