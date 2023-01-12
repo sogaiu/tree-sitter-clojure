@@ -59,15 +59,15 @@ TS_PATH ?= tree-sitter
 #   1           2      3
 #
 # so split on spaces and take the 2nd and 3rd fields
-TS_VERSION = $(shell $(TS_PATH) --version | cut -d' ' -f2)
+TS_VERSION := $(shell $(TS_PATH) --version | cut -d' ' -f2)
 # also remove surrounding parens -- otherwise can interfere with things
-TS_COMMIT = $(shell $(TS_PATH) --version | cut -d' ' -f3 | tr -d '()')
+TS_COMMIT := $(shell $(TS_PATH) --version | cut -d' ' -f3 | tr -d '()')
 
 #MIN_VERSION := "0.19.4"
 MIN_VERSION := "0.20.8"
 
 # the directory this Makefile lives in
-GRAMMAR_PROJ_DIR = $(shell pwd)
+GRAMMAR_PROJ_DIR := $(shell pwd)
 
 # XXX: various tree-sitter subcommands can lead to scanning of
 #      directories looking for grammar directories that can have their
@@ -120,8 +120,8 @@ GRAMMAR_PROJ_DIR = $(shell pwd)
 #      recognized and how many there are.
 #
 #      the goal is to have one and have it be the current one.
-HACK_LINK = $(shell ls -d tree-sitter-* 2> /dev/null)
-HACK_LINK_DEREF = $(shell readlink tree-sitter-*)
+HACK_LINK := $(shell ls -d tree-sitter-* 2> /dev/null)
+HACK_LINK_DEREF := $(shell readlink tree-sitter-*)
 
 TREE_SITTER_DIR ?= $(GRAMMAR_PROJ_DIR)/.tree-sitter
 export TREE_SITTER_DIR
@@ -140,10 +140,10 @@ SO_INSTALL_DIR ?= $(TREE_SITTER_LIBDIR)
 
 # XXX: cache value and reuse?
 ifeq ("$(shell uname -s)", "Linux")
-    SO_EXT=so
+    SO_EXT := so
 endif
 ifeq ("$(shell uname -s)", "Darwin")
-    SO_EXT=dylib
+    SO_EXT := dylib
 endif
 
 ########################################################################
