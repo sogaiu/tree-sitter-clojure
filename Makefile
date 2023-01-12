@@ -342,6 +342,7 @@ shared-object: src/parser.c
 	fi
 
 install: shared-object
+	mkdir -p $(SO_INSTALL_DIR)
 	cp $(BUILD_DIR_PATH)/$(SO_NAME) $(SO_INSTALL_DIR)
 
 .PHONY: uninstall
