@@ -233,7 +233,7 @@ dump:
 	@echo "              EMSDK:" $(EMSDK)
 	@echo "         EMSDK_NODE:" $(EMSDK_NODE)
 	@echo
-	@echo "           OLD_PATH:" $(PATH)
+	@echo "           OLD_PATH:" $(OLD_PATH)
 	@echo
 	@echo "          HACK_LINK:" $(HACK_LINK)
 	@echo "    HACK_LINK_DEREF:" $(HACK_LINK_DEREF)
