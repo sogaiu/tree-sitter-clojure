@@ -161,6 +161,12 @@ Had this building process been expressed in a `Makefile`, the
 activities involved for investigation likely would have been simpler
 and taken less time.
 
+Another case that might have been helped by externalization is related
+to [how tree-sitter-haskell is
+built](https://github.com/tree-sitter/tree-sitter/issues/1518).  The
+current arrangement does not appear to be flexible enough to handle
+such cases.
+
 [2] Having multiple checkouts of a grammar doesn't seem like it could
 be too unlikely because:
 
