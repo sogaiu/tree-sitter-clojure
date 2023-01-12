@@ -37,6 +37,8 @@
 # https://www.gnu.org/software/make/manual/html_node/Flavors.html#Flavors
 
 # trying to make this Makefile generic
+#
+# XXX: get this info from outside the file somehow?
 TS_LANGUAGE ?= clojure
 
 # path to tree-sitter cli binary
