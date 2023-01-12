@@ -1535,3 +1535,6 @@ XXX: tree-sitter parse from stdin request
 
 https://github.com/tree-sitter/tree-sitter/issues/1511
 
+XXX: eventually the c library might be able to load grammar / parser `.wasm`s:
+
+[Add optional WASM feature to the native library, allowing it to run wasm-compiled parsers via wasmtime](https://github.com/tree-sitter/tree-sitter/pull/1864)
