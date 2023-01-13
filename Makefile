@@ -45,6 +45,16 @@ dump:
 	./script/dump
 	@echo
 	./script/dump-languages
+	@echo "**********************************************************"
+	@echo "** If the above output suggests running the init-config **"
+	@echo "** subcommand, carefully consider whether to do so.     **"
+	@echo "** It probably means tree-sitter is looking in the      **"
+	@echo "** wrong location for config.json.  You might want to   **"
+	@echo "** set the TREE_SITTER_DIR environment variable to      **"
+	@echo "** point at the .tree-sitter directory in this grammar  **"
+	@echo "** repository's root directory and try again.           **"
+	@echo "**********************************************************"
+	@echo
 	@echo "If tree-sitter dump-languages shows info about more"
 	@echo "than one language, be careful while interpreting output"
 	@echo "from tree-sitter subcommands.  The shared object used by"
@@ -53,7 +63,8 @@ dump:
 	@echo
 	@echo "If tree-sitter dump-languages shows no languages, then it"
 	@echo "may be time to investigate.  It may be a sign that"
-	@echo "the tree-sitter cli isn't finding any shared objects."
+	@echo "the tree-sitter cli isn't finding any shared objects or"
+	@echo "it hasn't found an appropriate config.json file."
 
 ################
 # symlink hack #
