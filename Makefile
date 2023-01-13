@@ -150,11 +150,21 @@ SO_INSTALL_DIR ?= $(TREE_SITTER_LIBDIR)
 UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S), Linux)
-    SO_EXT := so
+    SYS_TYPE := Linux
 else ifeq ($(UNAME_S), Darwin)
-    SO_EXT := dylib
+    SYS_TYPE := Darwin
 else ifeq ($(shell echo $(UNAME_S) | head -c 7), \
            $(shell echo "MINGW64" | head -c 7))
+    SYS_TYPE := MINGW64
+else
+    SYS_TYPE := UNKNOWN
+endif
+
+ifeq ($(SYS_TYPE), Linux)
+    SO_EXT := so
+else ifeq ($(SYS_TYPE), Darwin)
+    SO_EXT := dylib
+else ifeq ($(SYS_TYPE), MINGW64)
     SO_EXT := dll
 else
     SO_EXT := so
@@ -235,6 +245,8 @@ dump:
 	@echo "         TS_VERSION:" $(TS_VERSION)
 	@echo "          TS_COMMIT:" $(TS_COMMIT)
 	@echo "        MIN_VERSION:" $(MIN_VERSION)
+	@echo
+	@echo "           SYS_TYPE:" $(SYS_TYPE)
 	@echo
 	@echo "  Original Env Vars"
 	@echo "  -----------------"
