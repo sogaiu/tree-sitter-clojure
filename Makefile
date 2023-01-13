@@ -47,6 +47,8 @@
 # XXX: get this info from outside the file somehow?
 TS_LANGUAGE ?= clojure
 
+OLD_PATH := $(PATH)
+
 # path to tree-sitter cli binary
 #
 # >= 0.19.4 added --no-bindings
@@ -192,8 +194,6 @@ SOS_SAME := $(shell diff $(BUILT_SO_PATH) $(INSTALLED_SO_PATH) \
                          else \
                            echo "No"; \
                          fi)
-
-OLD_PATH := $(PATH)
 
 ####################
 # emsdk experiment #
