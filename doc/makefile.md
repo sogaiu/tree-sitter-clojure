@@ -378,6 +378,19 @@ changes](https://github.com/tree-sitter/tree-sitter/issues/465#issuecomment-1371
 to `tree-sitter` that allowed use of quickjs instead.  Other
 JavaScript runtimes may also work.
 
+`tree-sitter`'s `generate` subcommand can take a path to a
+`grammar.json` file to generate `parser.c`.  In this case,
+`grammar.js` is not processed.  See
+[here](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/src/generate/mod.rs#L55-L66)
+for some relevant code.
+
+Thus, we could externalize the creation of `grammar.json` from
+`grammar.js` (+
+[`dsl.js`](https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/src/generate/dsl.js))
+using `node` or some other JavaScript runtime and just use the
+`tree-sitter` cli to produce `parser.c` (and `node-types.json`?) from
+the created `grammar.json`.
+
 On a side note, ATM as part of installing `emsdk`, a version of `node`
 is installed.  So currently it's probably possible to just use that
 version of `node`.
