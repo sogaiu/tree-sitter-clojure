@@ -212,7 +212,7 @@ OLD_PATH := $(PATH)
 
 # XXX: doing the following as an experiment.  may be brittle though if
 #      emscripten changes certain things
-EMSDK ?= $(GRAMMAR_PROJ_DIR)/../emsdk
+EMSDK ?= $(shell realpath $(GRAMMAR_PROJ_DIR)/../emsdk)
 EMSCRIPTEN := $(EMSDK)/upstream/emscripten
 # XXX: using * ok?  possibly an issue?
 NODE_VERSION := $(shell ls $(EMSDK)/node)
