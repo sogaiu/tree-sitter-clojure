@@ -307,7 +307,11 @@ dump:
 # allows use of symlinks
 # XXX: is it a problem to just set that here unconditionally?
 hack-symlink:
+ifeq ($(SYS_TYPE), MINGW64)
 	MSYS=winsymlinks:nativestrict ln -sf . $(LINK_NAME)
+else
+	ln -sf . $(LINK_NAME)
+endif
 
 #################
 # shared object #
