@@ -16,10 +16,9 @@ if [ $# -eq 0 ]; then
   printf "Cleaning generated source\n"
 fi
 
-rm -rf src/parser.c src/scanner.c src/scanner.cc
+rm -rf src/parser.c
 rm -rf src/grammar.json src/node-types.json
 rm -rf src/tree_sitter
-rm -rf src
 
 cd "${CUR_DIR}" || exit 1
 
