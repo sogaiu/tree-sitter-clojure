@@ -12,7 +12,7 @@ CUR_DIR=$(pwd)
 
 cd "${PARSER_PROJ_DIR}" || exit 1
 
-if [ ! -f "${LINK_NAME}" ]; then
+if [ ! -e "${LINK_NAME}" ]; then
   printf "Work-around symlink not found so creating it.\n"
 else
   printf "Found work-around symlink exists, so exiting.\n"
