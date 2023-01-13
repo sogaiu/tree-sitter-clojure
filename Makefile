@@ -27,7 +27,8 @@
 # https://www.gnu.org/software/make/manual/html_node/Standard-Targets.html
 
 TS_LANGUAGE := $(shell grep TS_LANGUAGE script/settings | cut -d= -f2)
-PARSER_WASM := tree-sitter-$(TS_LANGUAGE).wasm
+TS_LANG_UNDERSCORE_NAME := $(shell echo $(TS_LANGUAGE) | tr '-' '_')
+PARSER_WASM := tree-sitter-$(TS_LANG_UNDERSCORE_NAME).wasm
 
 ########################################################################
 

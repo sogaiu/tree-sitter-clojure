@@ -17,6 +17,7 @@ fi
 printf "OLD_PATH: %s\n" "${OLD_PATH}"
 echo
 printf "TS_LANGUAGE: %s\n" "${TS_LANGUAGE}"
+printf "TS_LANG_UNDERSCORE_NAME: %s\n" "${TS_LANG_UNDERSCORE_NAME}"
 printf "PARSER_PROJ_DIR: %s\n" "${PARSER_PROJ_DIR}"
 echo
 printf "TS_PATH: %s\n" "${TS_PATH}"

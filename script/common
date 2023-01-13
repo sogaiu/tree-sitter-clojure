@@ -14,6 +14,8 @@ SCRIPT_DIR=$(dirname "$SCRIPT")
 
 OLD_PATH=${PATH}
 
+TS_LANG_UNDERSCORE_NAME=$(echo ${TS_LANGUAGE} | tr '-' '_')
+
 # path to tree-sitter cli binary
 #
 # >= 0.19.4 added --no-bindings
@@ -101,7 +103,7 @@ SO_NAME=${TS_LANGUAGE}.${SO_EXT}
 BUILD_DIR_NAME=${BUILD_DIR_NAME:-build}
 BUILD_DIR_PATH=${PARSER_PROJ_DIR}/${BUILD_DIR_NAME}
 
-PARSER_WASM=tree-sitter-${TS_LANGUAGE}.wasm
+PARSER_WASM=tree-sitter-${TS_LANG_UNDERSCORE_NAME}.wasm
 PARSER_WASM_PATH=${PARSER_PROJ_DIR}/${PARSER_WASM}
 
 BUILT_SO_PATH=${BUILD_DIR_PATH}/${SO_NAME}
