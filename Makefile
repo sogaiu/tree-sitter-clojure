@@ -27,7 +27,11 @@
 # https://www.gnu.org/software/make/manual/html_node/Standard-Targets.html
 
 TS_LANGUAGE := $(shell grep TS_LANGUAGE script/settings | cut -d= -f2)
+# XXX: duplicating stuff from scripts...not good
 TS_LANG_UNDERSCORE_NAME := $(shell echo $(TS_LANGUAGE) | tr '-' '_')
+# XXX: even worse because "build" is not static
+SO_BUILD_PATH := build/$(TS_LANGUAGE).so
+# XXX: only as bad as the first duplication
 PARSER_WASM := tree-sitter-$(TS_LANG_UNDERSCORE_NAME).wasm
 
 ########################################################################
@@ -72,10 +76,10 @@ src/parser.c: grammar.js
 .PHONY: parser-source
 parser-source: src/parser.c
 
-shared-object: src/parser.c
+$(SO_BUILD_PATH): src/parser.c
 	./script/build-so
 
-install: shared-object
+install: $(SO_BUILD_PATH)
 	./script/install-so
 
 .PHONY: uninstall
