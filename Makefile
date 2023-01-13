@@ -149,15 +149,15 @@ SO_INSTALL_DIR ?= $(TREE_SITTER_LIBDIR)
 
 UNAME_S := $(shell uname -s)
 
-# XXX: the second $(shell ...) for MINGW64 is to account for stripped nuls
-#      likely there's a better way
-ifeq ($(UNAME_S), "Linux")
+ifeq ($(UNAME_S), Linux)
     SO_EXT := so
-else ifeq ($(UNAME_S), "Darwin")
+else ifeq ($(UNAME_S), Darwin)
     SO_EXT := dylib
 else ifeq ($(shell echo $(UNAME_S) | head -c 7), \
            $(shell echo "MINGW64" | head -c 7))
     SO_EXT := dll
+else
+    SO_EXT := so
 endif
 
 SO_NAME := $(TS_LANGUAGE).$(SO_EXT)
