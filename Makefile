@@ -409,6 +409,8 @@ parser-wasm: $(PARSER_WASM)
 
 .PHONY: clean
 clean:
-	- rm -rf src
+	- rm -rf src/parser.c src/scanner.c src/scanner.cc
+	- rm -rf src/grammar.json src/node-types.json
+	- rm -rf src/tree_sitter
 	- rm -rf $(BUILD_DIR_PATH)
 	- rm -f $(PARSER_WASM)
