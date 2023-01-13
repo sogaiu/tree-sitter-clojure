@@ -16,7 +16,7 @@ SCRIPT_DIR=$(dirname "$SCRIPT")
 trap cleanup INT
 
 cleanup () {
-  printf "Likely trapped Control-C"
+  printf "\nLikely trapped Control-C\n"
 }
 
 ########################################################################
