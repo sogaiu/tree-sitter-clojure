@@ -322,7 +322,7 @@ endif
 src/parser.c: grammar.js
 	$(TS_PATH) generate --abi 13 --no-bindings
 
-# XXX: not using this anywhere
+# XXX: not using this target explicitly
 #src/grammar.json: grammar.js
 #	$(TS_PATH) generate --abi 13 --no-bindings
 
