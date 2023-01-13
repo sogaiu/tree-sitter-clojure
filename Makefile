@@ -26,6 +26,9 @@
 #
 # https://www.gnu.org/software/make/manual/html_node/Standard-Targets.html
 
+TS_LANGUAGE := $(shell grep TS_LANGUAGE script/settings | cut -d= -f2)
+PARSER_WASM := tree-sitter-$(TS_LANGUAGE).wasm
+
 ########################################################################
 
 ##############
@@ -90,19 +93,16 @@ corpus-test: src/parser.c
 ### playground and wasm ###
 ###########################
 
-# XXX: not nice to hard-wire language name here
 .PHONY: playground
-playground: tree-sitter-clojure.wasm
+playground: $(PARSER_WASM)
 	./script/playground
 
-# XXX: not nice to hard-wire language name here
-tree-sitter-clojure.wasm: src/parser.c
+$(PARSER_WASM): src/parser.c
 	./script/build-wasm
 
-# XXX: not nice to hard-wire language name here
 # alias for command line use
 .PHONY: parser-wasm
-parser-wasm: tree-sitter-clojure.wasm
+parser-wasm: $(PARSER_WASM)
 
 ###################
 ### for cleanup ###
