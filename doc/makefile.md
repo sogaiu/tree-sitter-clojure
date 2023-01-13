@@ -397,6 +397,64 @@ on 2 of the 3, since `nvm-windows` isn't the same as `nvm`).
 Another example is a case where [the used Node.js version was too
 recent](https://github.com/tree-sitter/tree-sitter/issues/409#issuecomment-517903683).
 
+### Observations From Trial
+
+* Figuring out what tasks recur, naming them, and making them easy to
+  invoke seems like a good idea.  `Makefile`s are not the only way to
+  do this though.  A single script directory with a script for each
+  task might be good enough for our situation.  A `Makefile` can still
+  be used for building tasks if it seems necessary.  A script could
+  invoke make as well.
+
+* Directly invoking a `tree-sitter` subcommand can get verbose and
+  error-prone.  For example, currently there is no way to specify a
+  configuration (in a file) for which ABI version we want when calling
+  `generate`.  It is necessary to specify `--abi 13` on the command
+  line.  Having a named task allows us to not have to spell this out
+  all of the time but it's also less error-prone.
+
+* Since some of `tree-sitter`'s behavior may be broken at times, it
+  seems better to have an invocation layer that can use a work-around
+  or provide alternative processing.  Also, the implementation of the
+  layer can capture details that might otherwise go unrecorded.
+
+* Coming up with and maintaining a layer isn't free though.  I work on
+  more than one grammar so may be more motivated to putting in a
+  certain amount of work compared to if I was only working on one
+  grammar.  It is possible that a layer might not be as reusable as
+  hoped for.
+
+* `Makefile`s can be used for some general automation, but there are
+  some things that can become awkward when `make` is applied beyond
+  building.  Below are some things I observed while putting together
+  and testing a `Makefile` and started to work on porting some parts
+  to individual scripts:
+
+  * Aliasing of targets for human use does not seem to have been
+    designed in.  It can be done with `.PHONY` targets but that seems
+    accidental.
+
+  * Enumerating the possible tasks is awkward.  Shell completion to
+    can mitigate this a bit.
+
+  * Passing arguments to targets via command line invocation is not
+    really idiomatic.
+
+  * One can end up writing shell invocations and adapting them to fit
+    within a `Makefile`, so there are sort of two languages to cope
+    with while working in one file.
+
+  * Everything in one `Makefile` can become unwieldy.  Trying to
+    understand one large thing may be more difficult than smaller
+    pieces.  This issue applies to newcomers to the project as well as
+    maintainers who might not have looked at something in a while.
+
+  * Debugging seems more difficult than what might be the case for
+    examining individual scripts.
+
+  * The two types of variables, simply expanded and recursively
+    expanded can become confusing some times.
+
 ### Unintegrated Content
 
 XXX: code in `tree-sitter` that scans `package.json`
