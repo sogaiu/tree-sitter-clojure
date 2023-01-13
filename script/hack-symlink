@@ -3,8 +3,8 @@
 SCRIPT=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT")
 
-# shellcheck source=common.sh
-. "${SCRIPT_DIR}/common.sh"
+# shellcheck source=common
+. "${SCRIPT_DIR}/common"
 
 ########################################################################
 
@@ -21,6 +21,9 @@ fi
 
 printf "* Invoking ln\n"
 
+# for msys2 / mingw64, need env var MSYS to be set to winsymlinks:nativestrict
+# from some version of windows 10 and beyond(?), setting up developer mode
+# allows use of symlinks
 if [ "${SYS_TYPE}" = "MINGW64" ]; then
   MSYS=winsymlinks:nativestrict ln -sf . "${LINK_NAME}"
 else

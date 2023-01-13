@@ -5,8 +5,8 @@
 SCRIPT=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT")
 
-# shellcheck source=common.sh
-. "${SCRIPT_DIR}/common.sh"
+# shellcheck source=common
+. "${SCRIPT_DIR}/common"
 
 ########################################################################
 

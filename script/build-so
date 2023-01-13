@@ -5,8 +5,8 @@
 SCRIPT=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT")
 
-# shellcheck source=common.sh
-. "${SCRIPT_DIR}/common.sh"
+# shellcheck source=common
+. "${SCRIPT_DIR}/common"
 
 ########################################################################
 
@@ -23,6 +23,16 @@ fi
 
 mkdir -p "${BUILD_DIR_PATH}"
 
+# XXX: not relying on the tree-sitter cli for building seems more
+#      flexible.
+#
+#      on windows i had problems compiling using msys2 / mingw64 when
+#      trying to use various tree-sitter subcommands.  to debug, i
+#      ended up modifying the tree-sitter cli's source code to print
+#      out precisely what the compiler invocation was.  that involved
+#      writing some rust, recomplining the tree-sitter cli, and
+#      running the invocation again.  that kind of thing seems like it
+#      could be avoided by externalization as is dones below.
 printf "* Compiling parser\n"
 cc -fPIC -c -Isrc src/parser.c -o "${BUILD_DIR_PATH}/parser.o"
 
