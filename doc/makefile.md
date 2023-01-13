@@ -25,9 +25,7 @@ initially.
 This document contains notes about considering a different approach
 based on using a `Makefile`.
 
-## Background
-
-### Some Drawbacks of `npm` / `package.json`
+## Some Drawbacks of `npm` / `package.json`
 
 * Finding and understanding relevant information about how `npm` works
   and why it is behaving in a certain way appears to be unnecessarily
@@ -63,7 +61,7 @@ more later, but it is an example of some of the behavior by
 of `tree-sitter`, Node.js and Rust binding generation can be
 suppressed via the `--no-bindings` flag.
 
-### Why `package.json` Won't Be Removed At This Time
+## Why `package.json` Won't Be Removed At This Time
 
 We may be able to stop using `npm`, but removing `package.json` would
 likely break [one of our
@@ -95,7 +93,7 @@ reduced the bare minimum of say:
 The `name` and `version` entries should satisfy our user's needs while
 the `tree-sitter` entry will satisy the `tree-sitter` cli.
 
-### Drawbacks of Some `tree-sitter` Subcommands
+## Drawbacks of Some `tree-sitter` Subcommands
 
 The `tree-sitter` cli has some functionality built in to it which may
 provide a degree of convenience though may come with significant
@@ -183,9 +181,9 @@ Storing such directories under the same parent directory such as
 Unfortunately, this combination can lead to confusion due to the
 scanning described above.
 
-### Why a `Makefile`?
+## Why a `Makefile`?
 
-#### Some Reasons to Use a `Makefile`
+### Some Reasons to Use a `Makefile`
 
 * Entering full commands repeatedly can be error-prone and when
   returning to work on the project after not thinking about it for
@@ -213,7 +211,7 @@ scanning described above.
 * We may be able to stop using `npm`.  Put briefly, this may mean
   meaningfully less time spent on incidental complexity.
 
-#### Some Potential Issues
+### Some Potential Issues
 
 * Windows support may be less straight-forward than for *nix-like
   systems.  However, the current maintainers don't use Windows to
@@ -223,7 +221,7 @@ scanning described above.
 * Makefiles can get complicated.  Keeping things reasonable and
   well-documented may be important.
 
-### Scanning Mitigation
+## Scanning Mitigation
 
 I tried to mitigate the effects of `tree-sitter`'s scanning so that it
 doesn't go looking elsewhere (i.e. outside of a particular grammar's
@@ -311,7 +309,7 @@ hinted at above, the `Makefile` might be able to do useful things like
 report on the presence / absence of the link with explanatory text,
 for example.
 
-### Other Pieces in Use
+## Other Pieces in Use
 
 Some other pieces that seem to have become churny, complicated, and/or
 side-effecty include:
@@ -319,7 +317,7 @@ side-effecty include:
 * Emscripten / emsdk
 * Node.js
 
-#### Emscripten / emsdk
+### Emscripten / emsdk
 
 If we want to be able to continue to build `tree-sitter` as well as
 grammar `.wasm` files without Emscripten / emsdk, an alternative would
@@ -360,7 +358,7 @@ even though I don't typically use it currently, I think it's at least
 valuable to develop a feel for tree-sitter as well as specific
 grammars.
 
-#### Node.js
+### Node.js
 
 My impression is that Node.js seems to have had relatively speaking,
 little regard for backward compatibility (though perhaps this is no
@@ -397,7 +395,7 @@ on 2 of the 3, since `nvm-windows` isn't the same as `nvm`).
 Another example is a case where [the used Node.js version was too
 recent](https://github.com/tree-sitter/tree-sitter/issues/409#issuecomment-517903683).
 
-### Observations From Trial
+## Observations From Trial
 
 * Figuring out what tasks recur, naming them, and making them easy to
   invoke seems like a good idea.  `Makefile`s are not the only way to
@@ -455,7 +453,7 @@ recent](https://github.com/tree-sitter/tree-sitter/issues/409#issuecomment-51790
   * The two types of variables, simply expanded and recursively
     expanded can become confusing some times.
 
-### Unintegrated Content
+## Unintegrated Content
 
 XXX: code in `tree-sitter` that scans `package.json`
 
