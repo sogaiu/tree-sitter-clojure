@@ -1,0 +1,32 @@
+#! /bin/sh
+
+#set -o pipefail
+
+SCRIPT=$(readlink -f "$0")
+SCRIPT_DIR=$(dirname "$SCRIPT")
+
+# shellcheck source=common
+. "${SCRIPT_DIR}/common"
+
+########################################################################
+
+CUR_DIR=$(pwd)
+
+cd "${PARSER_PROJ_DIR}" || exit 1
+
+if [ -f "${BUILD_DIR_PATH}/${SO_NAME}" ]; then
+  printf "Found shared object, installing.\n"
+else
+  printf "Failed to find shared object...exiting\n"
+  exit 1;
+fi
+
+mkdir -p "${SO_INSTALL_DIR}"
+
+printf "* Copying shared object into place\n"
+
+cp "${BUILD_DIR_PATH}/${SO_NAME}" "${SO_INSTALL_DIR}"
+
+cd "${CUR_DIR}" || exit 1
+
+printf "Done\n"

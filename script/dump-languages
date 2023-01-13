@@ -1,0 +1,20 @@
+#! /bin/sh
+
+#set -o pipefail
+
+SCRIPT=$(readlink -f "$0")
+SCRIPT_DIR=$(dirname "$SCRIPT")
+
+# shellcheck source=common
+. "${SCRIPT_DIR}/common"
+
+########################################################################
+
+CUR_DIR=$(pwd)
+
+cd "${PARSER_PROJ_DIR}" || exit 1
+
+${TS_PATH} dump-languages
+
+cd "${CUR_DIR}" || exit 1
+
