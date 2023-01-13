@@ -1,0 +1,5 @@
+#! /bin/sh
+
+underscore_name=$(echo "$1" | tr '-' '_')
+
+echo tree-sitter-"${underscore_name}".wasm

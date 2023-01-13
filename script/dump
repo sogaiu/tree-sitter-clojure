@@ -8,7 +8,14 @@ SCRIPT_DIR=$(dirname "$SCRIPT")
 
 ########################################################################
 
-if diff "${BUILT_SO_PATH}" "${INSTALLED_SO_PATH}" 2> /dev/null; then
+# XXX: should go through in detail to revise
+
+#      e.g. the BUILD_* stuff is not likely to be correct
+#      if this is execcuted from a Makefile where it might
+#      have been overriden.  that may be the only thing so
+#      far though
+
+if diff "${SO_BUILD_PATH}" "${INSTALLED_SO_PATH}" 2> /dev/null; then
     SOS_SAME="Yes"
 else
     SOS_SAME="No"

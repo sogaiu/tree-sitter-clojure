@@ -1,0 +1,10 @@
+#! /bin/sh
+
+SCRIPT=$(readlink -f "$0")
+SCRIPT_DIR=$(dirname "$SCRIPT")
+
+########################################################################
+
+SO_EXT=$("${SCRIPT_DIR}"/so-ext)
+
+echo "$1/$2.${SO_EXT}"

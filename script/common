@@ -77,21 +77,7 @@ case ${UNAME_S} in
         ;;
 esac
 
-case ${SYS_TYPE} in
-    Linux)
-        SO_EXT=so
-        ;;
-    Darwin)
-        SO_EXT=dylib
-        ;;
-    MINGW64)
-        SO_EXT=dll
-        ;;
-    *)
-        # XXX: warn?
-        SO_EXT=so
-        ;;
-esac
+SO_EXT=$("${SCRIPT_DIR}"/util/so-ext)
 
 SO_NAME=${TS_LANGUAGE}.${SO_EXT}
 
@@ -106,7 +92,7 @@ BUILD_DIR_PATH=${PARSER_PROJ_DIR}/${BUILD_DIR_NAME}
 PARSER_WASM=tree-sitter-${TS_LANG_UNDERSCORE_NAME}.wasm
 PARSER_WASM_PATH=${PARSER_PROJ_DIR}/${PARSER_WASM}
 
-BUILT_SO_PATH=${BUILD_DIR_PATH}/${SO_NAME}
+SO_BUILD_PATH=${BUILD_DIR_PATH}/${SO_NAME}
 INSTALLED_SO_PATH=${SO_INSTALL_DIR}/${SO_NAME}
 
 # XXX: various tree-sitter subcommands can lead to scanning of

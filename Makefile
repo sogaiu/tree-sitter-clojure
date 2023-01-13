@@ -26,13 +26,14 @@
 #
 # https://www.gnu.org/software/make/manual/html_node/Standard-Targets.html
 
-TS_LANGUAGE := $(shell grep TS_LANGUAGE script/settings | cut -d= -f2)
-# XXX: duplicating stuff from scripts...not good
-TS_LANG_UNDERSCORE_NAME := $(shell echo $(TS_LANGUAGE) | tr '-' '_')
-# XXX: even worse because "build" is not static
-SO_BUILD_PATH := build/$(TS_LANGUAGE).so
-# XXX: only as bad as the first duplication
-PARSER_WASM := tree-sitter-$(TS_LANG_UNDERSCORE_NAME).wasm
+SETTINGS_PATH := $(shell realpath script/settings)
+TS_LANGUAGE := $(shell script/util/get-setting "$(SETTINGS_PATH)" TS_LANGUAGE)
+
+BUILD_DIR_NAME ?= build
+SO_BUILD_PATH := $(shell script/util/so-build-path $(BUILD_DIR_NAME) \
+                                                   $(TS_LANGUAGE))
+
+PARSER_WASM := $(shell script/util/wasm-name $(TS_LANGUAGE))
 
 ########################################################################
 
