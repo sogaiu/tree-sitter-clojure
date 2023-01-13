@@ -1,0 +1,4 @@
+To lint, run shellcheck -x <name> on the .sh files in this directory.
+
+Invoke shellcheck from inside this directory though.
+
