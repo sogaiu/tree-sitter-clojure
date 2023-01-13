@@ -59,6 +59,7 @@ dump:
 # symlink hack #
 ################
 
+.PHONY: hack-symlink
 hack-symlink:
 	./script/hack-symlink
 
