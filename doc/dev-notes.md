@@ -1505,6 +1505,10 @@ XXX: not all grammars keep generated source under src
 
 https://github.com/tree-sitter/tree-sitter-typescript
 
+XXX: on the topic of generated source being in grammar repositories
+
+https://github.com/tree-sitter/tree-sitter/issues/730
+
 XXX: not all grammars keep the generated parser.c + other things in the repository
 
 https://github.com/CyberShadow/tree-sitter-d
