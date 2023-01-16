@@ -477,6 +477,11 @@ XXX: about comments in json for rust:
 * https://github.com/serde-rs/json/issues/168
 * https://github.com/hjson/hjson-rust
 
+XXX: no trailing commas in json:
+
+* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Trailing_commas
+* https://github.com/tree-sitter/tree-sitter/issues/1227#issuecomment-873174182
+
 XXX: about commenting for package.json
 
 https://spin.atomicobject.com/2019/05/20/document-package-json/
