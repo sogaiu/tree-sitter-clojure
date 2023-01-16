@@ -1550,3 +1550,7 @@ https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-5-implementa
 XXX: consider w64devkit vs msys2 / mingw64 - will it be maintained though...
 
 https://github.com/skeeto/w64devkit
+
+XXX: idea of using r2c for external scanner implementation
+
+https://github.com/tree-sitter/tree-sitter/discussions/1413#discussioncomment-1543590
