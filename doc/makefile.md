@@ -481,6 +481,7 @@ XXX: no trailing commas in json:
 
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Trailing_commas
 * https://github.com/tree-sitter/tree-sitter/issues/1227#issuecomment-873174182
+* https://hjson.github.io/
 
 XXX: about commenting for package.json
 
