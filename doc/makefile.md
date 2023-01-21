@@ -468,6 +468,12 @@ recent](https://github.com/tree-sitter/tree-sitter/issues/409#issuecomment-51790
 
 ## Unintegrated Content
 
+XXX: npm global install advice pervasive, yet isn't that problematic?
+
+* https://code.mendhak.com/npm-install-globally-is-bad/
+* https://2ality.com/2022/06/global-npm-install-alternatives.html
+* https://rajeshnaroth.medium.com/never-do-npm-global-install-1201c44334bf
+
 XXX: code in `tree-sitter` that scans `package.json`
 
 https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L536-L591
