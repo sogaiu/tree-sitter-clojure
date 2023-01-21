@@ -1526,6 +1526,10 @@ XXX: info on some debugging-related TREE_SITTER_* env vars
 
 https://github.com/tree-sitter/tree-sitter/issues/2021
 
+XXX: a list of TREE_SITTER_* env vars
+
+https://gist.github.com/sogaiu/e30c98f61cbc7d5d5614602098b49c60
+
 XXX: some collected info about regular expression support
 
 * https://github.com/tree-sitter/tree-sitter/pull/319
