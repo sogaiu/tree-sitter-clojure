@@ -562,3 +562,28 @@ XXX: idea of an option to subcommands to specify file path to .so
      to be used for language-specific processing
 
 XXX: idea of a flag (or configuration item) to turn off scanning
+
+XXX: tree-sitter local patch ideas
+
+* if config.parser_directories is empty (in Loader::find_all_languages),
+  scan based on current directory?
+* verbosely report certain paths (in loader/src/lib.rs? or src/main.rs?)
+  * used shared object path
+  * used language configuration
+* be able to specify a config directory on command line
+  * TREE_SITTER_DIR exists so just use this for now
+    * is this supported extensively?
+* be able to specify shared object directory on command line
+  * TREE_SITTER_LIBDIR exists so just use this for now
+    * is this supported extensively?
+* any way to address issue of multiple outputs from single command?
+  (make and redo don't handle this so well afaiu)
+  * be able to generate just grammar.json
+    * this seems doable via using alternate javascript runtime
+      approach: grammar.js -> grammar.json
+  * parser.c and node-types.json come out together though
+    (XXX: just ignore node-types.json as we don't use it?)
+    * cli/src/generate/mod.rs's generate_parser_for_grammar_with_opts
+      returns two pieces
+      * node_types::generate_node_types_json -> note-types.json
+      * render_c_code -> parser.c
