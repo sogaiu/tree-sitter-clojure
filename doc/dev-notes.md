@@ -1514,9 +1514,9 @@ XXX: not all grammars keep the generated parser.c + other things in the reposito
 https://github.com/CyberShadow/tree-sitter-d
 
 XXX: `tree-sitter init-config` doesn't appear to honor
-     `TREE_SITTER_DIR`.  I tried making a patch for it:
+     `TREE_SITTER_DIR`.  there is a PR to improve the behavior:
 
-https://gist.github.com/sogaiu/022c6eaadd9698878aa97c9880e41ca5
+https://github.com/tree-sitter/tree-sitter/pull/2035
 
 XXX: compiling on windows with gcc msys2 / mingw64 needs a tweak to tree-sitter cli
 
