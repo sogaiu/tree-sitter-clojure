@@ -474,6 +474,15 @@ XXX: npm global install advice pervasive, yet isn't that problematic?
 * https://2ality.com/2022/06/global-npm-install-alternatives.html
 * https://rajeshnaroth.medium.com/never-do-npm-global-install-1201c44334bf
 
+xxx: npm, node-gyp, and python woes
+
+* https://github.com/nodejs/node-gyp/issues/1977
+* https://github.com/nodejs/node-gyp/blob/main/docs/Updating-npm-bundled-node-gyp.md
+* https://stackoverflow.com/questions/20454199/how-to-use-a-different-version-of-python-during-npm-install
+* https://github.com/tree-sitter/node-tree-sitter/issues/119#issuecomment-1396450492
+* https://www.kb.cert.org/vuls/id/319816
+* https://github.com/tree-sitter/node-tree-sitter/issues/120#issuecomment-1399200057
+
 XXX: code in `tree-sitter` that scans `package.json`
 
 https://github.com/tree-sitter/tree-sitter/blob/0d3fd603e1b113d3ff6f1a57cadae25d403a3af2/cli/loader/src/lib.rs#L536-L591
