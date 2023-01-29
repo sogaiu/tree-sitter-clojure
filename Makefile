@@ -15,20 +15,9 @@
 #
 # https://youtu.be/lgyOAiRtZGw?t=475
 
-# XXX: eventually work on portability?
-#
-# portable makefile tutorial
-#   https://nullprogram.com/blog/2017/08/20/
-#
-# posix makefile spec
-#   https://pubs.opengroup.org/onlinepubs/9699919799/utilities/make.html
-#
-
 # XXX: process rules of makefiles
 #
 # https://make.mad-scientist.net/papers/rules-of-makefiles/
-
-# consider bmake and fmake for testing portability on occasion
 
 # XXX: additional targets?
 #
@@ -59,20 +48,6 @@ OLD_PATH := $(PATH)
 #      compare versions because unreleased things appear to use the
 #      same version string
 TS_PATH ?= tree-sitter
-
-# example tree-sitter --version output:
-#
-#   tree-sitter 0.20.7 (9ac55f79d191f6fa200b1894ddac449fa3df70c1)
-#
-#   1           2      3
-#
-# so split on spaces and take the 2nd and 3rd fields
-TS_VERSION := $(shell $(TS_PATH) --version | cut -d' ' -f2)
-# also remove surrounding parens -- otherwise can interfere with things
-TS_COMMIT := $(shell $(TS_PATH) --version | cut -d' ' -f3 | tr -d '()')
-
-#MIN_VERSION := "0.19.4"
-MIN_VERSION := "0.20.8"
 
 # the directory this Makefile lives in
 GRAMMAR_PROJ_DIR := $(shell pwd)
@@ -132,7 +107,6 @@ LINK_NAME := tree-sitter-$(TS_LANGUAGE)
 HACK_LINK := $(shell ls -d $(LINK_NAME) 2> /dev/null || echo "None")
 HACK_LINK_DEREF := $(shell readlink $(LINK_NAME) 2> /dev/null || echo "None")
 
-OLD_TREE_SITTER_DIR := $(TREE_SITTER_DIR)
 TREE_SITTER_DIR ?= $(GRAMMAR_PROJ_DIR)/.tree-sitter
 export TREE_SITTER_DIR
 
@@ -140,7 +114,6 @@ export TREE_SITTER_DIR
 #      for versions beyond 0.20.7 -- we use it here for convenient
 #      expression but just put its value in SO_INSTALL_DIR and use
 #      that instead
-OLD_TREE_SITTER_LIBDIR := $(TREE_SITTER_LIBDIR)
 TREE_SITTER_LIBDIR ?= $(TREE_SITTER_DIR)/lib
 export TREE_SITTER_LIBDIR
 
@@ -178,63 +151,45 @@ SO_NAME := $(TS_LANGUAGE).$(SO_EXT)
 #
 # NOTE: making this the same as src will make some values in this program
 #       incorrect so don't do that
-BUILD_DIR_NAME ?= build
-BUILD_DIR_PATH := $(GRAMMAR_PROJ_DIR)/$(BUILD_DIR_NAME)
+#
+# XXX: bindings/c is another possibility
+BUILD_DIR_NAME ?= build/c
+BUILD_DIR := $(GRAMMAR_PROJ_DIR)/$(BUILD_DIR_NAME)
 
 PARSER_WASM := tree-sitter-$(TS_LANGUAGE).wasm
 PARSER_WASM_PATH := $(GRAMMAR_PROJ_DIR)/$(PARSER_WASM)
 
-BUILT_SO_PATH := $(BUILD_DIR_PATH)/$(SO_NAME)
-INSTALLED_SO_PATH := $(SO_INSTALL_DIR)/$(SO_NAME)
+BUILT_SO_PATH := $(BUILD_DIR)/$(SO_NAME)
+SO_INSTALL_PATH := $(SO_INSTALL_DIR)/$(SO_NAME)
 
-SOS_SAME := $(shell diff $(BUILT_SO_PATH) $(INSTALLED_SO_PATH) \
-                         2> /dev/null; \
-                         if test $$? -eq 0; then \
-                           echo "Yes"; \
-                         else \
-                           echo "No"; \
-                         fi)
-
-####################
-# emsdk experiment #
-####################
+#######
+# emsdk
+#######
 
 # XXX: not sure how to integrate emsdk_env.sh...
 #
-#      might not be possble because one needs to . or source it?
+#      possibly that could be parsed...but seems like a lot of work, and like
+#      sourcing, could be a potential security issue.
 #
-#        https://lists.gnu.org/archive/html/help-make/2006-04/msg00142.html
+#      apparently PATH only needs to be prepended with something like:
 #
-#      the output of sourcing displays which env vars are set and what
-#      they are set to.  a hack would be to capture and parse that output?
-#      some attempts at this failed -- "source" doesn't work via
-#      $(shell ,,,) and "." didn't work out for different reasons
+#        $EMSDK/upstream/emscripten
 #
-#      running EMSDK_QUIET=1 python ~/src/emsdk/emsdk.py construct_env
-#      produces output of the form:
+#      at least according to:
 #
-#        export PATH="...";
-#        export EMSDK="...";
-#        export EMSDK_NODE="...";
-#        unset EMSDK_QUIET;
-#
-#      possibly that could be parsed...but seems like a lot of work
+#        https://github.com/emscripten-core/emsdk/issues/1142#issuecomment-1334065131
 
 # XXX: doing the following as an experiment.  may be brittle though if
 #      emscripten changes certain things
 EMSDK ?= $(shell realpath $(GRAMMAR_PROJ_DIR)/../emsdk)
 EMSCRIPTEN := $(EMSDK)/upstream/emscripten
-# XXX: using * ok?  possibly an issue?
-NODE_VERSION := $(shell ls $(EMSDK)/node)
-NODE_BIN_DIR_PATH := $(EMSDK)/node/$(NODE_VERSION)/bin
-EMSDK_NODE := $(NODE_BIN_DIR_PATH)/node
 OLD_PATH := $(PATH)
 
 ########################################################################
 
-##############
-# diagnostic #
-##############
+############
+# diagnostic
+############
 
 # XXX: using `set` can be a handy way to see what env vars got exported
 dump:
@@ -242,17 +197,8 @@ dump:
 	@echo "   GRAMMAR_PROJ_DIR:" $(GRAMMAR_PROJ_DIR)
 	@echo
 	@echo "            TS_PATH:" $(TS_PATH)
-	@echo "         TS_VERSION:" $(TS_VERSION)
-	@echo "          TS_COMMIT:" $(TS_COMMIT)
-	@echo "        MIN_VERSION:" $(MIN_VERSION)
 	@echo
 	@echo "           SYS_TYPE:" $(SYS_TYPE)
-	@echo
-	@echo "  Original Env Vars"
-	@echo "  -----------------"
-	@echo "    TREE_SITTER_DIR:" $(OLD_TREE_SITTER_DIR)
-	@echo " TREE_SITTER_LIBDIR:" $(OLD_TREE_SITTER_LIBDIR)
-	@echo " ------------------"
 	@echo
 	@echo "      Make Env Vars"
 	@echo "      -------------"
@@ -270,11 +216,9 @@ dump:
               $(shell find src -type f 2> /dev/null || echo "None")
 	@echo
 	@echo "        Compiled SO:" \
-              $(shell ls $(BUILD_DIR_PATH)/$(SO_NAME) 2> /dev/null || echo "None")
+              $(shell ls $(BUILD_DIR)/$(SO_NAME) 2> /dev/null || echo "None")
 	@echo "       Installed SO:" \
-              $(shell ls $(INSTALLED_SO_PATH) 2> /dev/null || echo "None")
-	@echo
-	@echo "Shared objects same:" $(SOS_SAME)
+              $(shell ls $(SO_INSTALL_PATH) 2> /dev/null || echo "None")
 	@echo
 	@echo "               WASM"
 	@echo "               ----"
@@ -282,7 +226,6 @@ dump:
               $(shell ls $(PARSER_WASM_PATH) 2> /dev/null || echo "None")
 	@echo
 	@echo "              EMSDK:" $(EMSDK)
-	@echo "         EMSDK_NODE:" $(EMSDK_NODE)
 	@echo
 	@echo "           OLD_PATH:" $(OLD_PATH)
 	@echo
@@ -322,6 +265,7 @@ endif
 src/parser.c: grammar.js
 	$(TS_PATH) generate --abi 13 --no-bindings
 
+# XXX: could set things up to use quickjs to create grammar.json?
 # XXX: not using this target explicitly
 #src/grammar.json: grammar.js
 #	$(TS_PATH) generate --abi 13 --no-bindings
@@ -340,78 +284,73 @@ parser-source: src/parser.c
 #      writing some rust, recomplining the tree-sitter cli, and
 #      running the invocation again.  that kind of thing seems like it
 #      could be avoided by externalization as is dones below.
-shared-object: src/parser.c
-	mkdir -p $(BUILD_DIR_PATH)
+build-so: src/parser.c
+	mkdir -p $(BUILD_DIR)
 	# Compiling parser
-	cc -fPIC -c -Isrc src/parser.c -o $(BUILD_DIR_PATH)/parser.o
+	cc -fPIC -c -Isrc src/parser.c -o $(BUILD_DIR)/parser.o
 	# May be compiling scanner.c
 	if test -f src/scanner.c; then \
-	  cc -fPIC -c -Isrc src/scanner.c -o $(BUILD_DIR_PATH)/scanner.o; \
+	  cc -fPIC -c -Isrc src/scanner.c -o $(BUILD_DIR)/scanner.o; \
 	fi
 	# May be compiling scanner.cc
 	if test -f src/scanner.cc; then \
-	  c++ -fPIC -Isrc -c src/scanner.cc -o $(BUILD_DIR_PATH)/scanner.o; \
+	  c++ -fPIC -Isrc -c src/scanner.cc -o $(BUILD_DIR)/scanner.o; \
 	fi
 	# Linking
 	if test -f src/scanner.cc; then \
-	  c++ -fPIC -shared $(BUILD_DIR_PATH)/*.o \
-              -o $(BUILD_DIR_PATH)/$(SO_NAME); \
+	  c++ -fPIC -shared $(BUILD_DIR)/*.o \
+              -o $(BUILD_DIR)/$(SO_NAME); \
 	else \
-	  cc -fPIC -shared $(BUILD_DIR_PATH)/*.o \
-             -o $(BUILD_DIR_PATH)/$(SO_NAME); \
+	  cc -fPIC -shared $(BUILD_DIR)/*.o \
+             -o $(BUILD_DIR)/$(SO_NAME); \
 	fi
 
-install: shared-object
+install-so: build-so
 	mkdir -p $(SO_INSTALL_DIR)
-	cp $(BUILD_DIR_PATH)/$(SO_NAME) $(SO_INSTALL_DIR)
+	cp $(BUILD_DIR)/$(SO_NAME) $(SO_INSTALL_DIR)
 
-.PHONY: uninstall
-uninstall:
-	rm -rf $(INSTALLED_SO_PATH)
+.PHONY: uninstall-so
+uninstall-so:
+	rm -rf $(SO_INSTALL_PATH)
 
-###############
-### testing ###
-###############
+#########
+# testing
+#########
 
 .PHONY: corpus-test
 corpus-test: src/parser.c
 	$(TS_PATH) test
 
-###########################
-### playground and wasm ###
-###########################
+#####################
+# playground and wasm
+#####################
 
 .PHONY: playground
 playground: $(PARSER_WASM)
 	$(TS_PATH) playground
 
-# XXX: arrange for emsdk?  may need cross-platform detection because
-#      script name is different
-#
 # XXX: if experiment with setting emsdk env vars is aborted, put
 #      the following back:
 #
 # @echo "Did you arrange for the appropriate emsdk_env to be used?"
 
+# https://github.com/emscripten-core/emsdk/issues/1142#issuecomment-1334065131
 $(PARSER_WASM): src/parser.c
-	EMSDK=$(EMSDK) \
-	EMSDK_NODE=$(EMSDK_NODE) \
-	PATH=$(EMSDK):$(EMSCRIPTEN):$(NODE_BIN_DIR_PATH):$(OLD_PATH) \
+	PATH=$(EMSCRIPTEN):$(OLD_PATH) \
 	$(TS_PATH) build-wasm
 
 # alias for command line use
-.PHONY: parser-wasm
-parser-wasm: $(PARSER_WASM)
+.PHONY: build-wasm
+build-wasm: $(PARSER_WASM)
 
-###################
-### for cleanup ###
-###################
+#########
+# cleanup
+#########
 
 .PHONY: clean
 clean:
 	- rm -rf src/parser.c src/scanner.c src/scanner.cc
 	- rm -rf src/grammar.json src/node-types.json
 	- rm -rf src/tree_sitter
-	- rm -rf src
-	- rm -rf $(BUILD_DIR_PATH)
+	- rm -rf $(BUILD_DIR)
 	- rm -f $(PARSER_WASM)
