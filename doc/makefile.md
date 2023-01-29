@@ -362,8 +362,7 @@ grammars.
 
 My impression is that Node.js seems to have had relatively speaking,
 little regard for backward compatibility (though perhaps this is no
-longer true?) [1].  It's possible that `tree-sitter` doesn't use (and
-hasn't used) features that changed over time, but I don't know.
+longer true?) [1].
 
 Another point though is that they seem to insist on retiring older
 versions within fairly short periods.  Being forced to upgrade in such
