@@ -79,8 +79,8 @@ dump:
 	@echo "           OLD_PATH:" $(OLD_PATH)
 	@echo
 	@echo "          LINK_NAME:" $(LINK_NAME)
-	@echo "          HACK_LINK:" $(HACK_LINK)
-	@echo "    HACK_LINK_DEREF:" $(HACK_LINK_DEREF)
+	@echo "          Exists at:" $(shell ls -d $(LINK_NAME) 2> /dev/null)
+	@echo "  Ultimately points:" $(shell realpath $(LINK_NAME) 2> /dev/null)
 	@echo
 	@echo "tree-sitter dump-languages:"
 	@echo

@@ -97,10 +97,6 @@ export GRAMMAR_PROJ_DIR
 #      the goal is to have one and have it be the current one.
 LINK_NAME=tree-sitter-${TS_LANGUAGE}
 export LINK_NAME
-HACK_LINK=$(ls -d ${LINK_NAME} 2> /dev/null)
-export HACK_LINK
-HACK_LINK_DEREF=$(readlink ${LINK_NAME} 2> /dev/null)
-export HACK_LINK_DEREF
 
 TREE_SITTER_DIR=${GRAMMAR_PROJ_DIR}/.tree-sitter
 export TREE_SITTER_DIR
