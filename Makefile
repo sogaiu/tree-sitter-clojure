@@ -36,6 +36,14 @@
 
 ########################################################################
 
+ifndef ATSP_LANG
+  $(warning Expected env vars (e.g. ATSP_LANG) not set.)
+  $(warning Hint: was an appropriate script sourced?)
+  $(error Exiting.)
+endif
+
+########################################################################
+
 ############
 # diagnostic
 ############
