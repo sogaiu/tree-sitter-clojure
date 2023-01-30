@@ -23,6 +23,10 @@
 #      * the Makefile can be made more generic (e.g. ATSP_LANG can be
 #        set outside of the Makefile)
 
+# XXX: in the current state, dependent values are not recomputed.
+#      e.g. setting ATSP_SO_EXT before invoking make has no
+#      effect on ATSP_SO_NAME.
+
 ########################################################################
 
 # XXX: ATSP should be changed to match the grammar name in grammar.js
