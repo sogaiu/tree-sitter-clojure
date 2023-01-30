@@ -421,12 +421,13 @@ recent](https://github.com/tree-sitter/tree-sitter/issues/409#issuecomment-51790
   configuration (in a file) for which ABI version we want when calling
   `generate`.  It is necessary to specify `--abi 13` on the command
   line.  Having a named task allows us to not have to spell this out
-  all of the time but it's also less error-prone.
+  all of the time and it's also less error-prone.
 
 * Since some of `tree-sitter`'s behavior may be broken at times, it
-  seems better to have an invocation layer that can use a work-around
-  or provide alternative processing.  Also, the implementation of the
-  layer can capture details that might otherwise go unrecorded.
+  seems better to have an invocation layer that can one use a
+  work-around or provide alternative processing.  Also, the
+  implementation of the layer can capture details that might otherwise
+  go unrecorded.
 
 * Coming up with and maintaining a layer isn't free though.  I work on
   more than one grammar so may be more motivated to putting in a
@@ -444,8 +445,10 @@ recent](https://github.com/tree-sitter/tree-sitter/issues/409#issuecomment-51790
     designed in.  It can be done with `.PHONY` targets but that seems
     accidental.
 
-  * Enumerating the possible tasks is awkward.  Shell completion to
-    can mitigate this a bit.
+  * Enumerating the possible tasks is awkward.  Shell completion can
+    mitigate this a bit, but descriptions of the tasks are not
+    available.  Apparently, remake has some improvements on this
+    front.
 
   * Passing arguments to targets via command line invocation is not
     really idiomatic.
@@ -458,14 +461,23 @@ recent](https://github.com/tree-sitter/tree-sitter/issues/409#issuecomment-51790
     understand one large thing may be more difficult than smaller
     pieces.  This issue applies to newcomers to the project as well as
     maintainers who might not have looked at something in a while.
+    However, a certain portion of variable initialization can actually
+    be moved out of the Makefile and sourced in before in a manner
+    similar to what Emscripten does with emsdk_env.sh.
 
   * Debugging seems more difficult than what might be the case for
-    examining individual scripts.
+    examining individual scripts.  However, consider remake --
+    it has a step debugger that can be used.
 
   * The two types of variables, simply expanded and recursively
-    expanded can become confusing some times.
+    expanded can become confusing some times.  But it may be that not
+    many of these have to be set within the Makefile.
 
 ## Unintegrated Content
+
+XXX: things that touch on some downsides of Makefiles
+
+* https://acecilia.medium.com/introducing-the-taskfile-e9068e3b2804
 
 XXX: npm global install advice pervasive, yet isn't that problematic?
 
