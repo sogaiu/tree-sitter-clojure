@@ -1,12 +1,20 @@
 #! /bin/sh
 
-# XXX: consider a design where before invoking make to use the Makefile
-#      in the directory this file is in is meant to be preceded by
-#      having certain environment variables set.
+# XXX: consider a design where before invoking make (to use the
+#      Makefile in the directory this file is in), that is meant to be
+#      preceded by having certain environment variables set.
 #
 #      this file arranges for those env vars to be set.  note that
-#      although this file is a shell script, it could be implemented
-#      using some other programming language.
+#      this only works because this is a shell script.
+#
+#      to be able to use another programming language, possibly such
+#      a program could generate a shell script which would then be
+#      sourced...
+#
+#      https://github.com/emscripten-core/emsdk/blob/ \
+#        592b7b74e4d250169a702e4b43836756bbc77319/emsdk.bat#L53-L59
+#
+#      (see various emsdk files for more details)
 #
 #      what we might get from this includes:
 #
@@ -15,18 +23,16 @@
 #      * the Makefile can be made more generic (e.g. TS_LANGUAGE can be
 #        set outside of the Makefile)
 
-# XXX: rename the env vars so they are not so likely to conflict.
-#      make most of them have a common prefix that is unique?  might
-#      not be good to choose TSCLJ though because that would appear to
-#      make this whole scheme specific to this grammar.
+########################################################################
 
-TS_LANGUAGE=clojure
-# XXX: for debugging / dump
-export TS_LANGUAGE
+# XXX: ATSP should be changed to match the grammar name in grammar.js
 
-OLD_PATH=${PATH}
+ATSP_LANG=clojure
 # XXX: for debugging / dump
-export OLD_PATH
+export ATSP_LANG
+
+# XXX: might want to change the following on occasion when testing
+#      different versions of the cli
 
 # path to tree-sitter cli binary
 #
@@ -37,12 +43,20 @@ export OLD_PATH
 # XXX: note that version string from binary may not be a good way to
 #      compare versions because unreleased things appear to use the
 #      same version string
-TS_PATH=tree-sitter
-export TS_PATH
+#
+# XXX: should we try to get a full path here?
+ATSP_TS_PATH=tree-sitter
+export ATSP_TS_PATH
+
+########################################################################
+
+ATSP_OLD_PATH=${PATH}
+# XXX: for debugging / dump
+export ATSP_OLD_PATH
 
 # the directory the Makefile lives in
-GRAMMAR_PROJ_DIR=$(pwd)
-export GRAMMAR_PROJ_DIR
+ATSP_LANG_ROOT=$(pwd)
+export ATSP_LANG_ROOT
 
 # XXX: various tree-sitter subcommands can lead to scanning of
 #      directories looking for grammar directories that can have their
@@ -95,54 +109,56 @@ export GRAMMAR_PROJ_DIR
 #      recognized and how many there are.
 #
 #      the goal is to have one and have it be the current one.
-LINK_NAME=tree-sitter-${TS_LANGUAGE}
-export LINK_NAME
+ATSP_LINK_NAME=tree-sitter-${ATSP_LANG}
+export ATSP_LINK_NAME
 
-TREE_SITTER_DIR=${GRAMMAR_PROJ_DIR}/.tree-sitter
+# XXX: don't prefix with ATSP_?
+TREE_SITTER_DIR=${ATSP_LANG_ROOT}/.tree-sitter
 export TREE_SITTER_DIR
 
 # XXX: the env var TREE_SITTER_LIBDIR only affects the tree-sitter cli
 #      for versions beyond 0.20.7 -- we use it here for convenient
 #      expression but just put its value in SO_INSTALL_DIR and use
 #      that instead
+# XXX: don't prefix with ATSP_?
 TREE_SITTER_LIBDIR=${TREE_SITTER_DIR}/lib
 export TREE_SITTER_LIBDIR
 
 # XXX: most likely it's stuff above this line one might want to tweak
 
 # where the shared object is looked for by tree-sitter cli
-SO_INSTALL_DIR=${TREE_SITTER_LIBDIR}
-export SO_INSTALL_DIR
+ATSP_SO_INSTALL_DIR=${TREE_SITTER_LIBDIR}
+export ATSP_SO_INSTALL_DIR
 
 uname_s=$(uname -s)
 
 if [ "${uname_s}" = "Linux" ]; then
-    SYS_TYPE=Linux
+    ATSP_SYS_TYPE=Linux
 elif [ "${uname_s}" = "Darwin" ]; then
-    SYS_TYPE=Darwin
+    ATSP_SYS_TYPE=Darwin
 elif [ "$(echo "${uname_s}" | head -c 7)" = \
        "$(echo "MINGW64" | head -c 7)" ]; then
-    SYS_TYPE=MINGW64
+    ATSP_SYS_TYPE=MINGW64
 else
-    SYS_TYPE=UNKNOWN
+    ATSP_SYS_TYPE=UNKNOWN
 fi
 
-export SYS_TYPE
+export ATSP_SYS_TYPE
 
-if [ ${SYS_TYPE} = "Linux" ]; then
-    SO_EXT=so
-elif [ ${SYS_TYPE} = "Darwin" ]; then
-    SO_EXT=dylib
-elif [ ${SYS_TYPE} = "MINGW64" ]; then
-    SO_EXT=dll
+if [ ${ATSP_SYS_TYPE} = "Linux" ]; then
+    ATSP_SO_EXT=so
+elif [ ${ATSP_SYS_TYPE} = "Darwin" ]; then
+    ATSP_SO_EXT=dylib
+elif [ ${ATSP_SYS_TYPE} = "MINGW64" ]; then
+    ATSP_SO_EXT=dll
 else
-    SO_EXT=so
+    ATSP_SO_EXT=so
 fi
 
-export SO_EXT
+export ATSP_SO_EXT
 
-SO_NAME=${TS_LANGUAGE}.${SO_EXT}
-export SO_NAME
+ATSP_SO_NAME=${ATSP_LANG}.${ATSP_SO_EXT}
+export ATSP_SO_NAME
 
 # build directory for shared object
 #
@@ -150,15 +166,15 @@ export SO_NAME
 #       incorrect so don't do that
 #
 # XXX: bindings/c is another possibility
-BUILD_DIR_NAME=${BUILD_DIR_NAME:-build/c}
-BUILD_DIR=${GRAMMAR_PROJ_DIR}/${BUILD_DIR_NAME}
-export BUILD_DIR
+ATSP_BUILD_DIR_NAME=${ATSP_BUILD_DIR_NAME:-build/c}
+ATSP_BUILD_DIR=${ATSP_LANG_ROOT}/${ATSP_BUILD_DIR_NAME}
+export ATSP_BUILD_DIR
 
-PARSER_WASM=tree-sitter-${TS_LANGUAGE}.wasm
-export PARSER_WASM
+ATSP_PARSER_WASM=tree-sitter-${ATSP_LANG}.wasm
+export ATSP_PARSER_WASM
 
-SO_INSTALL_PATH=${SO_INSTALL_DIR}/${SO_NAME}
-export SO_INSTALL_PATH
+ATSP_SO_INSTALL_PATH=${ATSP_SO_INSTALL_DIR}/${ATSP_SO_NAME}
+export ATSP_SO_INSTALL_PATH
 
 #######
 # emsdk
@@ -179,6 +195,6 @@ export SO_INSTALL_PATH
 
 # XXX: doing the following as an experiment.  may be brittle though if
 #      emscripten changes certain things
-EMSDK=$(realpath "${GRAMMAR_PROJ_DIR}"/../emsdk)
-EMSCRIPTEN=${EMSDK}/upstream/emscripten
-export EMSCRIPTEN
+EMSDK=$(realpath "${ATSP_LANG_ROOT}"/../emsdk)
+ATSP_EMSCRIPTEN=${EMSDK}/upstream/emscripten
+export ATSP_EMSCRIPTEN
