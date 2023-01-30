@@ -48,15 +48,28 @@ export ATSP_LANG
 ATSP_TS_PATH=tree-sitter
 export ATSP_TS_PATH
 
+# the directory the Makefile lives in
+ATSP_LANG_ROOT=$(pwd)
+export ATSP_LANG_ROOT
+
+# XXX: experimental support of emsdk
+#
+#      apparently PATH only needs to be prepended with something like:
+#
+#        $EMSDK/upstream/emscripten
+#
+#      at least according to:
+#
+#        https://github.com/emscripten-core/emsdk/issues/1142#issuecomment-1334065131
+
+EMSDK=$(realpath "${ATSP_LANG_ROOT}"/../emsdk)
+export EMSDK
+
 ########################################################################
 
 ATSP_OLD_PATH=${PATH}
 # XXX: for debugging / dump
 export ATSP_OLD_PATH
-
-# the directory the Makefile lives in
-ATSP_LANG_ROOT=$(pwd)
-export ATSP_LANG_ROOT
 
 # XXX: various tree-sitter subcommands can lead to scanning of
 #      directories looking for grammar directories that can have their
@@ -175,26 +188,3 @@ export ATSP_PARSER_WASM
 
 ATSP_SO_INSTALL_PATH=${ATSP_SO_INSTALL_DIR}/${ATSP_SO_NAME}
 export ATSP_SO_INSTALL_PATH
-
-#######
-# emsdk
-#######
-
-# XXX: not sure how to integrate emsdk_env.sh...
-#
-#      possibly that could be parsed...but seems like a lot of work, and like
-#      sourcing, could be a potential security issue.
-#
-#      apparently PATH only needs to be prepended with something like:
-#
-#        $EMSDK/upstream/emscripten
-#
-#      at least according to:
-#
-#        https://github.com/emscripten-core/emsdk/issues/1142#issuecomment-1334065131
-
-# XXX: doing the following as an experiment.  may be brittle though if
-#      emscripten changes certain things
-EMSDK=$(realpath "${ATSP_LANG_ROOT}"/../emsdk)
-ATSP_EMSCRIPTEN=${EMSDK}/upstream/emscripten
-export ATSP_EMSCRIPTEN

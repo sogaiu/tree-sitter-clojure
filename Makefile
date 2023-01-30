@@ -85,7 +85,7 @@ dump:
 	@echo "        Parser wasm:" \
               $(shell ls $(ATSP_PARSER_WASM) 2> /dev/null)
 	@echo
-	@echo "    ATSP_EMSCRIPTEN:" $(ATSP_EMSCRIPTEN)
+	@echo "              EMSDK:" $(EMSDK)
 	@echo
 	@echo "      ATSP_OLD_PATH:" $(ATSP_OLD_PATH)
 	@echo
@@ -211,7 +211,7 @@ playground: $(ATSP_PARSER_WASM)
 
 # https://github.com/emscripten-core/emsdk/issues/1142#issuecomment-1334065131
 $(ATSP_PARSER_WASM): src/parser.c
-	PATH=$(ATSP_EMSCRIPTEN):$(ATSP_OLD_PATH) \
+	PATH=$(EMSDK)/upstream/emscripten:$(ATSP_OLD_PATH) \
 	$(ATSP_TS_PATH) build-wasm
 
 # alias for command line use
