@@ -49,6 +49,8 @@ endif
 ############
 
 # XXX: using `set` can be a handy way to see what env vars got exported
+
+#: Show env var and other state
 dump:
 	@echo "          ATSP_LANG:" $(ATSP_LANG)
 	@echo "     ATSP_LANG_ROOT:" $(ATSP_LANG_ROOT)
@@ -108,6 +110,8 @@ dump:
 # for msys2 / mingw64, need env var MSYS to be set to winsymlinks:nativestrict
 # from some version of windows 10 and beyond(?), setting up developer mode
 # allows use of symlinks
+
+#: Create hack symlink to deal with tree-sitter scanning issue
 hack-symlink:
 ifeq ($(ATSP_SYS_TYPE), MINGW64)
 	MSYS=winsymlinks:nativestrict ln -sf . $(ATSP_LINK_NAME)
@@ -136,6 +140,7 @@ src/parser.c: grammar.js
 
 # alias for command line use
 .PHONY: gen-src
+#: Generate parser C source
 gen-src: src/parser.c
 
 # XXX: not relying on the tree-sitter cli for building seems more
@@ -148,6 +153,8 @@ gen-src: src/parser.c
 #      writing some rust, recomplining the tree-sitter cli, and
 #      running the invocation again.  that kind of thing seems like it
 #      could be avoided by externalization as is dones below.
+
+#: Build shared object / dynamic library
 build-so: src/parser.c
 	mkdir -p $(ATSP_BUILD_DIR)
 	# Compiling parser
@@ -169,11 +176,13 @@ build-so: src/parser.c
              -o $(ATSP_BUILD_DIR)/$(ATSP_SO_NAME); \
 	fi
 
+#: Install shared object
 install-so: build-so
 	mkdir -p $(ATSP_SO_INSTALL_DIR)
 	cp $(ATSP_BUILD_DIR)/$(ATSP_SO_NAME) $(ATSP_SO_INSTALL_DIR)
 
 .PHONY: uninstall-so
+#: Uninstall shared object
 uninstall-so:
 	rm -rf $(ATSP_SO_INSTALL_PATH)
 
@@ -182,6 +191,7 @@ uninstall-so:
 #########
 
 .PHONY: corpus-test
+#: Run corpus tests
 corpus-test: src/parser.c
 	$(ATSP_TS_PATH) test
 
@@ -190,6 +200,7 @@ corpus-test: src/parser.c
 #####################
 
 .PHONY: playground
+#: Start web playground
 playground: $(ATSP_PARSER_WASM)
 	$(ATSP_TS_PATH) playground
 
@@ -205,6 +216,7 @@ $(ATSP_PARSER_WASM): src/parser.c
 
 # alias for command line use
 .PHONY: build-wasm
+#: Build grammar's wasm file
 build-wasm: $(ATSP_PARSER_WASM)
 
 #########
@@ -212,6 +224,7 @@ build-wasm: $(ATSP_PARSER_WASM)
 #########
 
 .PHONY: clean
+#: Remove built files / directories
 clean:
 	- rm -rf src/parser.c src/grammar.json src/node-types.json
 	- rm -rf src/tree_sitter
