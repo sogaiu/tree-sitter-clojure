@@ -20,7 +20,7 @@
 #
 #      * the Makefile becomes simpler
 #      * the env var values are usable by other programs
-#      * the Makefile can be made more generic (e.g. TS_LANGUAGE can be
+#      * the Makefile can be made more generic (e.g. ATSP_LANG can be
 #        set outside of the Makefile)
 
 ########################################################################
