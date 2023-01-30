@@ -65,6 +65,9 @@ export ATSP_LANG_ROOT
 #      at least according to:
 #
 #        https://github.com/emscripten-core/emsdk/issues/1142#issuecomment-1334065131
+#
+#      the modification to PATH is done in the Makefile at
+#      the appropriate target
 
 EMSDK=$(realpath "${ATSP_LANG_ROOT}"/../emsdk)
 export EMSDK
