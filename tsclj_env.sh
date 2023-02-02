@@ -26,6 +26,24 @@
 # XXX: in the current state, dependent values are not recomputed.
 #      e.g. setting ATSP_SO_EXT before invoking make has no
 #      effect on ATSP_SO_NAME.
+#
+#      there seem to be at least 2 types of "derived" values
+#
+#      * for sure derived from some other values, e.g.
+#
+#        ATSP_SO_NAME from ATSP_LANG and ATSP_SO_EXT
+#
+#      * those that are convenient to compute from other values
+#        when certain values are missing or are particular values,
+#        e.g.
+#
+#        TREE_SITTER_LIBDIR can be based on TREE_SITTER_DIR
+#        if TREE_SITTER_LIBDIR isn't already set
+#
+# XXX: consider having a conf file / store to express defaults?  these
+#      could be accessed by this env script as well as other tooling.
+#      could the conf info some how be exposed to the Makefile in a
+#      way that allows portions to be used as prerequisites?
 
 ########################################################################
 

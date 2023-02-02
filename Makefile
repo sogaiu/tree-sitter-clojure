@@ -34,6 +34,14 @@
 # https://www.gnu.org/software/make/manual/html_node/Flavors.html
 # https://austingroupbugs.net/view.php?id=330
 
+# XXX: private target (and other) specific variables - possibly
+#      useful for EMSDK stuff because non-emsdk targets wouldn't
+#      have to see the EMSDK-related values.  currently, this is
+#      achieved by modifying PATH in the target for building
+#      the .wasm file.
+#
+# https://www.gnu.org/software/make/manual/html_node/Suppressing-Inheritance.html
+
 ########################################################################
 
 ifndef ATSP_LANG
