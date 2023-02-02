@@ -221,6 +221,31 @@ scanning described above.
 * Makefiles can get complicated.  Keeping things reasonable and
   well-documented may be important.
 
+* Makefiles and make are not primarily about expressing and managing
+  tasks.
+
+* There are situations that make does not appear to handle well
+  even for building:
+
+  * Makefiles don't appear to naturally allow one to express all
+    dependency information (e.g. if certain environment variables
+    differ?).  See djb's documents:
+
+    * https://cr.yp.to/redo/honest-script.html
+    * https://cr.yp.to/redo/honest-nonfile.html
+    * https://cr.yp.to/redo/honest-crossdir.html
+
+  * Multiple output targets may not be handled appropriately unless
+    the input and output files all share the same non-file-extension
+    portion of their file names.  Apparently, existing redo
+    implementations may not handle this type of situation either.  See
+    the "Structural deficiencies in the basic design of redo" section of:
+
+      http://jdebp.info/FGA/introduction-to-redo.html
+
+  * It seems that the Ninja build system has accounted for some of the
+    issues listed above.  Perhaps it's worth a look.
+
 ## Scanning Mitigation
 
 I tried to mitigate the effects of `tree-sitter`'s scanning so that it
