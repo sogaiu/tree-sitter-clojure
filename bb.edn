@@ -1,0 +1,7 @@
+{:min-bb-version "0.4.0"
+ :paths ["script"]
+ :deps {org.clojure/tools.gitlibs {:mvn/version "2.5.190"}}
+ :tasks {
+         fetch-code {:task fetch-code/-main}
+         parse-tree {:task parse-tree/-main}
+         }}
