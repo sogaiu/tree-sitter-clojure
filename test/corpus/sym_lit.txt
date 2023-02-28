@@ -61,3 +61,19 @@ Division Symbol followed by delimiter
     (sym_lit (sym_name))
     (sym_lit (sym_name))
     (sym_lit (sym_name))))
+
+================================================================================
+Clojure CLR Generic List Type
+================================================================================
+
+|System.Collections.Generic.IList`1[System.Int32]|
+
+--------------------------------------------------------------------------------
+
+(source
+  (sym_lit (sym_name))
+  (syn_quoting_lit
+    (num_lit))
+  (vec_lit
+    (sym_lit (sym_name)))
+    (sym_lit (sym_name)))
