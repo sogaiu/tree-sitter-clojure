@@ -89,3 +89,24 @@ Multiple Bits of Metadata
       (kwd_lit (kwd_name)))
     (meta_lit
       (kwd_lit (kwd_name)))))
+
+================================================================================
+ClojureDart Tag Literal Metadata
+================================================================================
+
+^#/(data) (thing)
+
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (meta_lit
+      (tagged_or_ctor_lit
+        (sym_lit
+          (sym_name))
+        (list_lit
+          (sym_lit
+            (sym_name)))))
+    (sym_lit
+      (sym_name))))
+
