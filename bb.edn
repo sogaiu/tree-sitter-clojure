@@ -2,7 +2,13 @@
  :paths ["script"]
  :deps {org.clojure/tools.gitlibs {:mvn/version "2.5.190"}}
  :tasks {
-         fetch-code {:task fetch-code/-main}
-         parse-tree {:task parse-tree/-main}
-         expect-failures {:task expect-failures/-main}
+         ensure-rust-bits {:task ensure-rust-bits/-main}
+         ensure-tree-sitter {:depends [ensure-rust-bits]
+                             :task ensure-tree-sitter/-main}
+         fetch-cljd-code {:task fetch-cljd-code/-main}
+         gen-parser-src {:depends [ensure-tree-sitter]
+                         :task gen-parser-src/-main}
+         parse-cljd-code {:depends [ensure-tree-sitter]
+                          :task parse-cljd-code/-main}
+         show-expected-failures {:task show-expected-failures/-main}
          }}

@@ -1,4 +1,4 @@
-(ns fetch-code
+(ns fetch-cljd-code
   (:require [babashka.fs :as fs]
             [babashka.tasks :as t]))
 
