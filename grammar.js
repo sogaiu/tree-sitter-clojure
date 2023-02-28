@@ -4,11 +4,7 @@
 // folks.
 
 function regex(...patts) {
-  fullPatt = "";
-  for (const p of patts) {
-    fullPatt += p;
-  }
-  return RegExp(fullPatt);
+  return RegExp(patts.join(""));
 }
 
 // java.lang.Character.isWhitespace AND comma
