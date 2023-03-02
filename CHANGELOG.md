@@ -2,13 +2,33 @@
 
 Bits may be missing and/or inaccurate :)
 
-### Upcoming?
+### Future?
 
-* Update tree-sitter and friends to 0.19.5 or 0.20.x
-* Add formatting docs and utilities
-* Revise and enhance package.json scripts
-* Revise and update docs
-* Add some \_bare\_\* constructs to inline
+* Decide about inline use (e.g. add some \_bare\_\* constructs? stop using?)
+* Add clojars testing
+
+### v0.0.12 - 2023-03-??
+
+* Handle construct used for ClojureDart's parameterized types
+* Generate parser.c and friends with tree-sitter 0.20.7 (ABI 13)
+* Doc changes
+  * Update credits
+  * Add repository content details doc
+  * Revise README
+    * Add section on what is provided and why
+    * Add section pointing to other docs
+    * Move resources list to own document
+    * Remove npm-related descriptions
+  * Remove notes.txt
+* Developer-related changes
+  * Improve maintainability of grammar.js
+  * Remove dependence on npm
+  * Cleanup package.json
+  * Move corpus to test/corpus
+
+### v0.0.11 - 2023-01-22
+
+* Update version info in package.json
 
 ### v0.0.10 - 2023-01-06
 
