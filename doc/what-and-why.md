@@ -29,7 +29,7 @@ importance.
   provided assuming tree-sitter doesn't change the way it works.
 
 * `package.json` - this file may be required if it's imporant to use
-  some of the capabilities of the `tree-sitter` cli.  It's not
+  some of the capabilities of the `tree-sitter` cli [1].  It's not
   necessary for all subcommands though (e.g. neither the `generate`
   nor `test` subcommands seem to require it).  It also doesn't signify
   necessary use of `npm`.  Possibly contrary to what might be
@@ -45,7 +45,7 @@ importance.
 
 * `README.md` - this file contains the repository's README content.
 
-* `src` - this directory contains source files that are generated [1]
+* `src` - this directory contains source files that are generated [2]
   from `grammar.js`.  The files are typically used to generate a
   dynamic library / shared object that can be used by the tree-sitter
   library to handle Clojure / ClojureScript source code.  Although the
@@ -82,7 +82,10 @@ to generate as long as one has a suitable `tree-sitter` cli and the
 
 ## Footnotes
 
-[1] If the grammar uses an external scanner, `src` may contain
+[1] At least the `tree-sitter` cli's `tags` and `highlight`
+subcommands are influenced by information within `package.json`.
+
+[2] If the grammar uses an external scanner, `src` may contain
 non-generated files such as `scanner.c`, `scanner.cc`, etc.  In the
 current case, no external scanner is used and the `src` directory
 content is entirely generated.
