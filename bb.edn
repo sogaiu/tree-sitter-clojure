@@ -1,6 +1,5 @@
 {:min-bb-version "0.4.0"
  :paths ["script"]
- :deps {org.clojure/tools.gitlibs {:mvn/version "2.5.190"}}
  :tasks {
          ensure-rust-bits {:task ensure-rust-bits/-main}
          ensure-tree-sitter {:depends [ensure-rust-bits]
