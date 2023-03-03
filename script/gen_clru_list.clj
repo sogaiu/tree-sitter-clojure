@@ -270,7 +270,8 @@
         (println "Problem uncompressing:" (.getMessage e))
         (System/exit 1))))
   ;; if there is a feed.clj, process it
-  (when (fs/exists? feed-clj-path)
+  (when (and (fs/exists? feed-clj-path)
+             (not (fs/exists? clru-list-path)))
     (println "Writing latest release jars url list...")
     (let [out-file-path (fs/create-temp-file)]
       (fs/delete-on-exit out-file-path)
