@@ -6,6 +6,7 @@
          ensure-tree-sitter {:depends [ensure-rust-bits]
                              :task ensure-tree-sitter/-main}
          fetch-cljd-code {:task fetch-cljd-code/-main}
+         gen-clru-list {:task gen-clru-list/-main}
          gen-parser-src {:depends [ensure-tree-sitter]
                          :task gen-parser-src/-main}
          parse-cljd-code {:depends [ensure-tree-sitter]
