@@ -1,7 +1,6 @@
 (ns show-expected-failures
   (:require [babashka.fs :as fs]
-            [babashka.process :as proc]
-            [clojure.string :as cs]))
+            [babashka.process :as proc]))
 
 (def proj-root (fs/cwd))
 
