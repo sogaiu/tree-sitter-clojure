@@ -5,12 +5,17 @@
          ensure-tree-sitter {:depends [ensure-rust-bits]
                              :task ensure-tree-sitter/-main}
          fetch-cljd-code {:task fetch-cljd-code/-main}
+         fetch-clojars-code {:depends [gen-clru-list]
+                             :task fetch-clojars-code/-main}
          gen-clru-list {:task gen-clru-list/-main}
          gen-parser-src {:depends [ensure-tree-sitter]
                          :task gen-parser-src/-main}
          parse-cljd-code {:depends [ensure-tree-sitter
                                     fetch-cljd-code]
                           :task parse-cljd-code/-main}
+         parse-clojars-code {:depends [ensure-tree-sitter
+                                       fetch-clojars-code]
+                             :task parse-clojars-code/-main}
          show-expected-failures {:depends [ensure-tree-sitter]
                                  :task show-expected-failures/-main}
          }}

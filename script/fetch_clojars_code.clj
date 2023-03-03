@@ -1,0 +1,82 @@
+(ns fetch-clojars-code
+  (:require [babashka.fs :as fs]
+            [babashka.process :as proc]
+            [babashka.tasks :as t]
+            [clojure.java.io :as cji]))
+
+(def proj-root (fs/cwd))
+
+(def repos-root
+  (str proj-root "/clojars-repos"))
+
+(def jars-list
+  (str proj-root "/data/latest-release-jar-urls.txt"))
+
+;; default number of jars to fetch
+(def default-n 10)
+
+(defn url->subpath
+  [url]
+  (when-let [[_ subpath]
+             (re-matches #"^https://repo.clojars.org/(.*)" url)]
+    subpath))
+
+;; adapted https://gist.github.com/mikeananev/b2026b712ecb73012e680805c56af45f
+;; thanks to mikeananev
+(defn unzip-file
+  [input output]
+  (with-open [stream (-> input
+                         cji/input-stream
+                         java.util.zip.ZipInputStream.)]
+    (loop [entry (.getNextEntry stream)]
+      (when entry
+        (let [save-path (str output File/separatorChar (.getName entry))
+              out-file (fs/file save-path)]
+          (if (.isDirectory entry)
+            (when-not (fs/exists? out-file)
+              (fs/create-dirs out-file))
+            (let [parent-dir
+                  (fs/file
+                   (.substring save-path 0
+                               (.lastIndexOf save-path
+                                             (int File/separatorChar))))]
+              (when-not (fs/exists? parent-dir)
+                (fs/create-dirs parent-dir))
+              (cji/copy stream out-file)))
+          (recur (.getNextEntry stream)))))))
+
+(defn -main
+  [& _args]
+  (when (not (fs/exists? repos-root))
+    (fs/create-dir repos-root))
+  (with-open [rdr (cji/reader jars-list)]
+    ;; XXX: can there be a special value to indicate fetch everything?
+    (let [n (if (empty? *command-line-args*)
+              default-n
+              (try
+                (Integer/parseInt (first *command-line-args*))
+                (catch Exception e
+                  (println "Failed to parse as integer:"
+                           (first *command-line-args*))
+                  (System/exit 1))))
+          counter (atom n)]
+      (doseq [url (line-seq rdr)
+              :while (pos? @counter)]
+        (when (uri? (java.net.URI. url))
+          (when-let [subpath (url->subpath url)]
+            (let [dest-dir (str repos-root "/" subpath)]
+              ;; use directory existence to decide whether to process
+              (if (fs/exists? dest-dir)
+                (println "Skipping:" url) ;; XXX: noisy?
+                (let [_ (println "Fetching:" url)
+                      jar-path (fs/create-temp-file)
+                      _ (fs/delete-on-exit jar-path)
+                      p (proc/process "curl" url "-L" "-o" jar-path)
+                      exit-code (:exit @p)]
+                  (when-not (zero? exit-code)
+                    (println "Problem fetching:" url)
+                    ;; XXX: or skip?
+                    (System/exit 1))
+                  (unzip-file (fs/file jar-path) dest-dir)
+                  (swap! counter dec))))))))))
+
