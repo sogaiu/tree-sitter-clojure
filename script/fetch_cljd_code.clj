@@ -5,7 +5,7 @@
 (def proj-root (fs/cwd))
 
 (def repos-root 
-  (str proj-root "/repos"))
+  (str proj-root "/clojuredart-repos"))
 
 (def repos-list
   (str proj-root "/data/clojuredart-repos-list.txt"))

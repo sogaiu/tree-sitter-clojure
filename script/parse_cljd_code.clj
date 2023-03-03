@@ -6,7 +6,7 @@
 (def proj-root (fs/cwd))
 
 (def repos-root 
-  (str proj-root "/repos"))
+  (str proj-root "/clojuredart-repos"))
 
 (def ts-bin-path
   (str proj-root "/bin/tree-sitter"))
