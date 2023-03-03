@@ -8,7 +8,9 @@
          gen-clru-list {:task gen-clru-list/-main}
          gen-parser-src {:depends [ensure-tree-sitter]
                          :task gen-parser-src/-main}
-         parse-cljd-code {:depends [ensure-tree-sitter]
+         parse-cljd-code {:depends [ensure-tree-sitter
+                                    fetch-cljd-code]
                           :task parse-cljd-code/-main}
-         show-expected-failures {:task show-expected-failures/-main}
+         show-expected-failures {:depends [ensure-tree-sitter]
+                                 :task show-expected-failures/-main}
          }}
