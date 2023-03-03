@@ -59,16 +59,18 @@
                   (println "Failed to parse as integer:"
                            (first *command-line-args*))
                   (System/exit 1))))
-          counter (atom n)]
+          do-all (= -1 n)
+          counter (atom (inc n))
+          verbose (System/getenv "VERBOSE")]
       (doseq [url (line-seq rdr)
-              :while (pos? @counter)]
+              :while (or do-all (pos? @counter))]
         (when (uri? (java.net.URI. url))
           (when-let [subpath (url->subpath url)]
             (let [dest-dir (str repos-root "/" subpath)]
               ;; use directory existence to decide whether to process
               (if (fs/exists? dest-dir)
-                (println "Skipping:" url) ;; XXX: noisy?
-                (let [_ (println "Fetching:" url)
+                (when verbose (println "Skipping:" url))
+                (let [_ (when verbose (println "Fetching:" url))
                       jar-path (fs/create-temp-file)
                       _ (fs/delete-on-exit jar-path)
                       p (proc/process "curl" url "-L" "-o" jar-path)
@@ -78,5 +80,6 @@
                     ;; XXX: or skip?
                     (System/exit 1))
                   (unzip-file (fs/file jar-path) dest-dir)
-                  (swap! counter dec))))))))))
+                  (swap! counter dec)))))))
+      (when verbose (println "Number of jars fetched:" n)))))
 
