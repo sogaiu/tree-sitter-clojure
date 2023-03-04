@@ -76,6 +76,19 @@ They may be removed at some point, but they should be straight-forward
 to generate as long as one has a suitable `tree-sitter` cli and the
 `grammar.js` file mentioned above.
 
+In order to successfully build the Node.js bindings (say, by an
+invocation of `npx node-gyp rebuild`), something like the following
+may need to be added to `package.json`:
+
+```json
+  "main": "bindings/node",
+  "dependencies": {
+    "nan": "2.14.2"
+  },
+```
+
+Note that the version of `nan` may need to be checked.
+
 ## Footnotes
 
 [1] The file `package.json` may also be required if it's important to
