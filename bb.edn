@@ -1,21 +1,34 @@
 {:min-bb-version "0.4.0"
  :paths ["script"]
  :tasks {
-         ensure-rust-bits {:task ensure-rust-bits/-main}
-         ensure-tree-sitter {:depends [ensure-rust-bits]
+         ;; underlying bits
+         check-rust-bits {:doc "Check Rust capabilities"
+                           :task check-rust-bits/-main}
+         ensure-tree-sitter {:doc "Ensure tree-sitter cli is available"
+                             :depends [check-rust-bits]
                              :task ensure-tree-sitter/-main}
-         fetch-cljd-code {:task fetch-cljd-code/-main}
-         fetch-clojars-code {:depends [gen-clru-list]
-                             :task fetch-clojars-code/-main}
-         gen-clru-list {:task gen-clru-list/-main}
-         gen-parser-src {:depends [ensure-tree-sitter]
+         ;; tree-sitter parser source generation
+         gen-parser-src {:doc "Generate tree-sitter parser.c and friends"
+                         :depends [ensure-tree-sitter]
                          :task gen-parser-src/-main}
-         parse-cljd-code {:depends [ensure-tree-sitter
-                                    fetch-cljd-code]
-                          :task parse-cljd-code/-main}
-         parse-clojars-code {:depends [ensure-tree-sitter
+         ;; Clojars
+         gen-clru-list {:doc "Make Clojars releasse jars list"
+                        :task gen-clru-list/-main}
+         fetch-clojars-code {:doc "Retrieve Clojars code samples"
+                             :depends [gen-clru-list]
+                             :task fetch-clojars-code/-main}
+         parse-clojars-code {:doc "Parse Clojars code samples"
+                             :depends [ensure-tree-sitter
                                        fetch-clojars-code]
                              :task parse-clojars-code/-main}
-         show-expected-failures {:depends [ensure-tree-sitter]
+         ;; ClojureDart
+         fetch-cljd-code {:doc "Retrieve ClojureDart code samples"
+                          :task fetch-cljd-code/-main}
+         parse-cljd-code {:doc "Parse ClojureDart code samples"
+                          :depends [ensure-tree-sitter
+                                    fetch-cljd-code]
+                          :task parse-cljd-code/-main}
+         show-expected-failures {:doc "Show expected failure examples"
+                                 :depends [ensure-tree-sitter]
                                  :task show-expected-failures/-main}
          }}

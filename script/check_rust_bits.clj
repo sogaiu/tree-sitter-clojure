@@ -1,4 +1,4 @@
-(ns ensure-rust-bits
+(ns check-rust-bits
   (:require [babashka.fs :as fs]))
 
 (defn -main
