@@ -20,4 +20,5 @@
         (when-let [[_ user name] 
                    (re-matches #".*/([^/]+)/([^/]+)$" url)]
           (let [dest-dir (str repos-root "/" name "." user)]
-            (t/shell (str "git clone " url " " dest-dir))))))))
+            (when-not (fs/exists? dest-dir)
+              (t/shell (str "git clone " url " " dest-dir)))))))))
