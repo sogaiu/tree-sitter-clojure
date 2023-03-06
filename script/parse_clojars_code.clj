@@ -9,7 +9,7 @@
   (when (fs/exists? cnf/clojars-repos-root)
     (let [start-time (System/currentTimeMillis)
           files (atom [])]
-      ;; find all .clj, .cljc, .cljs files
+      ;; find all relevant clojure-related files
       (print "Looking for files" (sort cnf/clojars-extensions) "... ")
       (fs/walk-file-tree cnf/clojars-repos-root
                          {:visit-file
