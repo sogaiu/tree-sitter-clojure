@@ -1,5 +1,5 @@
 {:min-bb-version "0.4.0"
- :paths ["script"]
+ :paths ["script" "conf"]
  :tasks {
          ;; underlying bits
          check-rust-bits {:doc "Check Rust capabilities"

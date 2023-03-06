@@ -1,22 +1,12 @@
 (ns ensure-tree-sitter
   (:require [babashka.fs :as fs]
             [babashka.process :as proc]
-            [babashka.tasks :as t]))
-
-(def proj-root (fs/cwd))
-
-(def ts-cli-real-path
-  "tree-sitter/target/release/tree-sitter")
-
-(def ts-cli-link-path
-  "bin/tree-sitter")
-
-(def ts-sha
-  "c51896d32dcc11a38e41f36e3deb1a6a9c4f4b14")
+            [babashka.tasks :as t]
+            [conf :as cnf]))
 
 (defn -main
   [& _args]
-  (when-not (fs/exists? ts-cli-real-path)
+  (when-not (fs/exists? cnf/ts-cli-real-path)
     ;; clone tree-sitter repository if necessary
     (when-not (fs/exists? "tree-sitter")
       (try
@@ -26,8 +16,8 @@
           (System/exit 1))))
     ;; check out commit ts-sha
     (try
-      (println "Checking out commit:" ts-sha)
-      (let [p (proc/process {:dir "tree-sitter"} "git" "checkout" ts-sha)
+      (println "Checking out commit:" cnf/ts-sha)
+      (let [p (proc/process {:dir "tree-sitter"} "git" "checkout" cnf/ts-sha)
             exit-code (:exit @p)]
         (when-not (zero? exit-code)
           (println "git checkout exited non-zero:" exit-code)
@@ -49,15 +39,17 @@
     ;; create symlink to tree-sitter cli
     (try
       (println "Making symlink to tree-sitter cli under bin")
-      (fs/create-dir "bin")
-      (fs/create-sym-link ts-cli-link-path
-                          (str "../" ts-cli-real-path))
+      (when-not (fs/exists? "bin")
+        (fs/create-dir "bin"))
+      (when-not (fs/exists? cnf/ts-cli-link-path)
+        (fs/create-sym-link cnf/ts-cli-link-path
+                            (str "../" cnf/ts-cli-real-path)))
       (catch Exception e
         (println "Problem creating tree-sitter cli symlink:" (.getMessage e))
         (System/exit 1))))
   ;; try running the tree-sitter cli
   (try
-    (t/shell (str ts-cli-real-path " --version"))
+    (t/shell (str cnf/ts-bin-path " --version"))
     (catch Exception e
       (println "Problem executing tree-sitter cli:" (.getMessage e))
       (System/exit 1))))

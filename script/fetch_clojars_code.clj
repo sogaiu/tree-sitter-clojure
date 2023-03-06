@@ -2,15 +2,8 @@
   (:require [babashka.fs :as fs]
             [babashka.process :as proc]
             [babashka.tasks :as t]
-            [clojure.java.io :as cji]))
-
-(def proj-root (fs/cwd))
-
-(def repos-root
-  (str proj-root "/clojars-repos"))
-
-(def jars-list
-  (str proj-root "/data/latest-release-jar-urls.txt"))
+            [clojure.java.io :as cji]
+            [conf :as cnf]))
 
 ;; default number of jars to fetch
 (def default-n 10)
@@ -47,9 +40,9 @@
 
 (defn -main
   [& _args]
-  (when (not (fs/exists? repos-root))
-    (fs/create-dir repos-root))
-  (with-open [rdr (cji/reader jars-list)]
+  (when (not (fs/exists? cnf/clojars-repos-root))
+    (fs/create-dir cnf/clojars-repos-root))
+  (with-open [rdr (cji/reader cnf/clru-list-path)]
     ;; XXX: can there be a special value to indicate fetch everything?
     (let [n (if (empty? *command-line-args*)
               default-n
@@ -66,7 +59,7 @@
               :while (or do-all (pos? @counter))]
         (when (uri? (java.net.URI. url))
           (when-let [subpath (url->subpath url)]
-            (let [dest-dir (str repos-root "/" subpath)]
+            (let [dest-dir (str cnf/clojars-repos-root "/" subpath)]
               ;; use directory existence to decide whether to process
               (if (fs/exists? dest-dir)
                 (when verbose (println "Skipping:" url))

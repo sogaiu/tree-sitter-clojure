@@ -3,7 +3,8 @@
             [babashka.fs :as fs]
             [babashka.process :as proc]
             [clojure.edn :as ce]
-            [clojure.string :as cs]))
+            [clojure.string :as cs]
+            [conf :as cnf]))
 
 ;; XXX: stop using this and go simpler
 (bd/add-deps
@@ -12,19 +13,6 @@
 
 (require
  '[version-clj.core :as vc])
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(def proj-root (fs/cwd))
-
-(def feed-clj-path
-  (str proj-root "/data/feed.clj"))
-
-(def feed-clj-gz-path
-  (str proj-root "/data/feed.clj.gz"))
-
-(def clru-list-path
-  (str proj-root "/data/latest-release-jar-urls.txt"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -248,20 +236,20 @@
 (defn -main
   [& _args]
   ;; if there's no feed.clj, fetch feed.clj.gz
-  (when (not (fs/exists? feed-clj-path))
+  (when (not (fs/exists? cnf/feed-clj-path))
     (println "Fetching feed.clj.gz from clojars...")
-    (let [exit-code (fetch-to-file feed-url feed-clj-gz-path)]
+    (let [exit-code (fetch-to-file feed-url cnf/feed-clj-gz-path)]
       (when-not (zero? exit-code)
         (println "Problem fetching feed.clj.gz, exit code:" exit-code)
         (System/exit 1))))
   ;; if there is a feed.clj.gz, uncompress it
-  (when (fs/exists? feed-clj-gz-path)
+  (when (fs/exists? cnf/feed-clj-gz-path)
     (try
       (println "Uncompressing feed.clj.gz...")
       ;; XXX: not cross-platform?
       ;; using gzip instead of gunzip works better in more environments
       (let [p (proc/process {:dir "data"}
-                            "gzip" "--decompress" feed-clj-gz-path)
+                            "gzip" "--decompress" cnf/feed-clj-gz-path)
             exit-code (:exit @p)]
         (when-not (zero? exit-code)
           (println "gzip exited non-zero:" exit-code)
@@ -270,14 +258,14 @@
         (println "Problem uncompressing:" (.getMessage e))
         (System/exit 1))))
   ;; if there is a feed.clj, process it
-  (when (and (fs/exists? feed-clj-path)
-             (not (fs/exists? clru-list-path)))
+  (when (and (fs/exists? cnf/feed-clj-path)
+             (not (fs/exists? cnf/clru-list-path)))
     (println "Writing latest release jars url list...")
     (let [out-file-path (fs/create-temp-file)]
       (fs/delete-on-exit out-file-path)
       (fs/write-lines out-file-path
                       (map feed-map->jar-url
                            (ce/read-string
-                            (str "[" (slurp (fs/file feed-clj-path)) "]"))))
+                            (str "[" (slurp (fs/file cnf/feed-clj-path)) "]"))))
       ;; XXX: not cross-platform...
-      (proc/process "sort" "--output" clru-list-path out-file-path))))
+      (proc/process "sort" "--output" cnf/clru-list-path out-file-path))))

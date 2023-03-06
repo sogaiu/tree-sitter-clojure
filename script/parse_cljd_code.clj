@@ -1,26 +1,19 @@
 (ns parse-cljd-code
   (:require [babashka.fs :as fs]
             [babashka.tasks :as t]
-            [clojure.string :as cs]))
-
-(def proj-root (fs/cwd))
-
-(def repos-root 
-  (str proj-root "/clojuredart-repos"))
-
-(def ts-bin-path
-  (str proj-root "/bin/tree-sitter"))
+            [clojure.string :as cs]
+            [conf :as cnf]))
 
 (def extension ".cljd")
 
 (defn -main
   [& _args]
-  (when (fs/exists? repos-root)
+  (when (fs/exists? cnf/cljd-repos-root)
     (let [files (atom [])
           paths-file (fs/create-temp-file)
           _ (fs/delete-on-exit paths-file)]
       ;; find all .cljd files
-      (fs/walk-file-tree repos-root
+      (fs/walk-file-tree cnf/cljd-repos-root
                          {:visit-file 
                           (fn [path _]
                             (when (cs/ends-with? (str path) extension)
@@ -32,6 +25,6 @@
                       (map str @files))
       ;; parse via the paths file
       (try
-        (t/shell (str ts-bin-path " parse --quiet --paths " paths-file))
+        (t/shell (str cnf/ts-bin-path " parse --quiet --paths " paths-file))
         (catch Exception e
           (println "Exception:" (.getMessage e)))))))
