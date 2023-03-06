@@ -61,7 +61,8 @@
             (let [dest-dir (str cnf/clojars-repos-root "/" subpath)]
               ;; use directory existence to decide whether to process
               (if (fs/exists? dest-dir)
-                (when cnf/verbose (println "Skipping:" url))
+                ;; XXX: too noisy
+                (when cnf/verbose #_(println "Skipping:" url) 1)
                 (let [_ (when cnf/verbose (println "Fetching:" url))
                       jar-path (fs/create-temp-file)
                       _ (fs/delete-on-exit jar-path)
@@ -77,6 +78,7 @@
                     (swap! counter dec)
                     (catch Exception e
                       (fs/delete-tree dest-dir)
-                      (println "Problem unzipping jar for:" url)))))))))
+                      (println "Problem unzipping jar for:" url)
+                      (println "Exception:" (.getMessage e))))))))))
       (when cnf/verbose (println "Number of jars fetched:" n)))))
 
