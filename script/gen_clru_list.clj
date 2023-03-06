@@ -6,6 +6,10 @@
             [clojure.string :as cs]
             [conf :as cnf]))
 
+;; XXX: info about sort order?
+;;
+;;      https://github.com/clojars/clojars-web/issues/563
+
 ;; XXX: stop using this and go simpler
 (bd/add-deps
  '{:deps {version-clj/version-clj
