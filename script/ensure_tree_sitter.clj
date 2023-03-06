@@ -48,9 +48,10 @@
         (println "Problem creating tree-sitter cli symlink:" (.getMessage e))
         (System/exit 1))))
   ;; try running the tree-sitter cli
-  (try
-    (t/shell (str cnf/ts-bin-path " --version"))
-    (catch Exception e
-      (println "Problem executing tree-sitter cli:" (.getMessage e))
-      (System/exit 1))))
+  (when cnf/verbose
+    (try
+      (t/shell (str cnf/ts-bin-path " --version"))
+      (catch Exception e
+        (println "Problem executing tree-sitter cli:" (.getMessage e))
+        (System/exit 1)))))
 

@@ -53,8 +53,7 @@
                            (first *command-line-args*))
                   (System/exit 1))))
           do-all (= -1 n)
-          counter (atom (inc n))
-          verbose (System/getenv "VERBOSE")]
+          counter (atom (inc n))]
       (doseq [url (line-seq rdr)
               :while (or do-all (pos? @counter))]
         (when (uri? (java.net.URI. url))
@@ -62,8 +61,8 @@
             (let [dest-dir (str cnf/clojars-repos-root "/" subpath)]
               ;; use directory existence to decide whether to process
               (if (fs/exists? dest-dir)
-                (when verbose (println "Skipping:" url))
-                (let [_ (when verbose (println "Fetching:" url))
+                (when cnf/verbose (println "Skipping:" url))
+                (let [_ (when cnf/verbose (println "Fetching:" url))
                       jar-path (fs/create-temp-file)
                       _ (fs/delete-on-exit jar-path)
                       p (proc/process "curl" url "-L" "-o" jar-path)
@@ -74,5 +73,5 @@
                     (System/exit 1))
                   (unzip-file (fs/file jar-path) dest-dir)
                   (swap! counter dec)))))))
-      (when verbose (println "Number of jars fetched:" n)))))
+      (when cnf/verbose (println "Number of jars fetched:" n)))))
 

@@ -1,6 +1,9 @@
 (ns conf
   (:require [babashka.fs :as fs]))
 
+(def verbose
+  (System/getenv "VERBOSE"))
+
 (def proj-root (fs/cwd))
 
 ;; tree-sitter
