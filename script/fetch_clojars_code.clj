@@ -55,6 +55,7 @@
                   (System/exit 1))))
           do-all (= -1 n)
           counter (atom (inc n))]
+      ;; try to retrieve each jar and unzip
       (doseq [url (line-seq rdr)
               :while (or do-all (pos? @counter))]
         (when (uri? (java.net.URI. url))
@@ -67,19 +68,34 @@
                 (let [_ (when cnf/verbose (println "Fetching:" url))
                       jar-path (fs/create-temp-file)
                       _ (fs/delete-on-exit jar-path)
-                      p (proc/process "curl" url "-L" "-o" jar-path)
+                      p (proc/process "curl" url
+                                      "--fail"
+                                      "--location"
+                                      "--output" jar-path)
                       exit-code (:exit @p)]
-                  (when-not (zero? exit-code)
-                    (println "Problem fetching:" url)
-                    ;; XXX: or skip?
-                    (System/exit 1))
-                  (try
-                    ;; XXX: crc failures can occur
-                    (unzip-file (fs/file jar-path) dest-dir)
-                    (swap! counter dec)
-                    (catch Exception e
-                      (fs/delete-tree dest-dir)
-                      (println "Problem unzipping jar for:" url)
-                      (println "Exception:" (.getMessage e))))))))))
+                  (cond
+                    ;; 22 is "HTTP page not retrieved" (includes 404)
+                    (= 22 exit-code)
+                    (do
+                      (println "Did not retrieve:" url)
+                      (println "curl exit code:" exit-code))
+                    ;; XXX: doing this to observe what turns up
+                    (not= 0 exit-code)
+                    (do
+                      (println "Unexpected problem fetching:" url)
+                      (println "curl exit code:" exit-code)
+                      ;; XXX: or skip?
+                      (System/exit 1))
+                    ;;
+                    :else
+                    (try
+                      ;; crc (and other?) failures can occur
+                      (unzip-file (fs/file jar-path) dest-dir)
+                      (swap! counter dec)
+                      (catch Exception e
+                        (fs/delete-tree dest-dir)
+                        (println "Problem unzipping jar for:" url)
+                        (println "Exception:" (.getMessage e)))))))))))
+      ;; report
       (when cnf/verbose (println "Number of jars fetched:" n)))))
 
