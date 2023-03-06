@@ -71,7 +71,12 @@
                     (println "Problem fetching:" url)
                     ;; XXX: or skip?
                     (System/exit 1))
-                  (unzip-file (fs/file jar-path) dest-dir)
-                  (swap! counter dec)))))))
+                  (try
+                    ;; XXX: crc failures can occur
+                    (unzip-file (fs/file jar-path) dest-dir)
+                    (swap! counter dec)
+                    (catch Exception e
+                      (fs/delete-tree dest-dir)
+                      (println "Problem unzipping jar for:" url)))))))))
       (when cnf/verbose (println "Number of jars fetched:" n)))))
 
