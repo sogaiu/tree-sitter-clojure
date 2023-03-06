@@ -28,14 +28,15 @@
           (if (.isDirectory entry)
             (when-not (fs/exists? out-file)
               (fs/create-dirs out-file))
-            (let [parent-dir
-                  (fs/file
-                   (.substring save-path 0
-                               (.lastIndexOf save-path
-                                             (int File/separatorChar))))]
-              (when-not (fs/exists? parent-dir)
-                (fs/create-dirs parent-dir))
-              (cji/copy stream out-file)))
+            (when (cnf/clojars-extensions (fs/extension save-path))
+              (let [parent-dir
+                    (fs/file
+                     (.substring save-path 0
+                                 (.lastIndexOf save-path
+                                               (int File/separatorChar))))]
+                (when-not (fs/exists? parent-dir)
+                  (fs/create-dirs parent-dir))
+                (cji/copy stream out-file))))
           (recur (.getNextEntry stream)))))))
 
 (defn -main

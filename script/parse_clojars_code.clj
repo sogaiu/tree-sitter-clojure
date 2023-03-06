@@ -4,20 +4,17 @@
             [clojure.string :as cs]
             [conf :as cnf]))
 
-(def extensions
-  #{"clj" "cljc" "cljs"})
-
 (defn -main
   [& _args]
   (when (fs/exists? cnf/clojars-repos-root)
     (let [start-time (System/currentTimeMillis)
           files (atom [])]
       ;; find all .clj, .cljc, .cljs files
-      (print "Looking for files" extensions "... ")
+      (print "Looking for files" (sort cnf/clojars-extensions) "... ")
       (fs/walk-file-tree cnf/clojars-repos-root
                          {:visit-file
                           (fn [path _]
-                            (when (extensions (fs/extension path))
+                            (when (cnf/clojars-extensions (fs/extension path))
                               (swap! files conj path))
                             :continue)})
       (println "found"

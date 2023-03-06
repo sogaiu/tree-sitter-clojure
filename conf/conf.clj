@@ -50,6 +50,9 @@
 (def clojars-error-file-paths
   (str proj-root "/data/clojars-error-files.txt"))
 
+(def clojars-extensions
+  #{"clj" "cljc" "cljd" "cljr" "cljs" "cljx" "edn" "bb" "nbb"})
+
 ;; clojuredart
 
 (def cljd-repos-root
