@@ -32,6 +32,7 @@
                           :depends [ensure-tree-sitter
                                     fetch-cljd-code]
                           :task parse-cljd-code/-main}
+         ;; expected failures
          show-expected-failures {:doc "Show expected failure examples"
                                  :depends [ensure-tree-sitter]
                                  :task show-expected-failures/-main}
