@@ -8,6 +8,16 @@
 ;; default number of jars to fetch
 (def default-n 10)
 
+(def skip-urls
+  (do
+    (when (not (fs/exists? cnf/clojars-skip-urls))
+      (spit cnf/clojars-skip-urls ""))
+    (set (fs/read-all-lines (fs/file cnf/clojars-skip-urls)))))
+
+(defn skip-url?
+  [url]
+  (skip-urls url))
+
 (defn url->subpath
   [url]
   (when-let [[_ subpath]
@@ -58,7 +68,8 @@
       ;; try to retrieve each jar and unzip
       (doseq [url (line-seq rdr)
               :while (or do-all (pos? @counter))]
-        (when (uri? (java.net.URI. url))
+        (when (and (uri? (java.net.URI. url))
+                   (not (skip-url? url)))
           (when-let [subpath (url->subpath url)]
             (let [dest-dir (str cnf/clojars-repos-root "/" subpath)]
               ;; use directory existence to decide whether to process

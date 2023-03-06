@@ -47,6 +47,9 @@
 (def clojars-file-paths
   (str proj-root "/data/clojars-files.txt"))
 
+(def clojars-skip-urls
+  (str proj-root "/data/clojars-skip-urls.txt"))
+
 (def clojars-error-file-paths
   (str proj-root "/data/clojars-error-files.txt"))
 
