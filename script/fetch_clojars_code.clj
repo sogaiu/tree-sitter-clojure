@@ -43,7 +43,7 @@
   (when (not (fs/exists? cnf/clojars-repos-root))
     (fs/create-dir cnf/clojars-repos-root))
   (with-open [rdr (cji/reader cnf/clru-list-path)]
-    ;; XXX: can there be a special value to indicate fetch everything?
+    ;; n = -1 means to fetch all remaining
     (let [n (if (empty? *command-line-args*)
               default-n
               (try
