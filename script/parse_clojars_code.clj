@@ -4,26 +4,31 @@
             [clojure.string :as cs]
             [conf :as cnf]))
 
+(def extensions
+  #{"clj" "cljc" "cljs"})
+
 (defn -main
   [& _args]
   (when (fs/exists? cnf/clojars-repos-root)
-    (let [files (atom [])]
+    (let [start-time (System/currentTimeMillis)
+          files (atom [])]
       ;; find all .clj, .cljc, .cljs files
-      (print "Looking for clj[cs]? files...")
+      (print "Looking for files" extensions "... ")
       (fs/walk-file-tree cnf/clojars-repos-root
                          {:visit-file
                           (fn [path _]
-                            (when (#{"clj" "cljc" "cljs"} (fs/extension path))
+                            (when (extensions (fs/extension path))
                               (swap! files conj path))
                             :continue)})
-      (println "found" (count @files) "files")
+      (println "found"
+               (count @files) "files"
+               "in" (- (System/currentTimeMillis) start-time) "ms")
       ;; save file paths to a file
       (fs/write-lines cnf/clojars-file-paths
                       (map str @files))
       ;; parse with tree-sitter via the paths file
-      (println "Invoking tree-sitter to parse files...")
+      (print "Invoking tree-sitter to parse files ... ")
       (try
-        ;; XXX: record processing time for later comparison
         (let [start-time (System/currentTimeMillis)
               out-file-path (fs/create-temp-file)
               _ (fs/delete-on-exit out-file-path)
@@ -45,7 +50,7 @@
           (when-not (#{0 1} exit-code)
             (println "tree-sitter exited with unexpected exit-code:" exit-code)
             (System/exit 1))
-          (println "Duration:" duration "ms"))
+          (println "took" duration "ms"))
         (catch Exception e
           (println "Exception:" (.getMessage e))
           (System/exit 1))))))
