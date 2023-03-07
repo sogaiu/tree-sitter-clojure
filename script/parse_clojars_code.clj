@@ -36,12 +36,16 @@
                                    cnf/clojars-file-paths))
               exit-code (:exit @p)
               duration (- (System/currentTimeMillis) start-time)]
-          ;; save error file paths
+          (when (= 1 exit-code)
+            (println))
+          ;; save and print error file info
           (fs/write-lines cnf/clojars-error-file-paths
                           (keep (fn [line]
-                                  (if-let [[path time message]
+                                  (if-let [[path-ish time message]
                                            (cs/split line #"\t")]
-                                    (cs/trim path)
+                                    (let [path (cs/trim path-ish)]
+                                      (println message path)
+                                      path)
                                     (println "Did not parse:" line)))
                                 (fs/read-all-lines (fs/file out-file-path))))
           (when-not (#{0 1} exit-code)
