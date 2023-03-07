@@ -68,3 +68,7 @@
 
 (def fails-root
   (str proj-root "/test/expected-failures"))
+
+(def misparses-root
+  (str proj-root "/test/expected-misparses"))
+
