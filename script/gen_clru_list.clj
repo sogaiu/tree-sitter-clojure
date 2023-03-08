@@ -51,7 +51,7 @@
   [url out-fpath]
   ;; XXX: what to use for fetching web stuff seems to be in flux so
   ;;      until that settles down...
-  (let [p (proc/process "curl" url "-L" "-o" out-fpath)
+  (let [p (proc/process "curl" url "--location" "--output" out-fpath)
         exit-code (:exit @p)]
     ;; XXX: clean up if no errors?
     '(spit "log.txt"
