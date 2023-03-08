@@ -44,6 +44,12 @@
 (def clojars-repos-root
   (str proj-root "/clojars-repos"))
 
+(def clojars-jars-root
+  (str proj-root "/clojars-jars"))
+
+(def clojars-jar-file-paths
+  (str proj-root "/data/clojars-jar-files.txt"))
+
 (def clojars-file-paths
   (str proj-root "/data/clojars-files.txt"))
 

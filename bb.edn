@@ -25,6 +25,13 @@
                              :depends [ensure-tree-sitter
                                        fetch-clojars-code]
                              :task parse-clojars-code/-main}
+         ;; alternative fetching / extracting
+         batch-fetch-jars {:doc "Batch fetch some Clojars jars"
+                           :depends [gen-clru-list]
+                           :task batch-fetch-jars/-main}
+         extract-jars {:doc "Extract content from Clojars jars"
+                       :depends []
+                       :task extract-jars/-main}
          ;; ClojureDart
          fetch-cljd-code {:doc "Retrieve ClojureDart code samples"
                           :task fetch-cljd-code/-main}
