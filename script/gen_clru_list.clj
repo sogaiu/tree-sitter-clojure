@@ -268,8 +268,8 @@
     (let [out-file-path (fs/create-temp-file)]
       (fs/delete-on-exit out-file-path)
       (fs/write-lines out-file-path
-                      (map feed-map->jar-url
-                           (ce/read-string
-                            (str "[" (slurp (fs/file cnf/feed-clj-path)) "]"))))
+                      (keep feed-map->jar-url
+                            (ce/read-string
+                             (str "[" (slurp (fs/file cnf/feed-clj-path)) "]"))))
       ;; XXX: not cross-platform...
       (proc/process "sort" "--output" cnf/clru-list-path out-file-path))))
