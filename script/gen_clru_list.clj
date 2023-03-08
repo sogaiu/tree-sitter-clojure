@@ -1,43 +1,11 @@
 (ns gen-clru-list
-  (:require [babashka.deps :as bd]
-            [babashka.fs :as fs]
+  (:require [babashka.fs :as fs]
             [babashka.process :as proc]
             [clojure.edn :as ce]
             [clojure.string :as cs]
             [conf :as cnf]))
 
-;; XXX: info about sort order?
-;;
-;;      https://github.com/clojars/clojars-web/issues/563
-
-;; XXX: stop using this and go simpler
-(bd/add-deps
- '{:deps {version-clj/version-clj
-          {:mvn/version "0.1.2"}}})
-
-(require
- '[version-clj.core :as vc])
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(comment
-
-  (vc/version->seq "1.0.0")
-  ;; => [(1 0 0)]
-
-  (vc/version->seq "1.0.0-SNAPSHOT")
-  ;; => [(1 0 0) ["snapshot"]]
-
-  (vc/version->seq "0.4.0-beta1")
-  ;; => [(0 4 0) ("beta" 1)]
-
-  (vc/version->seq "0.2.0b3")
-  ;; => [(0 2 0) ("b" 3)]
-
-  (vc/version-compare "1.0.0-SNAPSHOT" "1.0.0")
-  ;; => -1
-
-  )
 
 (def clojars-repo-root
   "https://repo.clojars.org")
@@ -65,10 +33,23 @@
 
   )
 
+;; XXX: this will only handle things with versions that look like:
+;;
+;;        <integer>.<integer>.(more-of-the-same).<integer>
+;;
+;;      things that use dashes as separators are ignored:
+;;
+;;        2023-10-03
+;;
+;;      as are things that use more than one type of separator:
+;;
+;;        1.0.0-0.2
+;;        2020-10-20.3.0
+;;        2021.01.30-1.0
 (defn release-version?
-  [ver-str]
-  (= (count (vc/version->seq ver-str))
-     1))
+  [version]
+  (let [pieces (cs/split version #"\.")]
+    (every? #(re-matches #"^\d+$" %) pieces)))
 
 (comment
 
@@ -80,11 +61,114 @@
 
   )
 
+;; n should be a non-negative integer
+(defn pad-vector
+  [a-vec n elt]
+  (loop [cnt n
+         new-vec a-vec]
+    (if (zero? cnt)
+      new-vec
+      (recur (dec cnt)
+             (conj new-vec elt)))))
+
+(comment
+
+  (pad-vector ["1" "2"] 2 "0")
+  ;; => ["1" "2" "0" "0"]
+
+  )
+
+(defn padded-vec-compare
+  [x y padding]
+  (let [len-x (count x)
+        len-y (count y)
+        diff (abs (- len-x len-y))]
+    (cond
+      (= len-x len-y)
+      (compare x y)
+      ;;
+      (< len-x len-y)
+      (compare (pad-vector x diff padding) y)
+      ;;
+      (> len-x len-y)
+      (compare x (pad-vector y diff padding)))))
+
+(comment
+
+  (padded-vec-compare ["1" "0" "0"]
+                      ["2" "1"]
+                      "0")
+  ;; => -1
+
+  (padded-vec-compare ["1"]
+                      ["2" "1"]
+                      "0")
+  ;; => -1
+
+  (padded-vec-compare ["3"]
+                      ["2" "1"]
+                      "0")
+  ;; => 1
+
+  (padded-vec-compare ["3"]
+                      ["3" "0"]
+                      "0")
+  ;; => 0
+
+  (padded-vec-compare [3]
+                      [3 0]
+                      0)
+  ;; => 0
+
+  (padded-vec-compare ["5" "14"]
+                      ["5" "9"]
+                      "0")
+  ;; => -8
+
+  (padded-vec-compare [5 14]
+                      [5 9]
+                      0)
+  ;; => 1
+
+  )
+
+;; XXX: may be fragile for very large numbers?
+(defn num-ver-str-compare
+  [x-str y-str]
+  (padded-vec-compare
+   (vec (map #(Long/parseLong %) (cs/split x-str #"\.")))
+   (vec (map #(Long/parseLong %) (cs/split y-str #"\.")))
+   0))
+
+(comment
+
+  (num-ver-str-compare "1.0.0"
+                       "2.1")
+  ;; => -1
+
+  (num-ver-str-compare "1"
+                       "2.1")
+  ;; => -1
+
+  (num-ver-str-compare "3"
+                       "2.1")
+  ;; => 1
+
+  (num-ver-str-compare "3"
+                       "3.0")
+  ;; => 0
+
+  (num-ver-str-compare "5.14"
+                       "5.9")
+  ;; => 1
+
+  )
+
 (defn latest-release-version
   [versions]
   (->> (filter release-version? versions)
-    (sort vc/version-compare)
-    last))
+       (sort num-ver-str-compare)
+       last))
 
 (comment
 
@@ -143,6 +227,14 @@
 
   (latest-release-version versions)
   ;; => nil
+
+  (def versions
+    ["5.14.0"
+     "5.9.0"
+     "5.8.0"])
+
+  (latest-release-version versions)
+  ;; => "5.14.0"
 
   )
 
