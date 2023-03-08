@@ -16,7 +16,7 @@
                          :depends [ensure-tree-sitter]
                          :task gen-parser-src/-main}
          ;; Clojars
-         gen-clru-list {:doc "Make Clojars releasse jars list"
+         gen-clru-list {:doc "Make Clojars release jars list"
                         :task gen-clru-list/-main}
          fetch-clojars-code {:doc "Retrieve Clojars code samples"
                              :depends [gen-clru-list]
