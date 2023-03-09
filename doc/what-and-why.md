@@ -66,7 +66,6 @@ idea.
 ATM, some of that includes:
 
 * documentation
-* development-related files and directories
 * Node.js bindings
 * Rust bindings
 
