@@ -2,6 +2,9 @@
   "name": "tree-sitter-clojure",
   "version": "0.0.12",
   "description": "Clojure grammar for tree-sitter",
+  "dependencies": {
+    "nan": "2.18.0"
+  },
   "tree-sitter": [
     {
       "scope": "source.clojure",
