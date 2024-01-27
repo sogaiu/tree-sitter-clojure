@@ -1934,6 +1934,7 @@ static inline bool aux_sym__sym_qualified_token1_character_set_1(int32_t c) {
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
   START_LEXER();
+  eof = lexer->eof(lexer);
   switch (state) {
     case 0:
       if (eof) ADVANCE(45);
