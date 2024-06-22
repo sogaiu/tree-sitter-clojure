@@ -1,0 +1,15 @@
+{:min-bb-version "0.4.0"
+ :paths ["conf"
+         "script"]
+ :tasks {:enter (when (System/getenv "VERBOSE")
+                  (println "Entering:" (:name (current-task))))
+         :leave (when (System/getenv "VERBOSE")
+                  (println "Leaving:" (:name (current-task))))
+         ;; tasks
+         make-repos-list
+         {:doc "Make test.regression repos list"
+          :task make-repos-list/-main}
+         fetch-samples
+         {:doc "Retrieve test.regression code samples"
+          :task fetch-samples/-main}
+         }}

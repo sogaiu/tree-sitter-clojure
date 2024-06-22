@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/sogaiu/clojuredart-samples
+	branch = master
+	commit = f857e46464dbecd4a945f6016fd5249bab845a42
+	parent = f3b8242858f59591b2d3625088f884a58dd4e80e
+	method = merge
+	cmdver = 0.4.6

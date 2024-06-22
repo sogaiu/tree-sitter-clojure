@@ -1,0 +1,23 @@
+{:min-bb-version "0.4.0"
+ :paths ["conf"
+         "lib"
+         "script"]
+ :tasks {check-setup
+         {:doc "Check setup"
+          :task check-setup/-main}
+         generate-parser
+         {:doc "Generate parser.c"
+          :task generate-parser/-main}
+         corpus-test
+         {:doc "Run tree-sitter test"
+          :task corpus-test/-main}
+         parse-samples
+         {:doc "Parse current repos code samples"
+          :task parse-samples/-main}
+         count-repos-files
+         {:doc "Show repos content statistics"
+          :task count-repos-files/-main}
+         show-expected-errors
+         {:doc "Show expected error frequency table"
+          :task show-expected-errors/-main}
+         }}

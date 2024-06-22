@@ -1,0 +1,116 @@
+checksum	description	path	location
+bab5c1a35673e0b4196698f0124c0a67	Bare colon	geocsv/geocsv/0.1.3/public/data/data.edn	7
+9d3b117a29fc5719e54868caa1f4493e	Caret used to mean wrap in meta call	org/clojars/ctdean/compojure/0.3.1/compojure/control.clj	60
+d3cda56ababa3731e68f1b69a73191f3	Caret used to mean wrap in meta call	rosado/processing/rosado.processing/1.1.0/rosado/processing/applet.clj	66
+ea9bc4b4c9da0bd672c62e3d541d489a	Colon instead of semi colon	moe/util/0.0.1/moe/util/validation.clj	10
+f068bac5024ae40e563613cd05c46720	Commenting hid closing paren(s)	overtone/overtone/0.10.6/overtone/examples/getting_started/pragpub-article.clj	161
+e11261ce370fe77e858d90f8d89eb4d1	Commenting hid closing paren(s)	com/palletops/pallet-hadoop/0.3.4/pallet_hadoop/log_config.clj	27
+28c1ac58411a65ed084a50f582984f8b	Commenting hid closing paren(s)	lein-migae/lein-migae/0.2.1/leiningen/migae/gserver.clj	17-41
+d136eb7054b319f0d8948010463366f5	Extra closing curly brace(s)	gov/nasa/earthdata/cmr-http-kit/0.3.0/config/cmr-http-kit/config.edn	23
+7f070939b6e57753ff2b56ee104e8336	Extra closing curly brace(s)	wangxiaoyu/poppy/0.0.1/poppy/core.clj	10
+7f3a09176136d8311aeee1c3bcd18cdc	Extra closing paren(s)	glycogen/glycogen/0.1.0/glycogen/tutorial.cljc	189
+e7ee974116ac6748667a5096d8d8ccd1	Extra closing paren(s)	lein-ver/lein-ver/1.1.0/lein_ver/version.clj	17
+18b856cec0e29692b6b36b1e7141a336	Extra closing paren(s)	org/pinkgorilla/gorilla-ui/0.3.49/snippets/gorilla-ui/html.edn	4
+15c2c5ec2efdc106b96aa9327348c286	Extra closing paren(s)	oversampler/oversampler/0.3.0/oversampler/core.clj	17
+473dc9c23b4bac4c6992e40559ea29d9	Extra closing paren(s)	pdfa-core/pdfa-core/0.0.4/pdfa/unoapi.clj	7
+bba438af632dfe82349231c07a058e3f	Extra closing paren(s)	ruminate/ruminate/0.5.0/ruminate/berkeley.clj	113
+c988ff05710488beb4a6ce92e8a058f5	Extra closing paren(s)	clj-duckling/clj-duckling/0.4.24/languages/it/rules/cycles.clj	141
+4658a6d8d6cdaa669322fa88723dacad	Extra closing paren(s)	lein-source/lein-source/0.3.0/leiningen/source.clj	71
+ce49c138ce4cd999a3de6aec2604c61c	Extra closing paren(s)	ongair/duckling/0.4.22.3/languages/it/rules/cycles.clj	149
+8f664ccdf4a486a7d50eb8d31fd706ce	Extra closing paren(s)	org/clojars/guilespi/less-awful-ssl/0.1.3/less/awful/ssl.clj	95
+7502ef3534914459d48fc10a9ea37744	Extra closing square bracket(s)	org/clojars/tristefigure/shuriken/0.14.49/shuriken/z_expression.clj	4
+89301cc478d22692248edf09f22ab9e2	Incomplete code	tcrayford_parsley/parsley/0.1.0/net/cgrand/parsley/demo.clj	162-167
+a8ddd4f9b07a352f3b26a701e9bacc86	Incomplete code	ibdknox/analyze/0.1.4/analyze/examples/infer.clj	20
+8a799f30f38422df216ef7e620d48ae0	Incomplete code	peloton/peloton/0.1.2/peloton/websocket.clj	63
+fd60ada2ce3bb6c2145ca7cb48cca525	Incomplete code	babel/babel/3.2.9/babel/espanol/morphology/verbos/condicional.edn	58
+eb256e532562820a126d698afc01ca8b	Incomplete code	babel/babel/3.2.9/babel/espanol/morphology/verbos/futuro.edn	56
+93efc11233e88d81f3203a1d19123f7f	Incomplete code	babel/babel/3.2.9/babel/espanol/morphology/verbos/imperfecto.edn	87
+948b424b82b38fda388729abe1c7f32c	Incomplete code	babel/babel/3.2.9/babel/espanol/morphology/verbos/preterito.edn	101
+4b5b7281f0b6c4154667478274f6464d	Incomplete code	core/typed/core.typed/0.1.8/clojure/core/typed/alms_infer.clj	21
+e3ad3ffc694cd175d39ac096fea62176	Incomplete code	incstats/incstats/0.1.4/incstats/merge.clj	9
+f9c0fa6018b2b50d48455b341318d509	Keyword with @	happygapi/happygapi/0.4.8/kgsearch_schema.edn	4
+b835c212141dbf8646067e0f7e08aa08	Metadata with no metadatee	clojure-interop/com.amazonaws.internal/1.0.0/com/amazonaws/internal/ResettableInputStream.clj	75
+94eaaab7fb98b1d9505cb7e2ff00f2a5	Mismatched number of discards	org/clojars/notid/pdfboxing/0.1.19/pdfboxing/form.clj	43
+511cf5b67ac36c75a0191ae10cfc086c	Missing closing delimiter for string	loco/loco/0.3.1/loco/problem.clj	11
+99eff8e252f1a74c786449ff1a90f8ea	Missing closing paren(s)	casyn/casyn/0.1.2/casyn/balancer/least_loaded.clj	4
+14b7bdde3a476401a0acef95c3de038c	Missing closing paren(s)	clj-contentful/clj-contentful/1.1.0/clj_contentful.clj	14
+0e7820aafe14ede885b760a32e5035d1	Missing closing paren(s)	com/onekingslane/danger/jsonschema/1.2.2/jsonschema/example_data.clj	6
+ddc428a6cde9e3f2b7e5e48100155af6	Missing closing paren(s)	dawcs/debug-repl/0.3.4/dawcs/debug_repl.clj	72
+dcc3beff9656e7d619d18dcccb856cab	Missing closing paren(s)	ds-utils/ds-utils/0.3.1/ds_utils/locality_sensitive_hashing.clj	10
+d0c2ed5fb8ebee8351f22a288fda0b0c	Missing closing paren(s)	funimage/funimage/0.1.90/funimage/imp/misc.clj	5
+29bd65b16f680494f1c835386dcdb879	Missing closing paren(s)	google-reader/google-reader/0.1.0/google_reader/api.clj	69
+e926a4003b5b6eb521d3c0df4ad8b524	Missing closing paren(s)	kibu/rawat/0.3.3/rawat/datomic.cljs	18
+e3b6068ad16e69bd738112b5aa315525	Missing closing paren(s)	natal-wrapper/natal-wrapper/0.0.1/natal_wrapper/core.cljs	41
+a4bed6e8350def0bebce436e9a6a52b8	Missing closing paren(s)	org/clojars/bananaoomarang/ring-debug-logging/1.0.0/ring_debug_logging/core.clj	3
+689533bef0bf0c9b7a6c5a395a7e8209	Missing closing paren(s)	org/clojars/kyleburton/clj-etl-utils/1.3.10/clj_etl_utils/cache_utils.clj	14
+24a54891f2db31a87fc9e28a6c8dc9f4	Missing closing paren(s)	ru/fl00r/clj-kafka/0.4.17/ru/prepor/clj_kafka/tracers/metrics.clj	1
+694f072fe8bfe3ab0428fa5a15195866	Missing closing paren(s)	tandem/support/0.0.7/tandem/error_handling.clj	56
+d5230f4fd9db14f8a82d6acc51b96797	Missing closing paren(s)	travesedo/travesedo/0.1.2/travesedo/transaction.clj	30
+5e2eb460c8a91f1eddded1601b5346ee	Missing closing paren(s)	wangxiaoyu/poppy/0.0.1/poppy/node.clj	2
+ad4b5156fc84eeedbe82350bdda43eb0	Missing closing paren(s)	zvs/onyx-java/0.1.9/onyx_java/main.clj	37
+9277d47d4ae0b8ddf6cc7c8c46bea930	Missing closing paren(s)	org/clojars/kriyative/clj2js/0.0.2/clj2js/tests.clj	18
+1dfd7111789cacfa73d0752734dac2c4	Missing closing square bracket(s)	lilactown/hx-frisk/0.0.1/hx_frisk/spec.cljs	4
+1348feafedac2f6d9c9ca16c6fda3080	Missing closing square bracket(s)	org/clojars/karolisl/lein-npm/0.6.3/leiningen/npm.clj	73
+fdcfb75e3238a9f1d23ef6ed9eaec6bb	Missing closing square bracket(s)	prabhasp/osmtogeojson-cljs/2.2.5/deps.cljs	3
+0f3d8fbfc401651e235d43d40accbee8	Dispatch macro hackery	clj-integral/clj-integral/2.1.6/core_ext.clj	118
+339b0fd7b8cea6e857316f0ab8101eed	Dispatch macro hackery	piplin/piplin/0.1.1/piplin/mips.clj	11
+02e9284d6d774b944e9df60881a6e642	Dispatch macro hackery	piplin/piplin/0.1.1/piplin/nexys6/sw_led.clj	85
+77a2b9fa616c67a80265c07068b6b40e	Dispatch macro hackery	piplin/piplin/0.1.1/piplin/seven_segment_decoder.clj	79
+d383d1116b3345359c99384c46e82939	Dispatch macro hackery via chiara	mynx/mynx/2.0.0/reddit.clj	15
+0f2247b7948cd18347bc8d13ed00d664	Dispatch macro hackery via chiara	mynx/mynx/2.0.0/reddit/core.clj	22
+934d58ff6d87cbaf540b1860a8a207f7	Dispatch macro hackery via $, clarity	clj-mma/clj-mma/0.1.0/mma/dictionary.clj	26
+0c7a8658bedbc1acf35f121f51dea3c5	Dispatch macro hackery via clarity	clj-mma/clj-mma/0.1.0/mma/conversion.clj	9
+523dbc82d7815cc26e3aa31458bac380	Dispatch macro hackery via clarity	clj-mma/clj-mma/0.1.0/mma/core.clj	17
+ee8ef0604a5e8064bebeed41e9fd673a	Dispatch macro hackery via clarity	clj-mma/clj-mma/0.1.0/primes.clj	27
+6146fa0329f085f7546c73a55ab5dd7f	Partially converted file	org/pinkgorilla/ta/0.2.0/etf/equity-sector-industry.edn	53-68
+bdb693a85023c63f688cf416aeefc148	Premature end of string by double quote	lein-write-git-sha/lein-write-git-sha/0.1.2/leiningen/write_git_sha.clj	25
+0151d48466c8237e68ae70b7d34d17eb	Stray characters	semantic-reagent/semantic-reagent/0.1.1/semantic_reagent/icons.cljs	3
+4cb99e1179472f6339423340f1b0a615	Stray characters	org/pinkgorilla/notebook-bundel/0.5.40/pinkgorilla/notebook_ui/datafy/test.edn	48
+2102257b42984aca9b852d4f6d1f4ad6	Template	boot-reframe-10x/boot-template/0.1.0/boot/new/boot_reframe_10x/events.cljs	1
+b64df7ffca36f21946860c11c37dba51	Template	boxp/magic/0.0.1/leiningen/new/magic/system.clj	1
+5a0d6fcba5ad0cfc9afec953385518bc	Template	cljs-cloud-function/clj-template/0.1.1/clj/new/cljs_cloud_function/foo.cljs	1
+dc6a6f2a773c0a1a3f4757e866ae703b	Template	coast/coast/0.6.9/controller.clj	1
+9b8ef8c10e364f8c3d0c294c6584db44	Template	coast/coast/0.6.9/model.clj	1
+1417da2eb4791ea2dae2cc91bb1c7534	Template	dorab-lib-template/clj-template/0.1.3/clj/new/dorab_lib_template/system.edn	4
+95e20cabb756d12012f8c5a844a9f918	Template	dv/fulcro-template/clj-template/2020.06.3/clj/new/dv.fulcro_template/deps.edn	38
+4d5e3b14e9be329b2202179cf16ff0d5	Template	dv/fulcro-template/clj-template/2020.06.3/clj/new/dv.fulcro_template/shadow-cljs.edn	12
+be3873aef4eb2aa230b3fbd3a2bb132a	Template	dv/fulcro-template/clj-template/2020.06.3/clj/new/dv.fulcro_template/src/main/app/auth/login.cljs	1
+ad3f426c45142fd020d3c8ef9e860998	Template	dv/fulcro-template/clj-template/2020.06.3/clj/new/dv.fulcro_template/src/main/app/client/application.cljs	1
+dab615b0e45489e74967ff85f7608399	Template	dv/fulcro-template/clj-template/2020.06.3/clj/new/dv.fulcro_template/src/main/app/client/client_entry.cljs	1
+83fdcfcc32ded6909fcd6bef995593c9	Template	dv/fulcro-template/clj-template/2020.06.3/clj/new/dv.fulcro_template/src/main/app/client/ui/root.cljs	1
+bf580495de5e77f48b7185ea602f7165	Template	dv/fulcro-template/clj-template/2020.06.3/clj/new/dv.fulcro_template/src/main/app/client/ui/task_page.cljs	1
+7a25f72e4c8b521035aa33c597fc55a6	Template	dv/fulcro-template/clj-template/2020.06.3/clj/new/dv.fulcro_template/src/main/config/defaults.edn	11
+532cb5f1ef99259519822ee28d9a22d4	Template	dv/fulcro-template/clj-template/2020.06.3/clj/new/dv.fulcro_template/src/main/config/dev.edn	9
+b8b75749db399f6f2c4bc6e0a88f45a6	Template	dv/fulcro-template/clj-template/2020.06.3/clj/new/dv.fulcro_template/src/main/config/fe-config.edn	5
+35a55838da37f522d688b398c6d90131	Template	io/dominic/juxt-wedge/clj-template/0.2.0/clj/new/io.dominic.juxt_wedge/deps.edn	14
+28cd6322507cae444e3d857a727cb40d	Template	io/dominic/juxt-wedge/clj-template/0.2.0/clj/new/io.dominic.juxt_wedge/user.clj	3
+fe1a6c718c280c366edee729e1e20ddd	Template	kapooya/kap/0.1.4/templates/create-index.clj	1
+57d84a659104d4066143a9e433fcb214	Template	kapooya/kap/0.1.4/templates/create-table.clj	1
+89f725c44f46d9bdc71af78db33f2d5f	Template	kapooya/kap/0.1.4/templates/custom.clj	1
+25111822ab5b160a38be755282a0e559	Template	kapooya/kap/0.1.4/templates/drop-index.clj	1
+31f9f65b7b836110649aec09e02b87fe	Template	kapooya/kap/0.1.4/templates/drop-table.clj	1
+c952fdfe9c912f52f5e85aa9bded89ca	Template	lein-droid/lein-droid/0.4.6/templates/library.project.clj	1
+08a37d081f5b7a5a53cac1e71b3e5d89	Template	lein-noir-gen/lein-noir-gen/0.5.0/templates/entity_model.clj	1
+a3409588f983ac1c102e943177c576e1	Template	lein-noir-gen/lein-noir-gen/0.5.0/templates/entity_pages.clj	1
+00b65e3a377cb68b5b2bf8819c5ecc83	Template	lein-noir-gen/lein-noir-gen/0.5.0/templates/entity_templates.clj	1
+4c3bdc5923fac393f0f837411d85f908	Template	org/clojars/celeritas9/lein-droid/1.1.1/templates/library.project.clj	1
+0bcf0f3719e69665d19ca79095bfe19e	Template	org/clojars/nickbauman/npm-reagent/0.1.0/leiningen/new/npm_reagent/src/npm_reagent/state.cljs	1
+8981287e9c5b84a0cdc01840a99c7a70	Template	org/cloudhoist/lein-pallet-new/0.1.0/leiningen/new/pallet/project.clj	1
+268efbd24cf0e23079798233c2ed2b54	Template	proud/boot-template/0.2.0/boot/new/proud/events_test.cljs	1
+99bd002777c5c80c62d32aa37cf5e5bb	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/clj-kondo/config.edn	1
+b8e13c43455be76109fe2223bcc6f6cd	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/dev/cljs/user.cljs	8
+3ec8a0fc253a7a6d05a0f188185a6105	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/shadow-cljs.edn	8
+e5b0b3319683f980c9ddd1e64e81a1a0	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/src/core.cljs	1
+840e02aa30c448081cd3061375623a13	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/src/events.cljs	1
+25a5ba764395a052511a8962376b3d53	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/src/routes.cljs	1
+09cfd906c9f6efe123ce7af125b698c9	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/src/subs.cljs	1
+5427c3022bfbd751ae86b1c39a14f826	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/src/views_recom_routes.cljs	1
+0af2bbe2258e8d50b71cb77406239594	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/src/views_recom.cljs	1
+8a3852ec2aa0ae2cbeb7ed3e38798f3a	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/src/views_routes.cljs	1
+574485176ecc74c02ae4c66784af6611	Template	re-frame-template/clj-template/0.1.4/clj/new/re_frame_template/src/views.cljs	1
+945cd3c3b30a59dbecbfb343f36778fc	Template	system-template/boot-template/0.1.0/boot/new/system_template/app.cljs	1
+50ae1459c938823fb02ff0aa1d064319	Template	hydrogen/cljs/duct-template/0.1.2/hydrogen/cljs/view.cljs	5
+1a84b6ba0c687a48852b455385505f34	Template	hydrogen/duct-template/0.5.15/core/api/example.clj	5
+6c9b6472e40adc1ee17e0c41ffb6f4a1	Unescaped backslashes in string	org/clojars/jcsims/riemann/0.2.17/streams/pure.clj	81,83
+8e898d13c3930434c632123585193742	Zero byte	clj-dbase/clj-dbase/0.1.0/clj_dbase/core.clj	121
+15e5def60cd1b488f12f48e46dd7b1d8	Zero byte	ont-app/vocabulary/0.2.1/uri-escapes.edn	1

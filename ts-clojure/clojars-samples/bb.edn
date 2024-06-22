@@ -1,0 +1,19 @@
+{:min-bb-version "0.4.0"
+ :paths ["conf"
+         "script"]
+ :tasks {:enter (when (System/getenv "VERBOSE")
+                  (println "Entering:" (:name (current-task))))
+         :leave (when (System/getenv "VERBOSE")
+                  (println "Leaving:" (:name (current-task))))
+         ;; tasks
+         make-jars-list
+         {:doc "Make Clojars jars list"
+          :task make-jars-list/-main}
+         fetch-jars
+         {:doc "Fetch some Clojars jars"
+          :depends [make-jars-list]
+          :task fetch-jars/-main}
+         extract-jars
+         {:doc "Extract content from Clojars jars"
+          :task extract-jars/-main}
+         }}

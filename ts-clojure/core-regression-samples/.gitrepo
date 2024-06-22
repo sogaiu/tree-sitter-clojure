@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/sogaiu/core-regression-samples
+	branch = master
+	commit = a057b576dc7893fbd17cf34762115632349a752d
+	parent = 534a68d64ca70e73cc456c487e0efb43aae1e54d
+	method = merge
+	cmdver = 0.4.6
