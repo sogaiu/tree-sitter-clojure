@@ -15,6 +15,10 @@ repository in some way.
 The order of the following files and directories is alphabetical and
 not meant to reflect relative importance.
 
+* `bb.edn` - this file is a sort of convenience to allow execution of
+   Babashka tasks for real-world code testing directly from the
+   tree-sitter-clojure directory; see `ts-clojure` below as well.
+
 * `CHANGELOG.md` - this file contains a changelog.
 
 * `COPYING.txt` - this file contains license information for the
@@ -53,6 +57,9 @@ not meant to reflect relative importance.
 
 * `test/corpus` - this directory contains tree-sitter's corpus
   test-related files.
+
+* `ts-clojure` - this directory contains bits related to real-world
+  code testing via Babashka tasks; see `bb.edn` above as well.
 
 ## Other Content
 

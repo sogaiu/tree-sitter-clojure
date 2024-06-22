@@ -1,0 +1,32 @@
+;; this bb.edn file is for convenience
+;;
+;; it allows execution of babashka tasks that are defined inside the
+;; ts-clojure directory from one level up.  specifically, from the
+;; tree-sitter-clojure directory.
+;;
+;; in short, it saves one from having to cd to the ts-clojure
+;; directory in order to execute some babashka tasks
+{:min-bb-version "0.4.0"
+ :tasks {:init
+         (defn tsc-exec
+           [cmd-name]
+           (shell {:dir "ts-clojure"}
+                  (str "bb " cmd-name
+                       ;; XXX: hack to pass one arg along
+                       (when *command-line-args*
+                         (str " " (first *command-line-args*))))))
+         ;; tasks
+         check-setup
+         {:doc "Check setup"
+          :task (tsc-exec "check-setup")}
+         generate-parser
+         {:doc "Generate parser.c"
+          :task (tsc-exec "generate-parser")}
+         corpus-test
+         {:doc "Run tree-sitter test"
+          :task (tsc-exec "corpus-test")}
+         parse-samples
+         {:doc "Parse current repos code samples"
+          :task (tsc-exec "parse-samples")}
+         }}
+
