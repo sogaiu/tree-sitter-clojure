@@ -875,7 +875,7 @@ help for investigation.
 #### `tree-sitter parse --debug-graph`
 
 Note that the `dot` command may be necessary for working with
-`--debug-graph`.  `dot` is part of [graphviz](https://graphviz.org/
+`--debug-graph`.  `dot` is part of [graphviz](https://graphviz.org/)
 [1].
 
 As with the other output types described before, the s-expression tree
