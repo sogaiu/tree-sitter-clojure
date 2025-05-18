@@ -19,9 +19,12 @@ List with Keywords
 
 (source
   (list_lit
-    (kwd_lit (kwd_name))
-    (kwd_lit (kwd_name))
-    (kwd_lit (kwd_name))))
+    (kwd_lit
+      (kwd_name))
+    (kwd_lit
+      (kwd_name))
+    (kwd_lit
+      (kwd_name))))
 
 ================================================================================
 Call with Anonymous Function
@@ -34,8 +37,10 @@ Call with Anonymous Function
 (source
   (list_lit
     (anon_fn_lit
-      (sym_lit (sym_name))
-      (sym_lit (sym_name))
+      (sym_lit
+        (sym_name))
+      (sym_lit
+        (sym_name))
       (num_lit))
     (num_lit)))
 
@@ -50,9 +55,11 @@ Map Lookup
 (source
   (list_lit
     (map_lit
-      (kwd_lit (kwd_name))
+      (kwd_lit
+        (kwd_name))
       (num_lit))
-    (kwd_lit (kwd_name))))
+    (kwd_lit
+      (kwd_name))))
 
 ================================================================================
 Map Lookup Alternate
@@ -64,9 +71,11 @@ Map Lookup Alternate
 
 (source
   (list_lit
-    (kwd_lit (kwd_name))
+    (kwd_lit
+      (kwd_name))
     (map_lit
-      (kwd_lit (kwd_name))
+      (kwd_lit
+        (kwd_name))
       (num_lit))))
 
 ================================================================================
@@ -80,9 +89,12 @@ Set Lookup
 (source
   (list_lit
     (set_lit
-      (kwd_lit (kwd_name))
-      (kwd_lit (kwd_name)))
-    (kwd_lit (kwd_name))))
+      (kwd_lit
+        (kwd_name))
+      (kwd_lit
+        (kwd_name)))
+    (kwd_lit
+      (kwd_name))))
 
 ================================================================================
 Call with Symbol with Metadata
@@ -94,8 +106,10 @@ Call with Symbol with Metadata
 
 (source
   (list_lit
-    (sym_lit (sym_name))
     (sym_lit
-      (meta_lit
-        (sym_lit (sym_name)))
+      (sym_name))
+    (meta_lit
+      (sym_lit
+        (sym_name)))
+    (sym_lit
       (sym_name))))

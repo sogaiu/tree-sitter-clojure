@@ -1,4 +1,5 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "clojure",
   "rules": {
     "source": {
@@ -31,6 +32,10 @@
         {
           "type": "SYMBOL",
           "name": "dis_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_metadata_lit"
         }
       ]
     },
@@ -893,27 +898,15 @@
       }
     },
     "sym_lit": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
+          "type": "SYMBOL",
+          "name": "_sym_qualified"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_sym_qualified"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_sym_unqualified"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_sym_unqualified"
         }
       ]
     },
@@ -1149,20 +1142,8 @@
       ]
     },
     "list_lit": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_bare_list_lit"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_bare_list_lit"
     },
     "_bare_list_lit": {
       "type": "SEQ",
@@ -1206,20 +1187,8 @@
       ]
     },
     "map_lit": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_bare_map_lit"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_bare_map_lit"
     },
     "_bare_map_lit": {
       "type": "SEQ",
@@ -1263,20 +1232,8 @@
       ]
     },
     "vec_lit": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_bare_vec_lit"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_bare_vec_lit"
     },
     "_bare_vec_lit": {
       "type": "SEQ",
@@ -1320,20 +1277,8 @@
       ]
     },
     "set_lit": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_bare_set_lit"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_bare_set_lit"
     },
     "_bare_set_lit": {
       "type": "SEQ",
@@ -1387,13 +1332,6 @@
     "anon_fn_lit": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
         {
           "type": "FIELD",
           "name": "marker",
@@ -1471,13 +1409,6 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
-        {
           "type": "FIELD",
           "name": "marker",
           "content": {
@@ -1501,13 +1432,6 @@
     "splicing_read_cond_lit": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
         {
           "type": "FIELD",
           "name": "marker",
@@ -1539,13 +1463,6 @@
     "ns_map_lit": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
         {
           "type": "FIELD",
           "name": "marker",
@@ -1587,13 +1504,6 @@
     "var_quoting_lit": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
         {
           "type": "FIELD",
           "name": "marker",
@@ -1651,13 +1561,6 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
-        {
           "type": "FIELD",
           "name": "marker",
           "content": {
@@ -1698,13 +1601,6 @@
     "tagged_or_ctor_lit": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
         {
           "type": "FIELD",
           "name": "marker",
@@ -1749,13 +1645,6 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
-        {
           "type": "FIELD",
           "name": "marker",
           "content": {
@@ -1783,13 +1672,6 @@
     "quoting_lit": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
         {
           "type": "FIELD",
           "name": "marker",
@@ -1819,13 +1701,6 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
-        {
           "type": "FIELD",
           "name": "marker",
           "content": {
@@ -1853,13 +1728,6 @@
     "unquote_splicing_lit": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
         {
           "type": "FIELD",
           "name": "marker",
@@ -1889,13 +1757,6 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
-        {
           "type": "FIELD",
           "name": "marker",
           "content": {
@@ -1922,7 +1783,11 @@
     }
   },
   "extras": [],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "_metadata_lit"
+    ]
+  ],
   "precedences": [],
   "externals": [],
   "inline": [
@@ -1936,4 +1801,3 @@
   ],
   "supertypes": []
 }
-

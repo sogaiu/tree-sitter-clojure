@@ -350,6 +350,26 @@
           }
         ]
       },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": false,
         "required": true,
@@ -936,6 +956,26 @@
           }
         ]
       },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": false,
         "required": true,
@@ -1259,6 +1299,26 @@
           {
             "type": "#^",
             "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
           }
         ]
       },
@@ -1911,7 +1971,29 @@
   {
     "type": "source",
     "named": true,
-    "fields": {},
+    "root": true,
+    "fields": {
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -2222,16 +2304,6 @@
           }
         ]
       },
-      "meta": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "meta_lit",
-            "named": true
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -2251,31 +2323,7 @@
             "named": true
           }
         ]
-      },
-      "old_meta": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "old_meta_lit",
-            "named": true
-          }
-        ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "dis_expr",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2289,6 +2337,26 @@
           {
             "type": "##",
             "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
           }
         ]
       },

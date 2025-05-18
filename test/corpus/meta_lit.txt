@@ -7,10 +7,10 @@ Symbol Metadata
 --------------------------------------------------------------------------------
 
 (source
-  (vec_lit
-    (meta_lit
-      (sym_lit
-        (sym_name)))))
+  (meta_lit
+    (sym_lit
+      (sym_name)))
+  (vec_lit))
 
 ================================================================================
 Keyword Metadata
@@ -21,10 +21,10 @@ Keyword Metadata
 --------------------------------------------------------------------------------
 
 (source
-  (map_lit
-    (meta_lit
-      (kwd_lit
-        (kwd_name)))))
+  (meta_lit
+    (kwd_lit
+      (kwd_name)))
+  (map_lit))
 
 ================================================================================
 String Metadata
@@ -35,9 +35,9 @@ String Metadata
 --------------------------------------------------------------------------------
 
 (source
-  (map_lit
-    (meta_lit
-      (str_lit))))
+  (meta_lit
+    (str_lit))
+  (map_lit))
 
 ================================================================================
 Map Metadata
@@ -48,15 +48,15 @@ Map Metadata
 --------------------------------------------------------------------------------
 
 (source
-  (set_lit
-    (meta_lit
-      (map_lit
-        (kwd_lit
-          (kwd_name))
-        (num_lit)
-        (kwd_lit
-          (kwd_name))
-        (num_lit)))))
+  (meta_lit
+    (map_lit
+      (kwd_lit
+        (kwd_name))
+      (num_lit)
+      (kwd_lit
+        (kwd_name))
+      (num_lit)))
+  (set_lit))
 
 ================================================================================
 Reader Conditional Metadata
@@ -67,18 +67,18 @@ Reader Conditional Metadata
 --------------------------------------------------------------------------------
 
 (source
-  (vec_lit
-    (meta_lit
-      (read_cond_lit
-        (kwd_lit
-          (kwd_name))
-        (str_lit)
-        (kwd_lit
-          (kwd_name))
-        (str_lit)
-        (kwd_lit
-          (kwd_name))
-        (str_lit)))))
+  (meta_lit
+    (read_cond_lit
+      (kwd_lit
+        (kwd_name))
+      (str_lit)
+      (kwd_lit
+        (kwd_name))
+      (str_lit)
+      (kwd_lit
+        (kwd_name))
+      (str_lit)))
+  (vec_lit))
 
 ================================================================================
 Multiple Bits of Metadata
@@ -89,16 +89,16 @@ Multiple Bits of Metadata
 --------------------------------------------------------------------------------
 
 (source
-  (set_lit
-    (meta_lit
-      (kwd_lit
-        (kwd_name)))
-    (meta_lit
-      (kwd_lit
-        (kwd_name)))
-    (meta_lit
-      (kwd_lit
-        (kwd_name)))))
+  (meta_lit
+    (kwd_lit
+      (kwd_name)))
+  (meta_lit
+    (kwd_lit
+      (kwd_name)))
+  (meta_lit
+    (kwd_lit
+      (kwd_name)))
+  (set_lit))
 
 ================================================================================
 Tagged Literal Metadata
@@ -109,14 +109,14 @@ Tagged Literal Metadata
 --------------------------------------------------------------------------------
 
 (source
-  (sym_lit
-    (meta_lit
-      (tagged_or_ctor_lit
+  (meta_lit
+    (tagged_or_ctor_lit
+      (sym_lit
+        (sym_name))
+      (list_lit
         (sym_lit
-          (sym_name))
-        (list_lit
-          (sym_lit
-            (sym_name)))))
+          (sym_name)))))
+  (sym_lit
     (sym_name)))
 
 ================================================================================
@@ -128,10 +128,10 @@ Evaling Literal Metadata
 --------------------------------------------------------------------------------
 
 (source
-  (vec_lit
-    (meta_lit
-      (evaling_lit
-        (list_lit
-          (sym_lit
-            (sym_name))
-          (str_lit))))))
+  (meta_lit
+    (evaling_lit
+      (list_lit
+        (sym_lit
+          (sym_name))
+        (str_lit))))
+  (vec_lit))
