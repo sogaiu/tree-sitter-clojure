@@ -158,7 +158,7 @@ const OCTAL_CHAR =
       seq("o",
           choice(seq(DIGIT, DIGIT, DIGIT),
                  seq(DIGIT, DIGIT),
-                 seq(DIGIT)));
+                 DIGIT));
 
 const NAMED_CHAR =
       choice("backspace",

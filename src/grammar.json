@@ -799,13 +799,8 @@
                         ]
                       },
                       {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "PATTERN",
-                            "value": "[0-9]"
-                          }
-                        ]
+                        "type": "PATTERN",
+                        "value": "[0-9]"
                       }
                     ]
                   }
