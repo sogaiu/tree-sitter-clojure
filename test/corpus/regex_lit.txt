@@ -7,7 +7,8 @@ Simple Regular Expression
 --------------------------------------------------------------------------------
 
 (source
-  (regex_lit))
+  (regex_lit
+    (regex_content)))
 
 ================================================================================
 Hex Digits Regular Expression
@@ -18,4 +19,5 @@ Hex Digits Regular Expression
 --------------------------------------------------------------------------------
 
 (source
-  (regex_lit))
+  (regex_lit
+    (regex_content)))
