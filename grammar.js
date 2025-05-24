@@ -232,7 +232,8 @@ module.exports = grammar({
   [],
 
   conflicts: $ =>
-  [[$._metadata_lit]],
+  [[$._metadata_lit],
+   [$._form, $.map_lit]],
 
   inline: $ =>
   [$._kwd_leading_slash,
@@ -381,9 +382,15 @@ module.exports = grammar({
 
     map_lit: $ =>
     seq(field('open', "{"),
-        repeat(choice(field('value', $._form),
-                      $._gap)),
+        repeat(choice(field('entry', $._entry),
+                      $._gap,
+                      $.splicing_read_cond_lit)),
         field('close', "}")),
+
+    _entry: $ =>
+    seq(field('key', $._form),
+        repeat($._gap),
+        field('value', $._form)),
 
     vec_lit: $ =>
     seq(field('open', "["),

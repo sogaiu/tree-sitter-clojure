@@ -1217,15 +1217,19 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "value",
+                "name": "entry",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_form"
+                  "name": "_entry"
                 }
               },
               {
                 "type": "SYMBOL",
                 "name": "_gap"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "splicing_read_cond_lit"
               }
             ]
           }
@@ -1236,6 +1240,34 @@
           "content": {
             "type": "STRING",
             "value": "}"
+          }
+        }
+      ]
+    },
+    "_entry": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "key",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_form"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_gap"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_form"
           }
         }
       ]
@@ -1908,6 +1940,10 @@
   "conflicts": [
     [
       "_metadata_lit"
+    ],
+    [
+      "_form",
+      "map_lit"
     ]
   ],
   "precedences": [],
