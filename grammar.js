@@ -232,7 +232,7 @@ module.exports = grammar({
   [],
 
   conflicts: $ =>
-  [],
+  [[$._metadata_lit]],
 
   inline: $ =>
   [$._kwd_leading_slash,
@@ -252,7 +252,8 @@ module.exports = grammar({
     _gap: $ =>
     choice($._ws,
            $.comment,
-           $.dis_expr),
+           $.dis_expr,
+           $._metadata_lit),
 
     _ws: $ =>
     WHITESPACE,
@@ -345,8 +346,7 @@ module.exports = grammar({
     BOOLEAN,
 
     sym_lit: $ =>
-    seq(repeat($._metadata_lit),
-        choice($._sym_qualified, $._sym_unqualified)),
+    choice($._sym_qualified, $._sym_unqualified),
 
     _sym_qualified: $ =>
     prec(1, seq(field("namespace", alias(SYMBOL, $.sym_ns)),
@@ -374,8 +374,7 @@ module.exports = grammar({
         field('value', $._form)),
 
     list_lit: $ =>
-    seq(repeat($._metadata_lit),
-        $._bare_list_lit),
+    $._bare_list_lit,
 
     _bare_list_lit: $ =>
     seq(field('open', "("),
@@ -384,8 +383,7 @@ module.exports = grammar({
         field('close', ")")),
 
     map_lit: $ =>
-    seq(repeat($._metadata_lit),
-        $._bare_map_lit),
+    $._bare_map_lit,
 
     _bare_map_lit: $ =>
     seq(field('open', "{"),
@@ -394,8 +392,7 @@ module.exports = grammar({
         field('close', "}")),
 
     vec_lit: $ =>
-    seq(repeat($._metadata_lit),
-        $._bare_vec_lit),
+    $._bare_vec_lit,
 
     _bare_vec_lit: $ =>
     seq(field('open', "["),
@@ -404,8 +401,7 @@ module.exports = grammar({
         field('close', "]")),
 
     set_lit: $ =>
-    seq(repeat($._metadata_lit),
-        $._bare_set_lit),
+    $._bare_set_lit,
 
     _bare_set_lit: $ =>
     seq(field('marker', "#"),
@@ -415,8 +411,7 @@ module.exports = grammar({
         field('close', "}")),
 
     anon_fn_lit: $ =>
-    seq(repeat($._metadata_lit),
-        field('marker', "#"),
+    seq(field('marker', "#"),
         $._bare_list_lit),
 
     regex_lit: $ =>
@@ -426,17 +421,13 @@ module.exports = grammar({
         field('close', '"')),
 
     read_cond_lit: $ =>
-    seq(repeat($._metadata_lit),
-        field('marker', "#?"),
+    seq(field('marker', "#?"),
         // whitespace possible, but neither comment nor discard
         repeat($._ws),
         $._bare_list_lit),
 
     splicing_read_cond_lit: $ =>
-    // XXX: metadata here doesn't seem to make sense, but the repl
-    //      will accept: [^:x #?@(:clj [[:a]] :cljr [[:b]])]
-    seq(repeat($._metadata_lit),
-        field('marker', "#?@"),
+    seq(field('marker', "#?@"),
         // whitespace possible, but neither comment nor discard
         repeat($._ws),
         $._bare_list_lit),
@@ -445,16 +436,14 @@ module.exports = grammar({
     AUTO_RESOLVE_MARK,
 
     ns_map_lit: $ =>
-    seq(repeat($._metadata_lit),
-        field('marker', "#"),
+    seq(field('marker', "#"),
         field('prefix', choice($.auto_res_mark,
                                $.kwd_lit)),
         repeat($._gap),
         $._bare_map_lit),
 
     var_quoting_lit: $ =>
-    seq(repeat($._metadata_lit),
-        field('marker', "#'"),
+    seq(field('marker', "#'"),
         repeat($._gap),
         // XXX: symbol, reader conditional, and tagged literal can work
         //      any other things?
@@ -466,8 +455,7 @@ module.exports = grammar({
         field('value', $._form)),
 
     evaling_lit: $ =>
-    seq(repeat($._metadata_lit), // ^:x #=(vector 1)
-        field('marker', "#="),
+    seq(field('marker', "#="),
         repeat($._gap),
         field('value', choice($.list_lit,
                               $.read_cond_lit,
@@ -478,8 +466,7 @@ module.exports = grammar({
     // #user.Fun[1 2]
     // #user.Fun{:a 1 :b 2}
     tagged_or_ctor_lit: $ =>
-    seq(repeat($._metadata_lit),
-        field('marker', "#"),
+    seq(field('marker', "#"),
         // # uuid "00000000-0000-0000-0000-000000000000"
         // # #_ 1 uuid "00000000-0000-0000-0000-000000000000"
         // etc.
@@ -490,34 +477,27 @@ module.exports = grammar({
         field('value', $._form)),
 
     derefing_lit: $ =>
-    seq(repeat($._metadata_lit),
-        field('marker', "@"),
+    seq(field('marker', "@"),
         repeat($._gap),
         field('value', $._form)),
 
     quoting_lit: $ =>
-    seq(repeat($._metadata_lit),
-        field('marker', "'"),
+    seq(field('marker', "'"),
         repeat($._gap),
         field('value', $._form)),
 
     syn_quoting_lit: $ =>
-    seq(repeat($._metadata_lit),
-        field('marker', "`"),
+    seq(field('marker', "`"),
         repeat($._gap),
         field('value', $._form)),
 
     unquote_splicing_lit: $ =>
-    // XXX: metadata here doesn't seem to make sense, but the repl
-    //      will accept: `(^:x ~@[:a :b :c])
-    seq(repeat($._metadata_lit),
-        field('marker', "~@"),
+    seq(field('marker', "~@"),
         repeat($._gap),
         field('value', $._form)),
 
     unquoting_lit: $ =>
-    seq(repeat($._metadata_lit),
-        field('marker', "~"),
+    seq(field('marker', "~"),
         repeat($._gap),
         field('value', $._form)),
   }
