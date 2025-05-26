@@ -153,7 +153,6 @@ const STRING =
                            repeat(regex('[^"\\\\]')))),
                 '"'));
 
-// XXX: better to match \o378 as a single item
 const OCTAL_CHAR =
       seq("o",
           choice(seq(DIGIT, DIGIT, DIGIT),
@@ -221,7 +220,6 @@ const SYMBOL_NAMESPACED_NAME =
 
 // XXX: no attempt is made to enforce certain complex things, e.g.
 //
-//        Symbols beginning or ending with ':' are reserved by Clojure.
 //        A symbol can contain one or more non-repeating ':'s
 const SYMBOL =
       token(seq(SYMBOL_HEAD,
