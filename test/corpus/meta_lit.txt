@@ -37,7 +37,8 @@ String Metadata
 (source
   (map_lit
     (meta_lit
-      (str_lit))))
+      (str_lit
+        (str_content)))))
 
 ================================================================================
 Map Metadata
@@ -72,13 +73,16 @@ Reader Conditional Metadata
       (read_cond_lit
         (kwd_lit
           (kwd_name))
-        (str_lit)
+        (str_lit
+          (str_content))
         (kwd_lit
           (kwd_name))
-        (str_lit)
+        (str_lit
+          (str_content))
         (kwd_lit
           (kwd_name))
-        (str_lit)))))
+        (str_lit
+          (str_content))))))
 
 ================================================================================
 Multiple Bits of Metadata
@@ -134,4 +138,5 @@ Evaling Literal Metadata
         (list_lit
           (sym_lit
             (sym_name))
-          (str_lit))))))
+          (str_lit
+            (str_content)))))))

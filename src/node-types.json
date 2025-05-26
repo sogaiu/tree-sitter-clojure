@@ -1720,12 +1720,42 @@
     "type": "regex_lit",
     "named": true,
     "fields": {
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          }
+        ]
+      },
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "regex_content",
+            "named": true
+          }
+        ]
+      },
       "marker": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "#",
+            "named": false
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
             "named": false
           }
         ]
@@ -2207,7 +2237,38 @@
   {
     "type": "str_lit",
     "named": true,
-    "fields": {}
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          }
+        ]
+      },
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "str_content",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          }
+        ]
+      }
+    }
   },
   {
     "type": "sym_lit",
@@ -3372,6 +3433,10 @@
     }
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#",
     "named": false
   },
@@ -3473,6 +3538,14 @@
   },
   {
     "type": "num_lit",
+    "named": true
+  },
+  {
+    "type": "regex_content",
+    "named": true
+  },
+  {
+    "type": "str_content",
     "named": true
   },
   {

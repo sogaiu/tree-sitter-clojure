@@ -9,7 +9,8 @@ Symbol Metadata
 (source
   (vec_lit
     (old_meta_lit
-      (sym_lit (sym_name)))))
+      (sym_lit
+        (sym_name)))))
 
 ================================================================================
 Keyword Metadata
@@ -22,7 +23,8 @@ Keyword Metadata
 (source
   (map_lit
     (old_meta_lit
-      (kwd_lit (kwd_name)))))
+      (kwd_lit
+        (kwd_name)))))
 
 ================================================================================
 String Metadata
@@ -35,7 +37,8 @@ String Metadata
 (source
   (map_lit
     (old_meta_lit
-      (str_lit))))
+      (str_lit
+        (str_content)))))
 
 ================================================================================
 Map Metadata
@@ -49,9 +52,11 @@ Map Metadata
   (set_lit
     (old_meta_lit
       (map_lit
-        (kwd_lit (kwd_name))
+        (kwd_lit
+          (kwd_name))
         (num_lit)
-        (kwd_lit (kwd_name))
+        (kwd_lit
+          (kwd_name))
         (num_lit)))))
 
 ================================================================================
@@ -66,12 +71,18 @@ Reader Conditional Metadata
   (vec_lit
     (old_meta_lit
       (read_cond_lit
-        (kwd_lit (kwd_name))
-        (str_lit)
-        (kwd_lit (kwd_name))
-        (str_lit)
-        (kwd_lit (kwd_name))
-        (str_lit)))))
+        (kwd_lit
+          (kwd_name))
+        (str_lit
+          (str_content))
+        (kwd_lit
+          (kwd_name))
+        (str_lit
+          (str_content))
+        (kwd_lit
+          (kwd_name))
+        (str_lit
+          (str_content))))))
 
 ================================================================================
 Multiple Bits of Metadata
@@ -84,8 +95,11 @@ Multiple Bits of Metadata
 (source
   (set_lit
     (old_meta_lit
-      (kwd_lit (kwd_name)))
+      (kwd_lit
+        (kwd_name)))
     (old_meta_lit
-      (kwd_lit (kwd_name)))
+      (kwd_lit
+        (kwd_name)))
     (old_meta_lit
-      (kwd_lit (kwd_name)))))
+      (kwd_lit
+        (kwd_name)))))

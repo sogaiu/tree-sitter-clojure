@@ -145,13 +145,13 @@ const KEYWORD_MARK =
 const AUTO_RESOLVE_MARK =
       token("::");
 
-const STRING =
-      token(seq('"',
-                repeat(regex('[^"\\\\]')),
+const STRING_CONTENT =
+      // XXX: without token, can end up with multiple STRING_CONTENT
+      //      portions within str_lit...
+      token(seq(repeat(regex('[^"\\\\]')),
                 repeat(seq("\\",
                            regex("."),
-                           repeat(regex('[^"\\\\]')))),
-                '"'));
+                           repeat(regex('[^"\\\\]'))))));
 
 const OCTAL_CHAR =
       seq("o",
@@ -331,7 +331,9 @@ module.exports = grammar({
     choice(KEYWORD_MARK, AUTO_RESOLVE_MARK),
 
     str_lit: $ =>
-    STRING,
+    seq(field('open', '"'),
+        field('content', alias(STRING_CONTENT, $.str_content)),
+        field('close', '"')),
 
     char_lit: $ =>
     CHARACTER,
@@ -419,7 +421,9 @@ module.exports = grammar({
 
     regex_lit: $ =>
     seq(field('marker', "#"),
-        STRING),
+        field('open', '"'),
+        field('content', alias(STRING_CONTENT, $.regex_content)),
+        field('close', '"')),
 
     read_cond_lit: $ =>
     seq(repeat($._metadata_lit),
