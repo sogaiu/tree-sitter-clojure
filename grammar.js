@@ -374,36 +374,24 @@ module.exports = grammar({
         field('value', $._form)),
 
     list_lit: $ =>
-    $._bare_list_lit,
-
-    _bare_list_lit: $ =>
     seq(field('open', "("),
         repeat(choice(field('value', $._form),
                       $._gap)),
         field('close', ")")),
 
     map_lit: $ =>
-    $._bare_map_lit,
-
-    _bare_map_lit: $ =>
     seq(field('open', "{"),
         repeat(choice(field('value', $._form),
                       $._gap)),
         field('close', "}")),
 
     vec_lit: $ =>
-    $._bare_vec_lit,
-
-    _bare_vec_lit: $ =>
     seq(field('open', "["),
         repeat(choice(field('value', $._form),
                       $._gap)),
         field('close', "]")),
 
     set_lit: $ =>
-    $._bare_set_lit,
-
-    _bare_set_lit: $ =>
     seq(field('marker', "#"),
         field('open', "{"),
         repeat(choice(field('value', $._form),
@@ -412,7 +400,10 @@ module.exports = grammar({
 
     anon_fn_lit: $ =>
     seq(field('marker', "#"),
-        $._bare_list_lit),
+        field('open', "("),
+        repeat(choice(field('value', $._form),
+                      $._gap)),
+        field('close', ")")),
 
     regex_lit: $ =>
     seq(field('marker', "#"),
@@ -424,13 +415,19 @@ module.exports = grammar({
     seq(field('marker', "#?"),
         // whitespace possible, but neither comment nor discard
         repeat($._ws),
-        $._bare_list_lit),
+        field('open', "("),
+        repeat(choice(field('value', $._form),
+                      $._gap)),
+        field('close', ")")),
 
     splicing_read_cond_lit: $ =>
     seq(field('marker', "#?@"),
         // whitespace possible, but neither comment nor discard
         repeat($._ws),
-        $._bare_list_lit),
+        field('open', "("),
+        repeat(choice(field('value', $._form),
+                      $._gap)),
+        field('close', ")")),
 
     auto_res_mark: $ =>
     AUTO_RESOLVE_MARK,
@@ -440,7 +437,10 @@ module.exports = grammar({
         field('prefix', choice($.auto_res_mark,
                                $.kwd_lit)),
         repeat($._gap),
-        $._bare_map_lit),
+        field('open', "{"),
+        repeat(choice(field('value', $._form),
+                      $._gap)),
+        field('close', "}")),
 
     var_quoting_lit: $ =>
     seq(field('marker', "#'"),

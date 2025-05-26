@@ -1159,10 +1159,6 @@
       ]
     },
     "list_lit": {
-      "type": "SYMBOL",
-      "name": "_bare_list_lit"
-    },
-    "_bare_list_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -1204,10 +1200,6 @@
       ]
     },
     "map_lit": {
-      "type": "SYMBOL",
-      "name": "_bare_map_lit"
-    },
-    "_bare_map_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -1249,10 +1241,6 @@
       ]
     },
     "vec_lit": {
-      "type": "SYMBOL",
-      "name": "_bare_vec_lit"
-    },
-    "_bare_vec_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -1294,10 +1282,6 @@
       ]
     },
     "set_lit": {
-      "type": "SYMBOL",
-      "name": "_bare_set_lit"
-    },
-    "_bare_set_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -1358,8 +1342,40 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_bare_list_lit"
+          "type": "FIELD",
+          "name": "open",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "value",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_form"
+                }
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_gap"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "close",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
         }
       ]
     },
@@ -1458,8 +1474,40 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_bare_list_lit"
+          "type": "FIELD",
+          "name": "open",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "value",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_form"
+                }
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_gap"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "close",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
         }
       ]
     },
@@ -1482,8 +1530,40 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_bare_list_lit"
+          "type": "FIELD",
+          "name": "open",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "value",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_form"
+                }
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_gap"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "close",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
         }
       ]
     },
@@ -1530,8 +1610,40 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_bare_map_lit"
+          "type": "FIELD",
+          "name": "open",
+          "content": {
+            "type": "STRING",
+            "value": "{"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "value",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_form"
+                }
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_gap"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "close",
+          "content": {
+            "type": "STRING",
+            "value": "}"
+          }
         }
       ]
     },
