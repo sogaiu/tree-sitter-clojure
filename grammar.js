@@ -7,7 +7,7 @@ function regex(...patts) {
   return RegExp(patts.join(""));
 }
 
-// java.lang.Character.isWhitespace AND comma
+// java.lang.Character.isWhitespace
 //
 // Space Separator (Zs) but NOT including (U+00A0, U+2007, U+202F)
 //   U+0020, U+1680, U+2000, U+2001, U+2002, U+2003, U+2004, U+2005,
@@ -36,7 +36,7 @@ function regex(...patts) {
 //   U+001F
 const WHITESPACE_CHAR =
       regex("[",
-            "\\f\\n\\r\\t, ",
+            "\\f\\n\\r\\t ",
             "\\u000B\\u001C\\u001D\\u001E\\u001F",
             "\\u2028\\u2029\\u1680",
             "\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008",
@@ -251,12 +251,16 @@ module.exports = grammar({
 
     _gap: $ =>
     choice($._ws,
+           $._comma,
            $.comment,
            $.dis_expr,
            $._metadata_lit),
 
     _ws: $ =>
     WHITESPACE,
+
+    _comma: $ =>
+    ",",
 
     comment: $ =>
     COMMENT,
@@ -414,7 +418,7 @@ module.exports = grammar({
     read_cond_lit: $ =>
     seq(field('marker', "#?"),
         // whitespace possible, but neither comment nor discard
-        repeat($._ws),
+        repeat(choice($._ws, $._comma)),
         field('open', "("),
         repeat(choice(field('value', $._form),
                       $._gap)),
@@ -423,7 +427,7 @@ module.exports = grammar({
     splicing_read_cond_lit: $ =>
     seq(field('marker', "#?@"),
         // whitespace possible, but neither comment nor discard
-        repeat($._ws),
+        repeat(choice($._ws, $._comma)),
         field('open', "("),
         repeat(choice(field('value', $._form),
                       $._gap)),

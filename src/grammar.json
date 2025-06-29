@@ -27,6 +27,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_comma"
+        },
+        {
+          "type": "SYMBOL",
           "name": "comment"
         },
         {
@@ -45,9 +49,13 @@
         "type": "REPEAT1",
         "content": {
           "type": "PATTERN",
-          "value": "[\\f\\n\\r\\t, \\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+          "value": "[\\f\\n\\r\\t \\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
         }
       }
+    },
+    "_comma": {
+      "type": "STRING",
+      "value": ","
     },
     "comment": {
       "type": "TOKEN",
@@ -1469,8 +1477,17 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_ws"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_ws"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_comma"
+              }
+            ]
           }
         },
         {
@@ -1525,8 +1542,17 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_ws"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_ws"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_comma"
+              }
+            ]
           }
         },
         {
