@@ -40,7 +40,8 @@ Vector with Different Types
       (kwd_name))
     (num_lit)
     (quoting_lit
-      (sym_lit))
+      (sym_lit
+        (sym_name)))
     (map_lit
       (kwd_lit
         (kwd_name))

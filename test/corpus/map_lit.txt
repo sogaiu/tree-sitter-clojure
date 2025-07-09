@@ -45,7 +45,9 @@ Deeper Map
     (kwd_lit
       (kwd_name))
     (map_lit
-      (sym_lit)
+      (sym_lit
+        (sym_ns)
+        (sym_name))
       (map_lit
         (kwd_lit
           (kwd_ns)

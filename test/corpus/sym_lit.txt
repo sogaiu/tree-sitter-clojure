@@ -7,7 +7,8 @@ def
 --------------------------------------------------------------------------------
 
 (source
-  (sym_lit))
+  (sym_lit
+    (sym_name)))
 
 ================================================================================
 Symbol with Prefix
@@ -18,7 +19,9 @@ clojure.string/blank?
 --------------------------------------------------------------------------------
 
 (source
-  (sym_lit))
+  (sym_lit
+    (sym_ns)
+    (sym_name)))
 
 ================================================================================
 Division Symbol
@@ -29,7 +32,8 @@ Division Symbol
 --------------------------------------------------------------------------------
 
 (source
-  (sym_lit))
+  (sym_lit
+    (sym_name)))
 
 ================================================================================
 Namespaced Division Symbol
@@ -40,8 +44,9 @@ clojure.core//
 --------------------------------------------------------------------------------
 
 (source
-  (sym_lit)
-  (sym_lit))
+  (sym_lit
+    (sym_ns)
+    (sym_name)))
 
 ================================================================================
 Division Symbol followed by delimiter
@@ -53,7 +58,11 @@ Division Symbol followed by delimiter
 
 (source
   (list_lit
-    (sym_lit)
-    (sym_lit)
-    (sym_lit)
-    (sym_lit)))
+    (sym_lit
+      (sym_name))
+    (sym_lit
+      (sym_name))
+    (sym_lit
+      (sym_name))
+    (sym_lit
+      (sym_name))))

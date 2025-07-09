@@ -215,8 +215,10 @@ const SYMBOL_BODY =
              regex("[:#'0-9]"));
 
 const SYMBOL_NAMESPACED_NAME =
-      token(repeat1(choice(SYMBOL_HEAD,
-                           regex("[/:#'0-9]"))));
+      // prec needed to get treating namesspace/ (with no name) treated
+      // as a symbol
+      token(prec(1, repeat1(choice(SYMBOL_HEAD,
+                                   regex("[/:#'0-9]")))));
 
 // XXX: no attempt is made to enforce certain complex things, e.g.
 //
@@ -233,7 +235,7 @@ module.exports = grammar({
 
   conflicts: $ =>
   [[$._metadata_lit],
-   [$.sym_lit]],
+   [$._sym_qualified, $._sym_unqualified, $._sym_almost]],
 
   inline: $ =>
   [$._kwd_leading_slash,
@@ -349,10 +351,21 @@ module.exports = grammar({
     BOOLEAN,
 
     sym_lit: $ =>
-    choice("/",
-           SYMBOL,
-           seq(SYMBOL, NS_DELIMITER, SYMBOL),
-           seq(SYMBOL, NS_DELIMITER)),
+    choice($._sym_qualified, $._sym_almost, $._sym_unqualified),
+
+    _sym_qualified: $ =>
+    prec.dynamic(2, seq(field("namespace", alias(SYMBOL, $.sym_ns)),
+                        field("delimiter", NS_DELIMITER),
+                        field("name", alias(SYMBOL_NAMESPACED_NAME, $.sym_name)))),
+
+    _sym_almost: $ =>
+    prec.dynamic(1, seq(field("namespace", alias(SYMBOL, $.sym_ns)),
+                        field("delimiter", NS_DELIMITER))),
+
+    _sym_unqualified: $ =>
+    prec.dynamic(0, field('name', alias(choice(NS_DELIMITER, // division symbol
+                                               SYMBOL),
+                                        $.sym_name))),
 
     _metadata_lit: $ =>
     seq(choice(field("meta", $.meta_lit),

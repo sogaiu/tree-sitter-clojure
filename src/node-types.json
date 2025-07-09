@@ -2354,7 +2354,38 @@
   {
     "type": "sym_lit",
     "named": true,
-    "fields": {}
+    "fields": {
+      "delimiter": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "/",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sym_name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sym_ns",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "sym_val_lit",
@@ -3586,6 +3617,14 @@
   },
   {
     "type": "str_content",
+    "named": true
+  },
+  {
+    "type": "sym_name",
+    "named": true
+  },
+  {
+    "type": "sym_ns",
     "named": true
   },
   {
