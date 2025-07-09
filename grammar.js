@@ -232,16 +232,15 @@ module.exports = grammar({
   [],
 
   conflicts: $ =>
-  [[$._metadata_lit]],
+  [[$._metadata_lit],
+   [$.sym_lit]],
 
   inline: $ =>
   [$._kwd_leading_slash,
    $._kwd_just_slash,
    $._kwd_qualified,
    $._kwd_unqualified,
-   $._kwd_marker,
-   $._sym_qualified,
-   $._sym_unqualified],
+   $._kwd_marker],
 
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
@@ -350,17 +349,10 @@ module.exports = grammar({
     BOOLEAN,
 
     sym_lit: $ =>
-    choice($._sym_qualified, $._sym_unqualified),
-
-    _sym_qualified: $ =>
-    prec(1, seq(field("namespace", alias(SYMBOL, $.sym_ns)),
-                field("delimiter", NS_DELIMITER),
-                field("name", alias(SYMBOL_NAMESPACED_NAME, $.sym_name)))),
-
-    _sym_unqualified: $ =>
-    field('name', alias(choice(NS_DELIMITER, // division symbol
-                               SYMBOL),
-                        $.sym_name)),
+    choice("/",
+           SYMBOL,
+           seq(SYMBOL, NS_DELIMITER, SYMBOL),
+           seq(SYMBOL, NS_DELIMITER)),
 
     _metadata_lit: $ =>
     seq(choice(field("meta", $.meta_lit),

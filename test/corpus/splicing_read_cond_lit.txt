@@ -9,19 +9,22 @@ Splicing Reader Conditional
 
 (source
   (list_lit
-    (sym_lit (sym_name))
+    (sym_lit)
     (quoting_lit
-      (sym_lit (sym_name)))
+      (sym_lit))
     (splicing_read_cond_lit
-      (kwd_lit (kwd_name))
+      (kwd_lit
+        (kwd_name))
       (vec_lit
-        (sym_lit (sym_name))
-        (sym_lit (sym_name)))
-      (kwd_lit (kwd_name))
+        (sym_lit)
+        (sym_lit))
+      (kwd_lit
+        (kwd_name))
       (vec_lit
-        (sym_lit (sym_name))
-        (sym_lit (sym_name)))
-      (kwd_lit (kwd_name))
+        (sym_lit)
+        (sym_lit))
+      (kwd_lit
+        (kwd_name))
       (vec_lit
-        (sym_lit (sym_name))
-        (sym_lit (sym_name))))))
+        (sym_lit)
+        (sym_lit)))))

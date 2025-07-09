@@ -8,8 +8,7 @@ Tagged Literal
 
 (source
   (tagged_or_ctor_lit
-    (sym_lit
-      (sym_name))
+    (sym_lit)
     (str_lit
       (str_content))))
 
@@ -23,8 +22,7 @@ Constructor
 
 (source
   (tagged_or_ctor_lit
-    (sym_lit
-      (sym_name))
+    (sym_lit)
     (vec_lit
       (num_lit)
       (num_lit))))
@@ -39,8 +37,7 @@ Constructor Alternate
 
 (source
   (tagged_or_ctor_lit
-    (sym_lit
-      (sym_name))
+    (sym_lit)
     (map_lit
       (kwd_lit
         (kwd_name))

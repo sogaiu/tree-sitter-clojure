@@ -37,10 +37,8 @@ Call with Anonymous Function
 (source
   (list_lit
     (anon_fn_lit
-      (sym_lit
-        (sym_name))
-      (sym_lit
-        (sym_name))
+      (sym_lit)
+      (sym_lit)
       (num_lit))
     (num_lit)))
 
@@ -106,10 +104,7 @@ Call with Symbol with Metadata
 
 (source
   (list_lit
-    (sym_lit
-      (sym_name))
+    (sym_lit)
     (meta_lit
-      (sym_lit
-        (sym_name)))
-    (sym_lit
-      (sym_name))))
+      (sym_lit))
+    (sym_lit)))

@@ -926,108 +926,68 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_sym_qualified"
+          "type": "STRING",
+          "value": "/"
         },
         {
-          "type": "SYMBOL",
-          "name": "_sym_unqualified"
-        }
-      ]
-    },
-    "_sym_qualified": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "namespace",
-            "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "TOKEN",
+          "type": "TOKEN",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^\\f\\n\\r\\t /()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+              },
+              {
+                "type": "REPEAT",
                 "content": {
-                  "type": "SEQ",
+                  "type": "CHOICE",
                   "members": [
                     {
                       "type": "PATTERN",
                       "value": "[^\\f\\n\\r\\t /()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
                     },
                     {
-                      "type": "REPEAT",
-                      "content": {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "PATTERN",
-                            "value": "[^\\f\\n\\r\\t /()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "[:#'0-9]"
-                          }
-                        ]
-                      }
+                      "type": "PATTERN",
+                      "value": "[:#'0-9]"
                     }
                   ]
                 }
-              },
-              "named": true,
-              "value": "sym_ns"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "delimiter",
-            "content": {
+              }
+            ]
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
               "type": "TOKEN",
               "content": {
-                "type": "STRING",
-                "value": "/"
-              }
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "name",
-            "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\f\\n\\r\\t /()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[/:#'0-9]"
-                      }
-                    ]
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[^\\f\\n\\r\\t /()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "[^\\f\\n\\r\\t /()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[:#'0-9]"
+                        }
+                      ]
+                    }
                   }
-                }
-              },
-              "named": true,
-              "value": "sym_name"
-            }
-          }
-        ]
-      }
-    },
-    "_sym_unqualified": {
-      "type": "FIELD",
-      "name": "name",
-      "content": {
-        "type": "ALIAS",
-        "content": {
-          "type": "CHOICE",
-          "members": [
+                ]
+              }
+            },
             {
               "type": "TOKEN",
               "content": {
@@ -1065,9 +1025,47 @@
             }
           ]
         },
-        "named": true,
-        "value": "sym_name"
-      }
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "TOKEN",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[^\\f\\n\\r\\t /()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "[^\\f\\n\\r\\t /()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[:#'0-9]"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "/"
+              }
+            }
+          ]
+        }
+      ]
     },
     "_metadata_lit": {
       "type": "SEQ",
@@ -1958,6 +1956,9 @@
   "conflicts": [
     [
       "_metadata_lit"
+    ],
+    [
+      "sym_lit"
     ]
   ],
   "precedences": [],
@@ -1967,9 +1968,7 @@
     "_kwd_just_slash",
     "_kwd_qualified",
     "_kwd_unqualified",
-    "_kwd_marker",
-    "_sym_qualified",
-    "_sym_unqualified"
+    "_kwd_marker"
   ],
   "supertypes": [],
   "reserved": {}

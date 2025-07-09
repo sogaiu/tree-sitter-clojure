@@ -8,8 +8,7 @@ Symbol Metadata
 
 (source
   (meta_lit
-    (sym_lit
-      (sym_name)))
+    (sym_lit))
   (vec_lit))
 
 ================================================================================
@@ -115,13 +114,10 @@ Tagged Literal Metadata
 (source
   (meta_lit
     (tagged_or_ctor_lit
-      (sym_lit
-        (sym_name))
+      (sym_lit)
       (list_lit
-        (sym_lit
-          (sym_name)))))
-  (sym_lit
-    (sym_name)))
+        (sym_lit))))
+  (sym_lit))
 
 ================================================================================
 Evaling Literal Metadata
@@ -135,8 +131,7 @@ Evaling Literal Metadata
   (meta_lit
     (evaling_lit
       (list_lit
-        (sym_lit
-          (sym_name))
+        (sym_lit)
         (str_lit
           (str_content)))))
   (vec_lit))

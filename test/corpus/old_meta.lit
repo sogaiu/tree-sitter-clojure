@@ -8,8 +8,7 @@ Symbol Metadata
 
 (source
   (old_meta_lit
-    (sym_lit
-      (sym_name)))
+    (sym_lit))
   (vec_lit))
 
 ================================================================================

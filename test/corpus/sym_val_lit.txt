@@ -8,8 +8,7 @@ Inf
 
 (source
   (sym_val_lit
-    (sym_lit
-      (sym_name))))
+    (sym_lit)))
 
 ================================================================================
 -Inf
@@ -21,8 +20,7 @@ Inf
 
 (source
   (sym_val_lit
-    (sym_lit
-      (sym_name))))
+    (sym_lit)))
 
 ================================================================================
 NaN
@@ -34,8 +32,7 @@ NaN
 
 (source
   (sym_val_lit
-    (sym_lit
-      (sym_name))))
+    (sym_lit)))
 
 ================================================================================
 Symbolic Value Literal with Evaling Literal
@@ -49,7 +46,5 @@ Symbolic Value Literal with Evaling Literal
   (sym_val_lit
     (evaling_lit
       (list_lit
-        (sym_lit
-          (sym_name))
-        (sym_lit
-          (sym_name))))))
+        (sym_lit)
+        (sym_lit)))))
