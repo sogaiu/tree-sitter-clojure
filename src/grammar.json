@@ -2029,9 +2029,7 @@
       "_metadata_lit"
     ],
     [
-      "_sym_qualified",
-      "_sym_unqualified",
-      "_sym_almost"
+      "sym_lit"
     ]
   ],
   "precedences": [],
@@ -2041,7 +2039,10 @@
     "_kwd_just_slash",
     "_kwd_qualified",
     "_kwd_unqualified",
-    "_kwd_marker"
+    "_kwd_marker",
+    "_sym_qualified",
+    "_sym_unqualified",
+    "_sym_almost"
   ],
   "supertypes": [],
   "reserved": {}

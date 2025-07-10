@@ -235,14 +235,17 @@ module.exports = grammar({
 
   conflicts: $ =>
   [[$._metadata_lit],
-   [$._sym_qualified, $._sym_unqualified, $._sym_almost]],
+   [$.sym_lit]],
 
   inline: $ =>
   [$._kwd_leading_slash,
    $._kwd_just_slash,
    $._kwd_qualified,
    $._kwd_unqualified,
-   $._kwd_marker],
+   $._kwd_marker,
+   $._sym_qualified,
+   $._sym_unqualified,
+   $._sym_almost],
 
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
