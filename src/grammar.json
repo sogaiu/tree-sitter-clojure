@@ -457,6 +457,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_kwd_almost"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_kwd_unqualified"
         }
       ]
@@ -491,19 +495,23 @@
             "content": {
               "type": "TOKEN",
               "content": {
-                "type": "REPEAT1",
+                "type": "PREC",
+                "value": 1,
                 "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "[:'/]"
-                    },
-                    {
-                      "type": "PATTERN",
-                      "value": "[^\\f\\n\\r\\t ()\\[\\]{}\"@~^;`\\\\,:/\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
-                    }
-                  ]
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[:'/]"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "[^\\f\\n\\r\\t ()\\[\\]{}\"@~^;`\\\\,:/\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                      }
+                    ]
+                  }
                 }
               }
             },
@@ -543,8 +551,8 @@
       ]
     },
     "_kwd_qualified": {
-      "type": "PREC",
-      "value": 2,
+      "type": "PREC_DYNAMIC",
+      "value": 9,
       "content": {
         "type": "SEQ",
         "members": [
@@ -612,19 +620,23 @@
               "content": {
                 "type": "TOKEN",
                 "content": {
-                  "type": "REPEAT1",
+                  "type": "PREC",
+                  "value": 1,
                   "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "[:'/]"
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\f\\n\\r\\t ()\\[\\]{}\"@~^;`\\\\,:/\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
-                      }
-                    ]
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "[:'/]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[^\\f\\n\\r\\t ()\\[\\]{}\"@~^;`\\\\,:/\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                        }
+                      ]
+                    }
                   }
                 }
               },
@@ -635,9 +647,74 @@
         ]
       }
     },
+    "_kwd_almost": {
+      "type": "PREC_DYNAMIC",
+      "value": 8,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "marker",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_kwd_marker"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "namespace",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "TOKEN",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "[^\\f\\n\\r\\t ()\\[\\]{}\"@~^;`\\\\,:/\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "[:']"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\f\\n\\r\\t ()\\[\\]{}\"@~^;`\\\\,:/\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "named": true,
+              "value": "kwd_ns"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "delimiter",
+            "content": {
+              "type": "TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "/"
+              }
+            }
+          }
+        ]
+      }
+    },
     "_kwd_unqualified": {
-      "type": "PREC",
-      "value": 1,
+      "type": "PREC_DYNAMIC",
+      "value": 7,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2030,6 +2107,9 @@
     ],
     [
       "sym_lit"
+    ],
+    [
+      "kwd_lit"
     ]
   ],
   "precedences": [],
@@ -2038,6 +2118,7 @@
     "_kwd_leading_slash",
     "_kwd_just_slash",
     "_kwd_qualified",
+    "_kwd_almost",
     "_kwd_unqualified",
     "_kwd_marker",
     "_sym_qualified",

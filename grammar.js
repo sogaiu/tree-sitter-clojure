@@ -133,7 +133,9 @@ const KEYWORD_BODY =
       choice(regex("[:']"), KEYWORD_HEAD);
 
 const KEYWORD_NAMESPACED_BODY =
-      token(repeat1(choice(regex("[:'/]"), KEYWORD_HEAD)));
+      // prec needed to get treating :namespace/ (with no name) treated
+      // as a keyword
+      token(prec(1, repeat1(choice(regex("[:'/]"), KEYWORD_HEAD))));
 
 const KEYWORD_NO_SIGIL =
       token(seq(KEYWORD_HEAD,
@@ -235,12 +237,14 @@ module.exports = grammar({
 
   conflicts: $ =>
   [[$._metadata_lit],
-   [$.sym_lit]],
+   [$.sym_lit],
+   [$.kwd_lit]],
 
   inline: $ =>
   [$._kwd_leading_slash,
    $._kwd_just_slash,
    $._kwd_qualified,
+   $._kwd_almost,
    $._kwd_unqualified,
    $._kwd_marker,
    $._sym_qualified,
@@ -311,6 +315,7 @@ module.exports = grammar({
     choice($._kwd_leading_slash,
            $._kwd_just_slash,
            $._kwd_qualified,
+           $._kwd_almost,
            $._kwd_unqualified),
 
     // (namespace :/usr/bin/env) ; => ""
@@ -327,14 +332,19 @@ module.exports = grammar({
         field('name', alias(NS_DELIMITER, $.kwd_name))),
 
     _kwd_qualified: $ =>
-    prec(2, seq(field('marker', $._kwd_marker),
-                field('namespace', alias(KEYWORD_NO_SIGIL, $.kwd_ns)),
-                field('delimiter', NS_DELIMITER),
-                field('name', alias(KEYWORD_NAMESPACED_BODY, $.kwd_name)))),
+    prec.dynamic(9, seq(field('marker', $._kwd_marker),
+                        field('namespace', alias(KEYWORD_NO_SIGIL, $.kwd_ns)),
+                        field('delimiter', NS_DELIMITER),
+                        field('name', alias(KEYWORD_NAMESPACED_BODY, $.kwd_name)))),
+
+    _kwd_almost: $ =>
+    prec.dynamic(8, seq(field('marker', $._kwd_marker),
+                        field('namespace', alias(KEYWORD_NO_SIGIL, $.kwd_ns)),
+                        field('delimiter', NS_DELIMITER))),
 
     _kwd_unqualified: $ =>
-    prec(1, seq(field('marker', $._kwd_marker),
-                field('name', alias(KEYWORD_NO_SIGIL, $.kwd_name)))),
+    prec.dynamic(7, seq(field('marker', $._kwd_marker),
+                        field('name', alias(KEYWORD_NO_SIGIL, $.kwd_name)))),
 
     _kwd_marker: $ =>
     choice(KEYWORD_MARK, AUTO_RESOLVE_MARK),
@@ -354,7 +364,9 @@ module.exports = grammar({
     BOOLEAN,
 
     sym_lit: $ =>
-    choice($._sym_qualified, $._sym_almost, $._sym_unqualified),
+    choice($._sym_qualified,
+           $._sym_almost,
+           $._sym_unqualified),
 
     _sym_qualified: $ =>
     prec.dynamic(2, seq(field("namespace", alias(SYMBOL, $.sym_ns)),
