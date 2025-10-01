@@ -50,8 +50,9 @@ Map Lookup
 (source
   (list_lit
     (map_lit
-      (kwd_lit (kwd_name))
-      (num_lit))
+      (map_entry
+        (kwd_lit (kwd_name))
+        (num_lit)))
     (kwd_lit (kwd_name))))
 
 ================================================================================
@@ -66,8 +67,9 @@ Map Lookup Alternate
   (list_lit
     (kwd_lit (kwd_name))
     (map_lit
-      (kwd_lit (kwd_name))
-      (num_lit))))
+      (map_entry
+        (kwd_lit (kwd_name))
+        (num_lit)))))
 
 ================================================================================
 Set Lookup

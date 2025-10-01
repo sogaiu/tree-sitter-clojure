@@ -63,13 +63,14 @@ Unquote Splicing into Map
 (source
   (syn_quoting_lit
     (map_lit
-      (unquote_splicing_lit
-        (list_lit
-          (sym_lit (sym_name))
-          (kwd_lit (kwd_name))
-          (num_lit)))
-      (unquote_splicing_lit
-        (list_lit
-          (sym_lit (sym_name))
-          (kwd_lit (kwd_name))
-          (num_lit))))))
+      (map_entry
+        (unquote_splicing_lit
+          (list_lit
+            (sym_lit (sym_name))
+            (kwd_lit (kwd_name))
+            (num_lit)))
+        (unquote_splicing_lit
+          (list_lit
+            (sym_lit (sym_name))
+            (kwd_lit (kwd_name))
+            (num_lit)))))))

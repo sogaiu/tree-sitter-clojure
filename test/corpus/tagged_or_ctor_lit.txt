@@ -38,7 +38,9 @@ Constructor Alternate
   (tagged_or_ctor_lit
     (sym_lit (sym_name))
     (map_lit
-      (kwd_lit (kwd_name))
-      (num_lit)
-      (kwd_lit (kwd_name))
-      (num_lit))))
+      (map_entry
+        (kwd_lit (kwd_name))
+        (num_lit))
+      (map_entry
+        (kwd_lit (kwd_name))
+        (num_lit)))))

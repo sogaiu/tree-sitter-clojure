@@ -19,10 +19,12 @@ Simple Map
 
 (source
   (map_lit
-    (kwd_lit (kwd_name))
-    (num_lit)
-    (kwd_lit (kwd_name))
-    (num_lit)))
+    (map_entry
+      (kwd_lit (kwd_name))
+      (num_lit))
+    (map_entry
+      (kwd_lit (kwd_name))
+      (num_lit))))
 
 ================================================================================
 Deeper Map
@@ -35,19 +37,23 @@ Deeper Map
 
 (source
   (map_lit
-    (kwd_lit (kwd_name))
-    (vec_lit
-      (str_lit))
-    (kwd_lit (kwd_name))
-    (map_lit
-      (sym_lit
-        (sym_ns)
-        (sym_name))
+    (map_entry
+      (kwd_lit (kwd_name))
+      (vec_lit
+        (str_lit)))
+    (map_entry
+      (kwd_lit (kwd_name))
       (map_lit
-        (kwd_lit
-          (kwd_ns)
-          (kwd_name))
-        (str_lit)))))
+        (map_entry
+          (sym_lit
+            (sym_ns)
+            (sym_name))
+          (map_lit
+            (map_entry
+              (kwd_lit
+                (kwd_ns)
+                (kwd_name))
+              (str_lit))))))))
 
 ================================================================================
 Map with Comma
@@ -60,7 +66,9 @@ Map with Comma
 
 (source
   (map_lit
-    (kwd_lit (kwd_name))
-    (num_lit)
-    (kwd_lit (kwd_name))
-    (num_lit)))
+    (map_entry
+      (kwd_lit (kwd_name))
+      (num_lit))
+    (map_entry
+      (kwd_lit (kwd_name))
+      (num_lit))))
