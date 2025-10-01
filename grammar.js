@@ -389,9 +389,14 @@ module.exports = grammar({
 
     _bare_map_lit: $ =>
     seq(field('open', "{"),
-        repeat(choice(field('value', $._form),
+        repeat(choice($.map_entry,
                       $._gap)),
         field('close', "}")),
+
+    map_entry: $ =>
+    seq(field('key', $._form),
+        repeat($._gap),
+        field('value', $._form)),
 
     vec_lit: $ =>
     seq(repeat($._metadata_lit),
