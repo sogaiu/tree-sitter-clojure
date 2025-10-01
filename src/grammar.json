@@ -1,4 +1,5 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "clojure",
   "rules": {
     "source": {
@@ -1238,12 +1239,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "FIELD",
-                "name": "value",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_form"
-                }
+                "type": "SYMBOL",
+                "name": "map_entry"
               },
               {
                 "type": "SYMBOL",
@@ -1258,6 +1255,34 @@
           "content": {
             "type": "STRING",
             "value": "}"
+          }
+        }
+      ]
+    },
+    "map_entry": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "key",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_form"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_gap"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_form"
           }
         }
       ]
@@ -1934,6 +1959,6 @@
     "_sym_qualified",
     "_sym_unqualified"
   ],
-  "supertypes": []
+  "supertypes": [],
+  "reserved": {}
 }
-
