@@ -42,3 +42,45 @@ Constructor Alternate
       (num_lit)
       (kwd_lit (kwd_name))
       (num_lit))))
+
+================================================================================
+Tagged Literal with Non-Latin-1 Tag
+================================================================================
+
+#λ 10
+#λ/tag {:a 1}
+
+--------------------------------------------------------------------------------
+
+(source
+  (tagged_or_ctor_lit
+    (sym_lit (sym_name))
+    (num_lit))
+  (tagged_or_ctor_lit
+    (sym_lit (sym_ns) (sym_name))
+    (map_lit
+      (kwd_lit (kwd_name))
+      (num_lit))))
+
+================================================================================
+Constructor with Non-Latin-1 Name
+================================================================================
+
+#λ.Point[1 2]
+#λ.Point{:x 1 :y 2}
+
+--------------------------------------------------------------------------------
+
+(source
+  (tagged_or_ctor_lit
+    (sym_lit (sym_name))
+    (vec_lit
+      (num_lit)
+      (num_lit)))
+  (tagged_or_ctor_lit
+    (sym_lit (sym_name))
+    (map_lit
+      (kwd_lit (kwd_name))
+      (num_lit)
+      (kwd_lit (kwd_name))
+      (num_lit))))
